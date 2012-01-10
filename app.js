@@ -4,7 +4,11 @@
  */
 
 var express = require('express')
-  , routes = require('./routes')
+  , routes = require('./routes');
+
+var sys = require('sys')
+  , fs = require('fs')
+  , url = require('url');
 
 var app = module.exports = express.createServer();
 
@@ -14,6 +18,8 @@ app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
+  app.use(express.cookieParser());
+  app.use(express.session({ secret: "keyboard cat" }));
   app.use(express.methodOverride());
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
@@ -30,6 +36,9 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', routes.index);
+app.get('/login', routes.login);
+app.get('/login_callback', routes.login_callback)
+app.get('/home', routes.home);
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
