@@ -46,10 +46,10 @@ everyauth.google
 everyauth.facebook.appId('282008641857821')
     .appSecret('305687c5e6ddd93de377e8b5edd2161c')
     .findOrCreateUser( function (session, accessToken, extra, fbUser) {
-	fbUser.refreshToken = extra.refresh_token;
-	fbUser.expiresIn = extra.expires_in;
-	console.log(fbUser);
-      return usersByFbId[fbUser.id] ||
+	  fbUser.refreshToken = extra.refresh_token;
+	  fbUser.expiresIn = extra.expires_in;
+	  console.log(fbUser);
+    return usersByFbId[fbUser.id] ||
         (usersByFbId[fbUser.id] = addUser('facebook', fbUser));
     })
     .redirectPath('/home');
