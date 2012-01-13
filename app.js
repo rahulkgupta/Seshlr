@@ -30,7 +30,7 @@ function addUser (source, sourceUser) {
 }
 
 var usersByGoogleId = {};
-
+var usersByFbId = {};
 everyauth.google
   .appId('1095962159613-0t9btcfjmduba0ii9i92qihb90rj8dh0.apps.googleusercontent.com')
   .appSecret('4UjKFXYVTvehM0Y_3MG53t34')
@@ -43,6 +43,16 @@ everyauth.google
   })
   .redirectPath('/home');
 
+everyauth.facebook.appId('282008641857821')
+    .appSecret('305687c5e6ddd93de377e8b5edd2161c')
+    .findOrCreateUser( function (session, accessToken, extra, fbUser) {
+	fbUser.refreshToken = extra.refresh_token;
+	fbUser.expiresIn = extra.expires_in;
+	console.log(fbUser);
+      return usersByFbId[fbUser.id] ||
+        (usersByFbId[fbUser.id] = addUser('facebook', fbUser));
+    })
+    .redirectPath('/home');
 // Configuration
 
 var app = module.exports = express.createServer();
