@@ -1,5 +1,5 @@
 var querystring = require('querystring');
-var OAuth= require('oauth').OAuth;
+
 
 exports.index = function(req, res){
   res.render('index', { title: 'Express' })
@@ -7,4 +7,16 @@ exports.index = function(req, res){
 
 exports.home = function(req, res){
   res.render('home', { title: 'Login Succesful'})
+};
+
+exports.pande = function(req, res){
+  if (req.loggedIn) {
+    console.log(req.user);
+    res.render('pande', { 
+                         title: 'Pande!'
+                          })
+  }
+  else {
+    res.render('fail', {title: 'OH NO!'})  
+  }
 };

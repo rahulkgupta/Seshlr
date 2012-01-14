@@ -31,6 +31,7 @@ function addUser (source, sourceUser) {
 
 var usersByGoogleId = {};
 var usersByFbId = {};
+
 everyauth.google
   .appId('1095962159613-0t9btcfjmduba0ii9i92qihb90rj8dh0.apps.googleusercontent.com')
   .appSecret('4UjKFXYVTvehM0Y_3MG53t34')
@@ -56,6 +57,7 @@ everyauth.facebook.appId('282008641857821')
 // Configuration
 
 var app = module.exports = express.createServer();
+everyauth.helpExpress(app);
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
@@ -81,6 +83,7 @@ app.configure('production', function(){
 
 app.get('/', routes.index);
 app.get('/home', routes.home);
+app.get('/pande', routes.pande);
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
