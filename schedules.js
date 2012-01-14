@@ -20,8 +20,9 @@ function getClasses(agent) {
   //
   // Now you can use jQuery to your heart's content!
   //
-  var titles = $('.b')
-    , points = $('.subtext span');
+  //array of departments and classes
+  var dept = $('b')
+    , classes = $('.b');
     
 
   
