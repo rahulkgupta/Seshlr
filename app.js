@@ -14,25 +14,6 @@ var mongoose = require('mongoose');
 // Everyauth Config
 var everyauth = require('everyauth'),
 	Promise = everyauth.Promise;
-
-
-
-mongoose.connect('mongodb://localhost/test');
-var Schema = mongoose.Schema
-  , ObjectId = Schema.ObjectId;
-
-
-var Class = new Schema ({
-    dept  : String
-  , num   : String
-  , name  : String
-});
-
-
-
-
-
-
 	
 var usersById = {};
 var nextUserId = 0;
