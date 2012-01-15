@@ -24,12 +24,12 @@ function getClasses(agent) {
   var dept = $('b')
     , classes = $('.b');
     
-for (var i = 0; i < classes.length - 2; i+=3) {
-    console.log($(classes[i]).text() + '\t' + $(classes[i+1]).text() + '\t' + $(classes[i+2]).text() + '\n');
-    
-  }
+  for (var i = 0; i < classes.length - 2; i+=3) {
+      console.log($(classes[i]).text() + '\t' + $(classes[i+1]).text() + '\t' + $(classes[i+2]).text() + '\n');
+      
+    }
 
-}
+  }
 
 var urls = ['/OSOC/osoc?p_term=SP&p_list_all=Y'];
 var agent = httpAgent.create('osoc.berkeley.edu', urls);
