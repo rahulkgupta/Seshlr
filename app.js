@@ -1,7 +1,8 @@
 // Main config modules
 
 var express = require('express')
-  , routes = require('./routes');
+  , routes = require('./routes')
+  , schedules = require('./schedules.js')
 
 var sys = require('util')
   , fs = require('fs')
@@ -19,11 +20,14 @@ mongoose.connect('mongodb://localhost/test');
 var Schema = mongoose.Schema
   , ObjectId = Schema.ObjectId;
 
+
 var Class = new Schema ({
     dept  : String
   , num   : String
   , name  : String
 });
+
+
 
 
 

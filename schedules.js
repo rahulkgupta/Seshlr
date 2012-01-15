@@ -47,4 +47,8 @@ agent.addListener('stop', function (err, agent) {
 });
 
 // Start scraping
-agent.start();
+
+exports.start = function () {
+  agent.start();
+}
+
