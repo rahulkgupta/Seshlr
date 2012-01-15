@@ -1,4 +1,4 @@
-// Main config modules
+// Core Modules
 
 var express = require('express')
   , routes = require('./routes')
@@ -11,9 +11,10 @@ var mongoose = require('mongoose');
 
 /* Additional Modules */
 
-// Everyauth config
+// Everyauth Config
 var everyauth = require('everyauth'),
 	Promise = everyauth.Promise;
+
 
 
 mongoose.connect('mongodb://localhost/test');
@@ -26,6 +27,7 @@ var Class = new Schema ({
   , num   : String
   , name  : String
 });
+
 
 
 
@@ -73,7 +75,20 @@ everyauth.facebook.appId('282008641857821')
         (usersByFbId[fbUser.id] = addUser('facebook', fbUser));
     })
     .redirectPath('/home');
-// Configuration
+
+// DB Config
+
+mongoose.connect('mongodb://localhost/test');
+var Schema = mongoose.Schema
+  , ObjectId = Schema.ObjectId;
+
+var Class = new Schema ({
+    dept  : String
+  , num   : String
+  , name  : String
+});
+    
+// App Config
 
 var app = module.exports = express.createServer();
 everyauth.helpExpress(app);
