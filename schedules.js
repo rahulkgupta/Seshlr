@@ -13,7 +13,7 @@ exports.start = function (sched) {
     function getClasses(agent) { 
       var window = jsdom(agent.body).createWindow()
         , $ = require('jquery').create(window)
-        , instance = new sched();
+
       //
       // Now you can use jQuery to your heart's content!
       //
@@ -22,6 +22,7 @@ exports.start = function (sched) {
         , classes = $('.b');
         
       for (var i = 0; i < classes.length - 2; i+=3) {
+          var instance = new sched();
           instance.dept = $(classes[i]).text();
           instance.num = $(classes[i+1]).text();
           instance.name = $(classes[i+2]).text();

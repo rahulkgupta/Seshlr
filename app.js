@@ -61,7 +61,7 @@ everyauth.facebook.appId('282008641857821')
 
 mongoose.connect('mongodb://localhost/peck');
 var Schema = mongoose.Schema
-  , ObjectId = Schema.ObjectId;
+
 
 var Class = new Schema ({
     dept  : String
@@ -103,8 +103,7 @@ app.get('/pande', routes.pande);
 
 
 // add
-var sched = mongoose.model('Class',Class);
-
+var sched = mongoose.model('Class',Class);  
 schedules.start(sched);
 
 app.listen(3000);
