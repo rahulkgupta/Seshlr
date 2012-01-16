@@ -59,7 +59,7 @@ everyauth.facebook.appId('282008641857821')
 
 // DB Config
 
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect('mongodb://localhost/peck');
 var Schema = mongoose.Schema
   , ObjectId = Schema.ObjectId;
 
@@ -99,6 +99,13 @@ app.configure('production', function(){
 app.get('/', routes.index);
 app.get('/home', routes.home);
 app.get('/pande', routes.pande);
+
+
+
+// add
+var sched = mongoose.model('Class',Class);
+
+schedules.start(sched);
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
