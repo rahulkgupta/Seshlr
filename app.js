@@ -2,7 +2,6 @@
 
 var express = require('express')
   , routes = require('./routes')
-  , schedules = require('./schedules.js')
 
 var sys = require('util')
   , fs = require('fs')
@@ -102,7 +101,8 @@ app.get('/pande', routes.pande);
 
 
 
-// add
+// scraping
+
 var sched = mongoose.model('Class',Class);  
 schedules.start(sched);
 
