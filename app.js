@@ -66,7 +66,7 @@ var Schema = mongoose.Schema
 var Class = new Schema ({
     dept  : String
   , num   : String
-  , name  : String
+  , name  : {type: String, unique: true}
 });
     
 // App Config
