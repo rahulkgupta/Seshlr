@@ -25,7 +25,7 @@ var sched = mongoose.model('Class',Class);
 
 
 
-function getClasses(agent) { 
+function getClasses(agent) {
   var window = jsdom(agent.body).createWindow()
     , $ = require('jquery').create(window)
 

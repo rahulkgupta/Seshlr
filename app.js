@@ -26,7 +26,7 @@ var User = new Schema ({
 var Class = new Schema ({
     dept  : String
   , num   : String
-  , name  : {type: String, unique: true}
+  , name  : String
 });
 
 // Everyauth Config
@@ -88,6 +88,7 @@ app.configure('production', function(){
 app.get('/', routes.index);
 app.get('/home', routes.home);
 app.get('/pande', routes.pande);
+app.get('/classes', routes.classes);
 
 // scraping
 
