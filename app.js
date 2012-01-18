@@ -9,6 +9,25 @@ var sys = require('util')
 var mongoose = require('mongoose');
 
 /* Additional Modules */
+// DB Config
+
+mongoose.connect('mongodb://localhost/peck');
+var Schema = mongoose.Schema
+
+var User = new Schema ({
+		userID: {type: Number, unique: true}	
+	,	name: String
+	,	link: String
+	,	picture: String
+	,	refreshToken: String
+	, expiresIn: Number
+});
+
+var Class = new Schema ({
+    dept  : String
+  , num   : String
+  , name  : {type: String, unique: true}
+});
 
 // Everyauth Config
 var everyauth = require('everyauth'),
@@ -17,7 +36,7 @@ var everyauth = require('everyauth'),
 var usersById = {};
 var nextUserId = 0;
 
-function addUser (source, sourceUser) {
+/* function addUser (source, sourceUser) {
   var user;
   if (arguments.length === 1) { // password-based
     user = sourceUser = source;
@@ -28,11 +47,45 @@ function addUser (source, sourceUser) {
     user[source] = sourceUser;
   }
   return user;
+} */
+
+var userID = 0;
+var user = mongoose.model('User', User)
+function addUser (source, sourceUser) {
+	var instance = new user();
+	/* user.find({ 'userID' : sourceUser.id}, ['userID'], function(err, doc) {
+		if (err) {
+			console.log(err)
+		}
+		else {
+		 	console.log(doc)
+		}
+	}); */
+	instance.userID = sourceUser.id
+	instance.name = sourceUser.name; 
+	instance.link = sourceUser.link; 
+	instance.picture = sourceUser.picture;
+	instance.refreshToken = sourceUser.refreshToken;
+	instance.expiresIn = sourceUser.expiresIn;	
+	instance.save();
+	return user;
 }
 
 var usersByGoogleId = {};
-var usersByFbId = {};
 
+everyauth.google
+  .appId('1095962159613-0t9btcfjmduba0ii9i92qihb90rj8dh0.apps.googleusercontent.com')
+  .appSecret('4UjKFXYVTvehM0Y_3MG53t34')
+  .scope('https://www.googleapis.com/auth/userinfo.profile')
+	.findOrCreateUser( function( sess, accessToken, extra, googleUser) {
+		googleUser.refreshToken = extra.refresh_token;
+    googleUser.expiresIn = extra.expires_in;
+    console.log(googleUser);
+    return (usersByGoogleId[googleUser.id] = addUser('google', googleUser) );
+  })
+  .redirectPath('/home');
+
+/*		
 everyauth.google
   .appId('1095962159613-0t9btcfjmduba0ii9i92qihb90rj8dh0.apps.googleusercontent.com')
   .appSecret('4UjKFXYVTvehM0Y_3MG53t34')
@@ -43,29 +96,7 @@ everyauth.google
     console.log(googleUser);
     return usersByGoogleId[googleUser.id] || (usersByGoogleId[googleUser.id] = addUser('google', googleUser));
   })
-  .redirectPath('/home');
-
-everyauth.facebook.appId('282008641857821')
-    .appSecret('305687c5e6ddd93de377e8b5edd2161c')
-    .findOrCreateUser( function (session, accessToken, extra, fbUser) {
-	  fbUser.refreshToken = extra.refresh_token;
-	  fbUser.expiresIn = extra.expires_in;
-	  console.log(fbUser);
-    return usersByFbId[fbUser.id] ||
-        (usersByFbId[fbUser.id] = addUser('facebook', fbUser));
-    })
-    .redirectPath('/home');
-
-// DB Config
-
-mongoose.connect('mongodb://localhost/peck');
-var Schema = mongoose.Schema
-
-var Class = new Schema ({
-    dept  : String
-  , num   : String
-  , name  : {type: String, unique: true}
-});
+  .redirectPath('/home'); */
     
 // App Config
 
@@ -98,12 +129,10 @@ app.get('/', routes.index);
 app.get('/home', routes.home);
 app.get('/pande', routes.pande);
 
-
-
 // scraping
 
 var sched = mongoose.model('Class',Class);  
-schedules.start(sched);
+// schedules.start(sched);
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
