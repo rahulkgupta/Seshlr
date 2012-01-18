@@ -32,82 +32,32 @@ var Class = new Schema ({
 // Everyauth Config
 var everyauth = require('everyauth'),
 	Promise = everyauth.Promise;
-	
-var usersById = {};
-var nextUserId = 0;
 
-/* function addUser (source, sourceUser) {
-  var user;
-  if (arguments.length === 1) { // password-based
-    user = sourceUser = source;
-    user.id = ++nextUserId;
-    return usersById[nextUserId] = user;
-  } else { // non-password-based
-    user = usersById[++nextUserId] = {id: nextUserId};
-    user[source] = sourceUser;
-  }
-  return user;
-} */
-
-var userID = 0;
 var user = mongoose.model('User', User)
-var existingUser = true;
 function addUser (source, sourceUser) {
 	var instance = new user();
-	var userData = user.find({ 'userID' : sourceUser.id}, function(err, doc) {
-		if (err) {
-			console.log(err)
-		}
-		else {
-		 	console.log(doc)
-		 	if (doc[0] == null) { existingUser = false; }
-		}
-	});
-	console.log(userData);
-	console.log(existingUser)
-	if (existingUser == false) {
-		instance.userID = sourceUser.id
-		instance.name = sourceUser.name; 
-		instance.link = sourceUser.link; 
-		instance.picture = sourceUser.picture;
-		instance.refreshToken = sourceUser.refreshToken;
-		instance.expiresIn = sourceUser.expiresIn;	
-		instance.save();
-		return instance;
-	}
-	else {
-		console.log('User already exists in database')
-		return instance;
-	}
+	instance.userID = sourceUser.id
+	instance.name = sourceUser.name; 
+	instance.link = sourceUser.link; 
+	instance.picture = sourceUser.picture;
+	instance.save();
+	return instance;
 }
-
-var usersByGoogleId = {};
 
 everyauth.google
   .appId('1095962159613-0t9btcfjmduba0ii9i92qihb90rj8dh0.apps.googleusercontent.com')
   .appSecret('4UjKFXYVTvehM0Y_3MG53t34')
   .scope('https://www.googleapis.com/auth/userinfo.profile')
 	.findOrCreateUser( function( sess, accessToken, extra, googleUser) {
+		var promise = this.Promise();
 		googleUser.refreshToken = extra.refresh_token;
-    googleUser.expiresIn = extra.expires_in;
-    console.log(googleUser);
-    return (usersByGoogleId[googleUser.id] = addUser('google', googleUser) );
+		googleUser.expiresIn = extra.expires_in;
+		console.log(googleUser.name + 'is attempting to authorize with the site');
+		addUser('google', googleUser);
+		return promise.fulfill(googleUser);
   })
   .redirectPath('/home');
 
-/*		
-everyauth.google
-  .appId('1095962159613-0t9btcfjmduba0ii9i92qihb90rj8dh0.apps.googleusercontent.com')
-  .appSecret('4UjKFXYVTvehM0Y_3MG53t34')
-  .scope('https://www.googleapis.com/auth/userinfo.profile')
-  .findOrCreateUser( function (sess, accessToken, extra, googleUser) {
-    googleUser.refreshToken = extra.refresh_token;
-    googleUser.expiresIn = extra.expires_in;
-    console.log(googleUser);
-    return usersByGoogleId[googleUser.id] || (usersByGoogleId[googleUser.id] = addUser('google', googleUser));
-  })
-  .redirectPath('/home'); */
-    
 // App Config
 
 var app = module.exports = express.createServer();
