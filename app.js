@@ -51,24 +51,34 @@ var nextUserId = 0;
 
 var userID = 0;
 var user = mongoose.model('User', User)
+var existingUser = true;
 function addUser (source, sourceUser) {
 	var instance = new user();
-	/* user.find({ 'userID' : sourceUser.id}, ['userID'], function(err, doc) {
+	var userData = user.find({ 'userID' : sourceUser.id}, function(err, doc) {
 		if (err) {
 			console.log(err)
 		}
 		else {
 		 	console.log(doc)
+		 	if (doc[0] == null) { existingUser = false; }
 		}
-	}); */
-	instance.userID = sourceUser.id
-	instance.name = sourceUser.name; 
-	instance.link = sourceUser.link; 
-	instance.picture = sourceUser.picture;
-	instance.refreshToken = sourceUser.refreshToken;
-	instance.expiresIn = sourceUser.expiresIn;	
-	instance.save();
-	return user;
+	});
+	console.log(userData);
+	console.log(existingUser)
+	if (existingUser == false) {
+		instance.userID = sourceUser.id
+		instance.name = sourceUser.name; 
+		instance.link = sourceUser.link; 
+		instance.picture = sourceUser.picture;
+		instance.refreshToken = sourceUser.refreshToken;
+		instance.expiresIn = sourceUser.expiresIn;	
+		instance.save();
+		return instance;
+	}
+	else {
+		console.log('User already exists in database')
+		return instance;
+	}
 }
 
 var usersByGoogleId = {};
