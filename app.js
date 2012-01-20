@@ -4,7 +4,8 @@ var express = require('express')
   , routes = require('./routes')
 
 var nowjs = require('now');
-var everyone = nowjs.initialize(app);
+
+
 var sys = require('util')
   , fs = require('fs')
   , url = require('url');
@@ -25,17 +26,22 @@ var User = new Schema ({
 	, expiresIn: Number
 });
 
+var user = mongoose.model('User', User);
+
 var Class = new Schema ({
     dept  : String
   , num   : String
   , name  : String
 });
 
+
+var sched = mongoose.model('Class',Class); 
+
 // Everyauth Config
 var everyauth = require('everyauth'),
 	Promise = everyauth.Promise;
 
-var user = mongoose.model('User', User)
+
 function addUser (source, sourceUser) {
 	var instance = new user();
 	instance.userID = sourceUser.id
@@ -64,7 +70,7 @@ everyauth.google
 
 var app = module.exports = express.createServer();
 everyauth.helpExpress(app);
-
+var everyone = nowjs.initialize(app);
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -94,7 +100,15 @@ app.get('/classes', routes.classes);
 
 //nowjs methods
 
-everyone.now.search = function (text, callback)
+everyone.now.search = function (text, callback) {
+	var regex = new RegExp('\^' + text + '\.*\/', 'gi');
+	var classes = mongoose.model('Class'); 
+	console.log(regex);	
+	classes.find({'dept': { $regex: regex}}, function(err,docs) {
+		console.log(docs);
+	});
+
+}
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);

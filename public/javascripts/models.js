@@ -9,31 +9,17 @@ var SearchView = Backbone.View.extend({
     'keyup #search': 'search'
   },
 
-	initialize: function() {
-		this.text = "";
-	},
-
-
 	search: function(event) {
     // Search for what the user has typed
-    this.text = $('#search-input').val();
+   	var text = $('#search-input').val();
 		
 
-    now.search(text, 10, function(err, results) {
-      _.each(results, function(line) {
-        var match = line.match(/(@\w+)?\s*(.*)/);
-        var username = match[0] || '';
-        var text = match[1] || '';
-        var tweet = new Tweet(
-          {username: tweetToHtml(username),
-           text: tweetToHtml(text)});
-        self.addTweet(tweet);
-      });
+    now.search(text, function(err, docs) {
+			$(this.el).append('working');
+			$(this.el).append(docs);
+
     });
   },
 
-	render: function() {
-		$(this.el).append(this.text);
-	}
 
 });
