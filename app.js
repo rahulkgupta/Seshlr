@@ -101,7 +101,7 @@ app.get('/classes', routes.classes);
 //nowjs methods
 
 everyone.now.search = function (text, callback) {
-	var regex = new RegExp('\^' + text + '\.*\/', 'gi');
+	var regex = new RegExp('\^' + text + '\.*', 'gi');
 	var classes = mongoose.model('Class'); 
 	console.log(regex);	
 	classes.find({'dept': { $regex: regex}}, function(err,docs) {
