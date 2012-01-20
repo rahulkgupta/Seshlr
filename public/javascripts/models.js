@@ -13,10 +13,11 @@ var SearchView = Backbone.View.extend({
     // Search for what the user has typed
    	var text = $('#search-input').val();
 		
+		var self = this;
 
     now.search(text, function(err, docs) {
-			$(this.el).append('<div> working </div>');
-			$(this.el).append(docs);
+			$(self.el).append('<div> working </div>');
+			$(self.el).append(docs);
 
     });
   },
