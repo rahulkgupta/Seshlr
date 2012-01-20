@@ -1,2 +1,25 @@
-h1 #{title}	
-p Welcome
+script(type='text/javascript')
+      head.js(
+        "https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js",
+        "/javascripts/underscore/underscore-min.js",
+        "/javascripts/backbone/backbone-min.js",
+        "/javascripts/models.js"
+      );
+
+
+#application
+
+  #search
+    div Search:
+    div 
+      input(type='text', id='search-input')
+
+  #tweets
+
+script(type='text/javascript')
+  head.ready(function() {
+    var searchView = new SearchView();
+    //var app = new CompleterApp()
+    //var appView = new CompleterAppView({model: app});
+  });
+
