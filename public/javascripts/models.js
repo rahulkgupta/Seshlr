@@ -15,7 +15,7 @@ var SearchView = Backbone.View.extend({
 		
 
     now.search(text, function(err, docs) {
-			$(this.el).append('working');
+			$(this.el).append('<div> working </div>');
 			$(this.el).append(docs);
 
     });
