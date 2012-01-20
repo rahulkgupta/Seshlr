@@ -52,7 +52,7 @@ everyauth.google
 		var promise = this.Promise();
 		googleUser.refreshToken = extra.refresh_token;
 		googleUser.expiresIn = extra.expires_in;
-		console.log(googleUser.name + 'is attempting to authorize with the site');
+		console.log(googleUser.name + ' is attempting to authorize with the site');
 		addUser('google', googleUser);
 		return promise.fulfill(googleUser);
   })
