@@ -3,6 +3,8 @@
 var express = require('express')
   , routes = require('./routes')
 
+var nowjs = require('now');
+var everyone = nowjs.initialize(app);
 var sys = require('util')
   , fs = require('fs')
   , url = require('url');
@@ -90,10 +92,9 @@ app.get('/home', routes.home);
 app.get('/pande', routes.pande);
 app.get('/classes', routes.classes);
 
-// scraping
+//nowjs methods
 
-var sched = mongoose.model('Class',Class);  
-// schedules.start(sched);
+everyone.now.search = function (text, callback)
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
