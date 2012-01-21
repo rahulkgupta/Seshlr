@@ -3,23 +3,30 @@
 //https://github.com/jedp/redis-completer
 //
 var SearchView = Backbone.View.extend({
-	el : '#application',
-
+	el : '#course-selector',
+	depts: '#depts',
+	
 	events: {
-    'keyup #search': 'search'
+    'keyup #dept-search-input': 'search',
+    'click .dept-select' : 'submit'
   },
 
 	search: function(event) {
     // Search for what the user has typed
-   	var text = $('#search-input').val();
+   	var text = $('#dept-search-input').val();
 		
 		var self = this;
 
     now.search(text, function(err, docs) {
-			$(self.el).append('<div> working </div>');
-			$(self.el).append('<div> ' + docs + '</div>');
-
+    	$(self.depts).html('');
+    	docs.forEach(function(dept) {
+    		$(self.depts).append('<a href="javascript:void(0)" class="dept-select">' + dept + '</a><br />');
+    		});
     });
+  },
+  
+  submit: function(event) {
+		var self = this;
   },
 
 
