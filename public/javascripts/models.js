@@ -20,9 +20,16 @@ var SearchView = Backbone.View.extend({
     now.search(text, function(err, docs) {
     	$(self.depts).html('');
     	docs.forEach(function(dept) {
-    		$(self.depts).append('<a href="javascript:void(0)" class="dept-select">' + dept + '</a><br />');
+    		var department = new Department({name: dept});
+    		self.addDepartment(department);
     		});
     });
+  },
+  
+  addDepartment: function(department) {
+  	var self = this;
+  	var view = new DepartmentView({model: department});
+  	$(self.depts).append(view.render().el);
   },
   
   submit: function(event) {
