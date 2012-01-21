@@ -2,13 +2,36 @@
 //credit to Jed Parsons
 //https://github.com/jedp/redis-completer
 //
+
+var Department = Backbone.View.extend({
+  el: $('#depts'),
+  
+  events: {
+  	'click .dept-select' : 'submit',
+  },
+
+  initialize: function(dept) {
+    _.bindAll(this, 'render');
+    this.render(dept);
+  },
+
+  render: function(dept) {
+    $(this.el).append('<a href="javascript:void(0)" class=".dept-select">' + dept + '</a><br />');
+  },
+  
+  submit: function(event) {
+  	var self = this;
+  	alert('test');
+  },
+  
+});
+
 var SearchView = Backbone.View.extend({
 	el : '#course-selector',
 	depts: '#depts',
 	
 	events: {
     'keyup #dept-search-input': 'search',
-    'click .dept-select' : 'submit'
   },
 
 	search: function(event) {
@@ -20,21 +43,9 @@ var SearchView = Backbone.View.extend({
     now.search(text, function(err, docs) {
     	$(self.depts).html('');
     	docs.forEach(function(dept) {
-    		var department = new Department({name: dept});
-    		self.addDepartment(department);
+    		var department = new Department(dept);
     		});
     });
   },
-  
-  addDepartment: function(department) {
-  	var self = this;
-  	var view = new DepartmentView({model: department});
-  	$(self.depts).append(view.render().el);
-  },
-  
-  submit: function(event) {
-		var self = this;
-  },
-
 
 });
