@@ -2,8 +2,8 @@
 //credit to Jed Parsons
 //https://github.com/jedp/redis-completer
 //
-
-var Department = Backbone.View.extend({
+var Department = Backbone.Model.extend({});
+var DepartmentView = Backbone.View.extend({
   el: $('#depts'),
   
   events: {
@@ -16,12 +16,13 @@ var Department = Backbone.View.extend({
   },
 
   render: function(dept) {
-    $(this.el).append('<a href="javascript:void(0)" class=".dept-select">' + dept + '</a><br />');
+    $(this.el).append('<a href="javascript:void(0)" class="dept-select" data-id="' + dept + '" >' + dept + '</a><br />');
   },
   
   submit: function(event) {
   	var self = this;
-  	alert('test');
+  	var dept = $(event.currentTarget).data('id');
+  	now.submit(dept);
   },
   
 });
@@ -43,7 +44,7 @@ var SearchView = Backbone.View.extend({
     now.search(text, function(err, docs) {
     	$(self.depts).html('');
     	docs.forEach(function(dept) {
-    		var department = new Department(dept);
+    		var department = new DepartmentView(dept);
     		});
     });
   },
