@@ -23,6 +23,7 @@ var DepartmentView = Backbone.View.extend({
   	var self = this;
   	var dept = $(event.currentTarget).data('id');
   	now.submit(dept);
+  	event.stopPropogation();
   },
   
 });
