@@ -63,12 +63,14 @@ everyauth.google
 		googleUser.expiresIn = extra.expires_in;
 		console.log(googleUser.name + ' is attempting to authorize with the site');
 		addUser('google', googleUser);
+		sess.userId = googleUser.id
 		return promise.fulfill(googleUser);
+		
   })
   .redirectPath('/home');
 
 
-everyauth.everymodule.findUserById( function (userId, callback) {
+everyauth.google.findUserById( function (userId, callback) {
   User.findById(userId, callback);
   // callback has the signature, function (err, user) {...}
 });
@@ -124,8 +126,8 @@ everyone.now.searchDept = function (text, callback) {
 
 everyone.now.submitClass = function (department, classNum, callback) {
 	classes.findOne({dept: department, num: classNum}, function (err,doc) {
-		everyauth.user.classes.push(doc);
-		everyauth.user.save(callback);
+		console.log(req.session.userId)
+		//everyauth.user.save(callback);
 	});
 	
 }

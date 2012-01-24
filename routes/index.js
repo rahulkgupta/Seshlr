@@ -11,6 +11,7 @@ exports.index = function(req, res){
 
 exports.home = function(req, res){
   if (req.loggedIn) {
+		console.log(req.user);	
 		res.render('home', { title: 'Welcome'});
 	}
 	else {
