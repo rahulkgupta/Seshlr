@@ -14,7 +14,8 @@ exports.home = function(req, res){
 		res.render('home', { title: 'Welcome'});
 	}
 	else {
-		res.render('home', { title: 'Pecked up'});
+		// res.redirect('/'); Eventually this needs to be enabled.
+		res.render('home', { title: 'Welcome'});
 	}
 };
 
