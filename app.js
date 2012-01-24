@@ -107,17 +107,17 @@ app.get('/classes', routes.classes);
 
 //nowjs methods
 
+var classes = mongoose.model('Class'); 
+
 everyone.now.searchCourse = function (department, text, callback) {
 	console.log(department);
 	var regex = new RegExp('\^' + text + '\.*', 'gi');
 	console.log(regex);
-	var classes = mongoose.model('Class');
 	classes.find({dept: department, num: regex}, callback);
 }
 
 everyone.now.searchDept = function (text, callback) {
 	var regex = new RegExp('\^' + text + '\.*', 'gi');
-	var classes = mongoose.model('Class'); 
 	console.log(regex);	
 	classes.distinct('dept' , {dept: regex} , callback);
 }
