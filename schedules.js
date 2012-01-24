@@ -39,7 +39,7 @@ function getClasses(agent) {
   for (var i = 0; i < classes.length - 2; i+=3) {
       var instance = new sched();
       instance.dept = $(classes[i]).text();
-      instance.num = $(classes[i+1]).text();
+      instance.num = $(classes[i+1]).text().trim();
       instance.name = $(classes[i+2]).text();
       instance.save();
       //console.log($(classes[i]).text() + '\t' + $(classes[i+1]).text() + '\t' + $(classes[i+2]).text() + '\n');

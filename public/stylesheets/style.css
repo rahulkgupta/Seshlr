@@ -58,28 +58,24 @@ body {
   background-color: #eaeafa;
 }
 
-
-#tweet-template {
-  display: none;
-}
-
-#dept-search input {
-  width: 30em;
-  padding: 6px;
-}
-
-.tweet-content {
-  margin: 6px 0px;
-  padding: 4px;
-  width: 60em;
-  border-radius: 4px;
-  background-color: #fafafa;
-}
-
 a {
   color: #00B7FF;
 }
 
 /***********************/
 
-
+#course-selector h3 {
+	display: block;
+}
+#course-selector input {
+	display: block;
+	width: 30em;
+  padding: 6px;
+  margin-right: 10px;
+}
+#dept-search {
+	float: left;
+}
+#course-search {
+	float: left;
+}
