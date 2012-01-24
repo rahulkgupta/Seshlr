@@ -24,6 +24,7 @@ var User = new Schema ({
 	,	picture: String
 	,	refreshToken: String
 	, expiresIn: Number
+	, classes: [Class]
 });
 
 var user = mongoose.model('User', User);
@@ -66,6 +67,12 @@ everyauth.google
   })
   .redirectPath('/home');
 
+
+everyauth.everymodule.findUserById( function (userId, callback) {
+  User.findById(userId, callback);
+  // callback has the signature, function (err, user) {...}
+});
+	
 // App Config
 
 var app = module.exports = express.createServer();
@@ -100,7 +107,7 @@ app.get('/classes', routes.classes);
 
 //nowjs methods
 
-everyone.now.submit = function (department, text, callback) {
+everyone.now.searchCourse = function (department, text, callback) {
 	console.log(department);
 	var regex = new RegExp('\^' + text + '\.*', 'gi');
 	console.log(regex);
@@ -108,11 +115,19 @@ everyone.now.submit = function (department, text, callback) {
 	classes.find({dept: department, num: regex}, callback);
 }
 
-everyone.now.search = function (text, callback) {
+everyone.now.searchDept = function (text, callback) {
 	var regex = new RegExp('\^' + text + '\.*', 'gi');
 	var classes = mongoose.model('Class'); 
 	console.log(regex);	
 	classes.distinct('dept' , {dept: regex} , callback);
+}
+
+everyone.now.submitClass = function (department, classNum, callback) {
+	classes.findOne({dept: department, num: classNum}, function (err,doc) {
+		everyauth.user.classes.push(doc);
+		everyauth.user.save(callback);
+	});
+	
 }
 
 app.listen(3000);
