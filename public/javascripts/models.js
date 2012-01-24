@@ -36,9 +36,11 @@ var SearchView = Backbone.View.extend({
 	course_search: '#course-search',
 	
 	events: {
-    'keyup #dept-search-input': 'search',
+    'keyup #dept-search-input': 'searchDepts',
     'click .dept-select' : 'submitDept',
-    'keyup #course-search-input' : 'submitDept',
+    'focus #course-search-input' : 'searchCourses',
+    'keyup #course-search-input' : 'searchCourses',
+    'click .course-select' : 'submitClass',
   },
   
   initialize: function() {
@@ -46,13 +48,12 @@ var SearchView = Backbone.View.extend({
   	$(self.course_search).hide();
   },
 
-	search: function(event) {
+	searchDepts: function(event) {
     // Search for what the user has typed
    	var text = $('#dept-search-input').val();
-		
 		var self = this;
 
-    now.search(text, function(err, docs) {
+    now.searchDept(text, function(err, docs) {
     	$(self.depts).html('');
     	docs.forEach(function(dept) {
     		// var department = new DepartmentView(dept);
@@ -63,25 +64,34 @@ var SearchView = Backbone.View.extend({
   
   submitDept: function(event) {
     var self = this;
-    if (event.type == 'click') {
-  		var dept = $(event.currentTarget).data('id');
-  		$('#dept-search-input').val(dept);
-  	}
-  	else {
-  		var dept = $('#dept-search-input').val()
-  	}
-  	
-  	var text = $('#course-search-input').val();
-  	
+  	var dept = $(event.currentTarget).data('id');
+  	$('#dept-search-input').val(dept);
   	$(self.course_search).show();
+  	$('#course-search-input').focus();
+  },
   	
-  	now.submit(dept, text, function(err, docs) {
+  searchCourses: function(event) {
+  	var self = this;  	
+  	var text = $('#course-search-input').val();
+  	var dept = $('#dept-search-input').val();
+  	
+  	now.searchCourse(dept, text, function(err, docs) {
   		$(self.courses).html('');
   		docs.forEach(function(array) {
   			var course = array['num'];
-  			$(self.courses).append('<a href="javascript:void(0)" class="course-select" data-id="' + $.trim(course) + '" >' + $.trim(course) + '</a><br />');
+  			$(self.courses).append('<a href="javascript:void(0)" class="course-select" data-id="' + course + '" >' + course + '</a><br />');
   		});
   	});
+  },
+  
+  submitClass: function(event) {
+  	var self = this;
+  	var course = $(event.currentTarget).data('id');
+  	var dept = $('#dept-search-input').val()
+  	
+  	$('#course-search-input').val(course);
+  	
+  	now.submitClass(dept, course);
   },
 
 });
