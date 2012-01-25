@@ -18,7 +18,7 @@ mongoose.connect('mongodb://localhost/peck');
 var Schema = mongoose.Schema
 
 var User = new Schema ({
-		userID: {type: Number, unique: true}	
+		_id: {type: Number, unique: true}	
 	,	name: String
 	,	link: String
 	,	picture: String
@@ -45,7 +45,7 @@ var everyauth = require('everyauth'),
 
 function addUser (source, sourceUser) {
 	var instance = new user();
-	instance.userID = sourceUser.id
+	instance._id = sourceUser.id
 	instance.name = sourceUser.name; 
 	instance.link = sourceUser.link; 
 	instance.picture = sourceUser.picture;
@@ -70,15 +70,16 @@ everyauth.google
   .redirectPath('/home');
 
 
-everyauth.google.findUserById( function (userId, callback) {
-  User.findById(userId, callback);
+everyauth.everymodule.findUserById( function (userId, callback) {
+	console.log(userId);
+  user.findById(userId, callback);
   // callback has the signature, function (err, user) {...}
 });
 	
 // App Config
 
 var app = module.exports = express.createServer();
-everyauth.helpExpress(app);
+
 var everyone = nowjs.initialize(app);
 app.configure(function(){
   app.set('views', __dirname + '/views');
@@ -91,7 +92,7 @@ app.configure(function(){
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
 });
-
+everyauth.helpExpress(app);
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
 });
