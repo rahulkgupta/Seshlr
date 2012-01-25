@@ -71,7 +71,7 @@ everyauth.google
 
 
 everyauth.everymodule.findUserById( function (userId, callback) {
-	console.log(userId);
+	//console.log(userId);
   user.findById(userId, callback);
   // callback has the signature, function (err, user) {...}
 });
@@ -107,7 +107,7 @@ app.get('/', routes.index);
 app.get('/home', routes.home);
 app.get('/pande', routes.pande);
 app.get('/classes', routes.classes);
-
+app.get('/add_class/:id', routes.addClass)
 
 
 

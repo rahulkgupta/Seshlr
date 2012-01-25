@@ -40,7 +40,7 @@ var SearchView = Backbone.View.extend({
     'click .dept-select' : 'submitDept',
     'focus #course-search-input' : 'searchCourses',
     'keyup #course-search-input' : 'searchCourses',
-    'click .course-select' : 'submitClass',
+    //'click .course-select' : 'submitClass',
   },
   
   initialize: function() {
@@ -79,7 +79,8 @@ var SearchView = Backbone.View.extend({
   		$(self.courses).html('');
   		docs.forEach(function(array) {
   			var course = array['num'];
-  			$(self.courses).append('<a href="javascript:void(0)" class="course-select" data-id="' + course + '" >' + course + '</a><br />');
+				var id = array['_id'];
+  			$(self.courses).append('<a href="/add_class/'+ id + '" class="course-select" data-id="' + course + '" >' + course + '</a><br />');
   		});
   	});
   },

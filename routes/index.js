@@ -11,7 +11,7 @@ exports.index = function(req, res){
 
 exports.home = function(req, res){
   if (req.loggedIn) {
-		console.log(req.user);	
+		//console.log(req.user);	
 		res.render('home', { title: 'Welcome'});
 	}
 	else {
@@ -27,5 +27,22 @@ exports.classes = function (req, res) {
 		res.render ('classes' , { title: 'Welcome', scheds: docs });
 	});
 	//console.log(scheds);	
+}
+
+exports.addClass = function (req, res) {
+	console.log(req.params.id);
+	if (req.loggedIn) {
+		var classes = mongoose.model('Class'); 
+		var course = classes.findById(req.params.id, function (err,doc) {
+			console.log(doc);
+			console.log(req.user);
+			req.user.classes.push({num: 'test'});
+			req.user.save(function (err) {
+				if (err) console.log(err);
+			});
+		});
+		
+	}
+	res.redirect('home');
 }
 
