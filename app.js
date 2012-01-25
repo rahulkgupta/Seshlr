@@ -80,13 +80,13 @@ everyauth.everymodule.findUserById( function (userId, callback) {
 
 var app = module.exports = express.createServer();
 
-var everyone = nowjs.initialize(app);
+
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
   app.use(express.cookieParser());
-  app.use(express.session({ secret: "keyboard cat" }));
+  app.use(express.session({ secret: "keyboard cat" , key : 'pectus'}));
   app.use(express.methodOverride());
   app.use(everyauth.middleware());
   app.use(app.router);
@@ -108,10 +108,20 @@ app.get('/home', routes.home);
 app.get('/pande', routes.pande);
 app.get('/classes', routes.classes);
 
+
+
+
+
+
+
+app.listen(3000);
+console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+
+
 //nowjs methods
 
+var everyone = nowjs.initialize(app, {cookieKey:'pectus'});
 var classes = mongoose.model('Class'); 
-
 everyone.now.searchCourse = function (department, text, callback) {
 	console.log(department);
 	var regex = new RegExp('\^' + text + '\.*', 'gi');
@@ -127,11 +137,8 @@ everyone.now.searchDept = function (text, callback) {
 
 everyone.now.submitClass = function (department, classNum, callback) {
 	classes.findOne({dept: department, num: classNum}, function (err,doc) {
-		console.log(req.session.userId)
+		console.log(this.user.session)
 		//everyauth.user.save(callback);
 	});
 	
 }
-
-app.listen(3000);
-console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
