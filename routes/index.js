@@ -36,7 +36,7 @@ exports.addClass = function (req, res) {
 		var course = classes.findById(req.params.id, function (err,doc) {
 			console.log(doc);
 			console.log(req.user);
-			req.user.classes.push({num: 'test'});
+			req.user.classes.push(doc);
 			req.user.save(function (err) {
 				if (err) console.log(err);
 			});
