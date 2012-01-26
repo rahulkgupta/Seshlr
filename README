@@ -1,0 +1,4 @@
+This is an app in progress that will help students set up studying sessions with classmates.
+We are currently using Node, Now, Backbone, Mongoose, and Mongo for development.
+
+You might have to remove the mongoose module and clone it from the mongoose github in order for the database to work properly.
