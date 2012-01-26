@@ -96,3 +96,21 @@ var SearchView = Backbone.View.extend({
   },
 
 });
+
+var SessionCreationView = Backbone.View.extend ({
+
+	el: "#session-creation",
+	
+	events: {
+		'click #create-session' : 'showSessionCreation'
+
+	},
+
+	showSessionCreation: function (event) {
+		$('#select-course').append('<option value="test">Test</option>')
+		$('#select-course').css({display : 'block'});
+	}
+});
+
+
+

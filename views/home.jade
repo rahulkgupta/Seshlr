@@ -1,29 +1,45 @@
 script(type='text/javascript')
-      head.js(
-        "https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js",
-        "/javascripts/underscore/underscore-min.js",
-        "/javascripts/backbone/backbone-min.js",
-        "/nowjs/now.js",
-        "/javascripts/models.js"
-      );
+		head.js(
+				"https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js",
+				"/javascripts/underscore/underscore-min.js",
+				"/javascripts/backbone/backbone-min.js",
+				"/nowjs/now.js",
+				"/javascripts/models.js"
+				
+			);
 
 
 #course-selector
 
-  #dept-search
-    h3 Dept:
-      input(type='text', id='dept-search-input')
-    #depts
-  
-  #course-search
-    h3 Course:
-      input(type='text', id='course-search-input')
-    #courses
+	#dept-search
+		h3 Dept:
+			input(type='text', id='dept-search-input')
+		#depts
+
+	#course-search
+		h3 Course:
+			input(type='text', id='course-search-input')
+		#courses
 
 script(type='text/javascript')
-  head.ready(function() {
-    var searchView = new SearchView();
-    //var app = new CompleterApp()
-    //var appView = new CompleterAppView({model: app});
-  });
+		head.ready(function() {
+			var searchView = new SearchView();
+			var sessCreateView = new SessionCreationView();
+			//var app = new CompleterApp()
+			//var appView = new CompleterAppView({model: app});
+		});
+
+#session-creation
+	div
+		button#create-session Create a Session
+	div
+		select#select-course
+	div
+		input#time
+	div
+		input#title
+	div
+		input#location
+	div
+		textarea#description
 

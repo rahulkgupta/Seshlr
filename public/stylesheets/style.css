@@ -79,3 +79,33 @@ a {
 #course-search {
 	float: left;
 }
+
+#session-creation {
+	float: left;
+	width:100%
+}
+
+#select-course
+{
+	display: none;
+}
+
+#time
+{
+	display: none;
+}
+
+#title
+{
+	display: none;
+}
+
+#location
+{
+	display: none;
+}
+
+#description
+{
+	display: none;
+}

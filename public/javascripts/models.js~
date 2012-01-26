@@ -80,7 +80,7 @@ var SearchView = Backbone.View.extend({
   		docs.forEach(function(array) {
   			var course = array['num'];
 				var id = array['_id'];
-  			$(self.courses).append('<a href="/add_class/class='+ id + '" class="course-select" data-id="' + course + '" >' + course + '</a><br />');
+  			$(self.courses).append('<a href="/add_class/'+ id + '" class="course-select" data-id="' + course + '" >' + course + '</a><br />');
   		});
   	});
   },
@@ -96,3 +96,21 @@ var SearchView = Backbone.View.extend({
   },
 
 });
+
+var SessionCreationView = Backbone.View.extend ({
+
+	el: "#session-creation",
+	
+	events: {
+		'click #create-session' : 'showSessionCreation'
+
+	},
+
+	showSessionCreation: function (event) {
+		
+		$('#select-course').css({display : 'block'});
+	}
+});
+
+
+
