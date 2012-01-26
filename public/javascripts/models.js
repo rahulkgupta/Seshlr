@@ -102,13 +102,28 @@ var SessionCreationView = Backbone.View.extend ({
 	el: "#session-creation",
 	
 	events: {
-		'click #create-session' : 'showSessionCreation'
+		'click #create-session' : 'showSessionCreation',
+		'click #submit-session'	: 'submitSessionCreation'
 
 	},
 
 	showSessionCreation: function (event) {
-		$('#select-course').append('<option value="test">Test</option>')
-		$('#select-course').css({display : 'block'});
+		$('#select-course').show();
+		$('#time').show();
+		$('#title').show();
+		$('#location').show();
+		$('#description').show();
+		$('#submit-session').show();
+		
+	},
+
+	submitSessionCreation: function (event) {
+		$.ajax({
+			url: "/create_session",
+			success: function(html) {
+				$('#session-creation').append('success');
+			}
+		});
 	}
 });
 

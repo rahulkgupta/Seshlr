@@ -11,12 +11,11 @@ exports.index = function(req, res){
 
 exports.home = function(req, res){
   if (req.loggedIn) {
-		//console.log(req.user);	
-		res.render('home', { title: 'Welcome'});
+		res.render('home', { title: 'Welcome', courses: req.user.classes});
 	}
 	else {
 		// res.redirect('/'); Eventually this needs to be enabled.
-		res.render('home', { title: 'Welcome'});
+		res.render('index', { title: 'Login'}	);
 	}
 };
 
@@ -44,5 +43,9 @@ exports.addClass = function (req, res) {
 		
 	}
 	res.redirect('home');
+}
+
+exports.createSession = function (req, res) {
+	
 }
 

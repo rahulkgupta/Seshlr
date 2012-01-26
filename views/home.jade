@@ -29,17 +29,25 @@ script(type='text/javascript')
 			//var appView = new CompleterAppView({model: app});
 		});
 
+	
 #session-creation
 	div
 		button#create-session Create a Session
-	div
-		select#select-course
-	div
-		input#time
-	div
-		input#title
-	div
-		input#location
-	div
-		textarea#description
-
+	div#select-course
+		span Select Course:
+		select#select-course-input
+			each course in courses
+				option #{course.name}
+	div#time
+		span Select Time:
+		input#time-input
+	div#title
+		span Enter a Title:
+		input#title-input
+	div#location
+		span Enter a location:
+		input#location-input
+	div#description
+		span Description:
+		textarea#description-input
+	button#submit-session Submit
