@@ -17,6 +17,18 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/peck');
 var Schema = mongoose.Schema
 
+
+var StudyTime = new Schema ({
+		time 	: Date
+	,	loc 	: {
+					x : Number
+				,	y : Number
+		}
+	, course: [Class]
+	, description : String
+	, title	:	String
+});
+
 var User = new Schema ({
 		_id: {type: Number, unique: true}	
 	,	name: String
@@ -25,6 +37,7 @@ var User = new Schema ({
 	,	refreshToken: String
 	, expiresIn: Number
 	, classes: [Class]
+	, studytimes : [StudyTime]
 });
 
 var user = mongoose.model('User', User);
@@ -34,6 +47,8 @@ var Class = new Schema ({
   , num   : String
   , name  : String
 });
+
+
 
 
 var sched = mongoose.model('Class',Class); 
