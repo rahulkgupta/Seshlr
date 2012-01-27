@@ -97,6 +97,12 @@ var SearchView = Backbone.View.extend({
 
 });
 
+var SessionCreationModel = Backbone.Model.extend ({
+	url:function() {
+		return '/create_session';
+	}
+
+})
 var SessionCreationView = Backbone.View.extend ({
 
 	el: "#session-creation",
@@ -118,12 +124,13 @@ var SessionCreationView = Backbone.View.extend ({
 	},
 
 	submitSessionCreation: function (event) {
-		$.ajax({
-			url: "/create_session",
-			success: function(html) {
-				$('#session-creation').append('success');
-			}
-		});
+		var time = $('#time-input').val();
+		var course = $('#select-course-input').val();
+		var title = $('#title-input').val();
+		var location = $('#location-input').val();
+		var description = $('#description-input').val();
+		this.model.set({time: time, course: course, title: title, location: location, description: description});
+		this.model.save();
 	}
 });
 

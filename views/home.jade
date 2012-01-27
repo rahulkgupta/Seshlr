@@ -24,7 +24,8 @@ script(type='text/javascript')
 script(type='text/javascript')
 		head.ready(function() {
 			var searchView = new SearchView();
-			var sessCreateView = new SessionCreationView();
+			var sessModel = new SessionCreationModel();
+			var sessCreateView = new SessionCreationView({model: sessModel});
 			//var app = new CompleterApp()
 			//var appView = new CompleterAppView({model: app});
 		});
@@ -37,7 +38,8 @@ script(type='text/javascript')
 		span Select Course:
 		select#select-course-input
 			each course in courses
-				option #{course.name}
+				option(value=course._id) #{course.name}
+					
 	div#time
 		span Select Time:
 		input#time-input

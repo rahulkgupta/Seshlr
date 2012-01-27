@@ -29,6 +29,7 @@ var StudyTime = new Schema ({
 	, title	:	String
 });
 
+var studyTime = mongoose.model('StudyTime', StudyTime);
 var User = new Schema ({
 		_id: {type: Number, unique: true}	
 	,	name: String
@@ -123,7 +124,7 @@ app.get('/home', routes.home);
 app.get('/pande', routes.pande);
 app.get('/classes', routes.classes);
 app.get('/add_class/:id', routes.addClass)
-app.get('/create_session', routes.createSession)
+app.post('/create_session', routes.createSession)
 
 
 
