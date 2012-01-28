@@ -11,7 +11,8 @@ exports.index = function(req, res){
 
 exports.home = function(req, res){
   if (req.loggedIn) {
-		res.render('home', { title: 'Welcome', courses: req.user.classes});
+		console.log(req.user.studytimes)
+		res.render('home', { title: 'Welcome', courses: req.user.classes, studytimes: req.user.studytimes});
 	}
 	else {
 		// res.redirect('/'); Eventually this needs to be enabled.
@@ -42,7 +43,7 @@ exports.addClass = function (req, res) {
 		});
 		
 	}
-	res.redirect('home');
+	res.redirect('/home');
 }
 
 exports.createSession = function (req, res) {
@@ -64,16 +65,13 @@ exports.createSession = function (req, res) {
 		sesh.save(function (err) {
 				if (err) console.log(err);
 			});
-	});
 	
-//	sesh.save(function (err) {
-//		if (!err) {
-//			req.user.studytimes.push(this)
-//			req.user.save(function (err) {
-//				if (err) {console.log(error);}
-//			});
-//		}
-//	});
+		//sesh.save();
+		req.user.studytimes.push(sesh);
+		req.user.save(function (err) {
+			if (err) {console.log(err);}
+		});
+	});
 	
 	console.log(time);
 }

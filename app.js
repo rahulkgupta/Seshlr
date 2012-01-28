@@ -18,18 +18,7 @@ mongoose.connect('mongodb://localhost/peck');
 var Schema = mongoose.Schema
 
 
-var StudyTime = new Schema ({
-		time 	: Date
-	,	loc 	: {
-					x : Number
-				,	y : Number
-		}
-	, course: [Class]
-	, description : String
-	, title	:	String
-});
 
-var studyTime = mongoose.model('StudyTime', StudyTime);
 var User = new Schema ({
 		_id: {type: Number, unique: true}	
 	,	name: String
@@ -42,6 +31,20 @@ var User = new Schema ({
 });
 
 var user = mongoose.model('User', User);
+
+
+var StudyTime = new Schema ({
+		time 	: Date
+	,	loc 	: {
+					x : Number
+				,	y : Number
+		}
+	, course: [Class]
+	, description : String
+	, title	:	String
+});
+
+var studyTime = mongoose.model('StudyTime', StudyTime);
 
 var Class = new Schema ({
     dept  : String
