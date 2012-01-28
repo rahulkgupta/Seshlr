@@ -7,3 +7,4 @@ To Do:
 -- Add a uniqueness check to classes for users so you cannot add the same class more than once. Either some combination of num and dept or a unique id.
 -- Create a front-end for the auto-completer.
 -- Figure out how to get rid of the bottom border on html content that is being created by jQueryUI.
+-- Add verification (Bootstrap alerts) to inputs.
