@@ -1066,7 +1066,7 @@ table .span12 {
   margin-left: 0;
 }
 .icon {
-  background-image: url(docs/assets/img/glyphicons-halflings-sprite.png);
+  background-image: url(../images/glyphicons-halflings-sprite.png);
   background-position: 0 0;
   background-repeat: no-repeat;
   display: inline-block;
