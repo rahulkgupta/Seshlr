@@ -28,11 +28,12 @@ script(type='text/javascript')
 			a(href=userdata.link)
 				img#userpic(src=userdata.picture, width='60', height='82')
 			.sidebar
-				i(class='icon book') 
 				h6 Classes
 				each course in userdata['classes']
 					p #{course.dept} #{course.num}
 				h6 Sessions
+				each session in studytimes
+					p #{session.title}
 				
 		.span9	
 			#course-selector
@@ -52,7 +53,7 @@ script(type='text/javascript')
 				div#select-course
 					span Select Course:
 					select#select-course-input
-						each course in userdata['classes']
+						each course in courses
 							option(value=course._id) #{course.name}
 					
 				div#time
@@ -68,3 +69,8 @@ script(type='text/javascript')
 					span Description:
 					textarea#description-input
 				button#submit-session.btn Submit
+
+
+			#study-times
+				each studytime in studytimes
+					#{studytime.title}
