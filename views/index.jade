@@ -1,4 +1,9 @@
-h1= title
-p Welcome to #{title}
-p Click the button below to login using your Google account.
-a(href="/auth/google") Login
+.navbar.navbar-static
+	.navbar-inner
+		.container
+				a.brand(href='/') StudyWithMe	
+.container
+	h1= title
+	em StudyWithMe helps you plan study sessions with your friends so you can stop wasting your free time.
+	p Click the button below to login using your Google account.
+	a.btn.success(href="/auth/google") Login with Google

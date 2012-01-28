@@ -5,17 +5,16 @@ exports.index = function(req, res){
 	if (req.loggedIn) {
 		res.render('home', { title: 'Welcome' });
 	} else {
-		res.render('index' , { title: 'Login'});	
+		res.render('index' , { title: 'StudyWithMe'});	
 	}	
 };
 
 exports.home = function(req, res){
   if (req.loggedIn) {
-		res.render('home', { title: 'Welcome', courses: req.user.classes});
+		res.render('home', { title: 'Welcome', userdata: req.user});
 	}
 	else {
-		// res.redirect('/'); Eventually this needs to be enabled.
-		res.render('index', { title: 'Login'}	);
+		res.redirect('/'); // Eventually this needs to be enabled.
 	}
 };
 

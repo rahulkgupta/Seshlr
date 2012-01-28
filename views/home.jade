@@ -7,20 +7,6 @@ script(type='text/javascript')
 				"/javascripts/models.js"
 				
 			);
-
-
-#course-selector
-
-	#dept-search
-		h3 Dept:
-			input(type='text', id='dept-search-input')
-		#depts
-
-	#course-search
-		h3 Course:
-			input(type='text', id='course-search-input')
-		#courses
-
 script(type='text/javascript')
 		head.ready(function() {
 			var searchView = new SearchView();
@@ -30,26 +16,55 @@ script(type='text/javascript')
 			//var appView = new CompleterAppView({model: app});
 		});
 
-	
-#session-creation
-	div
-		button#create-session Create a Session
-	div#select-course
-		span Select Course:
-		select#select-course-input
-			each course in courses
-				option(value=course._id) #{course.name}
+.navbar.navbar-static
+	.navbar-inner
+		.container
+				a.brand(href='/') StudyWithMe
+.container
+	.row
+		.span3
+			a(href=userdata.link)
+				h5#username #{userdata.name}
+			a(href=userdata.link)
+				img#userpic(src=userdata.picture, width='60', height='82')
+			.sidebar
+				i(class='icon book') 
+				h6 Classes
+				each course in userdata['classes']
+					p #{course.dept} #{course.num}
+				h6 Sessions
+				
+		.span9	
+			#course-selector
+				#dept-search
+					h3 Dept:
+						input(type='text', id='dept-search-input')
+					#depts
+
+				#course-search
+					h3 Course:
+						input(type='text', id='course-search-input')
+					#courses
+			
+			#session-creation
+				div
+					button#create-session.btn Create a Session
+				div#select-course
+					span Select Course:
+					select#select-course-input
+						each course in userdata['classes']
+							option(value=course._id) #{course.name}
 					
-	div#time
-		span Select Time:
-		input#time-input
-	div#title
-		span Enter a Title:
-		input#title-input
-	div#location
-		span Enter a location:
-		input#location-input
-	div#description
-		span Description:
-		textarea#description-input
-	button#submit-session Submit
+				div#time
+					span Select Time:
+					input#time-input
+				div#title
+					span Enter a Title:
+					input#title-input
+				div#location
+					span Enter a location:
+					input#location-input
+				div#description
+					span Description:
+					textarea#description-input
+				button#submit-session.btn Submit
