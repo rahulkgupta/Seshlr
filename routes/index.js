@@ -58,21 +58,29 @@ exports.createSession = function (req, res) {
 	//sesh.time = time;
 	sesh.title = title;
 	sesh.description = description;
+	var x = "hello"
 	var classes = mongoose.model('Class'); 
 	var course = classes.findById(course, function (err,doc) {
-		console.log(doc);
+		console.log(x);
 		sesh.course.push(doc);
 		sesh.save(function (err) {
 				if (err) console.log(err);
+				req.user.studytimes.push(sesh);
+		req.user.save(function (err, sesh) {
+			if (err) {console.log(err);}
+			else {
+				console.log("courses " + sesh)
 			});
 	
 		//sesh.save();
 		req.user.studytimes.push(sesh);
-		req.user.save(function (err) {
+		req.user.save(function (err, sesh) {
 			if (err) {console.log(err);}
+			else {
+				console.log("courses " + sesh)
+				
+			}
 		});
 	});
-	
-	console.log(time);
 }
 
