@@ -5,18 +5,17 @@ exports.index = function(req, res){
 	if (req.loggedIn) {
 		res.render('home', { title: 'Welcome' });
 	} else {
-		res.render('index' , { title: 'Login'});	
+		res.render('index' , { title: 'StudyWithMe'});	
 	}	
 };
 
 exports.home = function(req, res){
   if (req.loggedIn) {
 		console.log(req.user.studytimes)
-		res.render('home', { title: 'Welcome', courses: req.user.classes, studytimes: req.user.studytimes});
+		res.render('home', { title: 'Welcome', userdata: req.user, courses: req.user.classes, studytimes: req.user.studytimes});
 	}
 	else {
-		// res.redirect('/'); Eventually this needs to be enabled.
-		res.render('index', { title: 'Login'}	);
+		res.redirect('/'); // Eventually this needs to be enabled.
 	}
 };
 

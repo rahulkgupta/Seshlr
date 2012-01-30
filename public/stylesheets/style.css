@@ -1,65 +1,37 @@
-/* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0 | 20110126
-   License: none (public domain)
-*/
+/* Global Styling */
+.navbar-inner {
+	background-image: linear-gradient(bottom, rgb(30,179,4) 0%, rgb(138,255,117) 100%);
+	background-image: -o-linear-gradient(bottom, rgb(30,179,4) 0%, rgb(138,255,117) 100%);
+	background-image: -moz-linear-gradient(bottom, rgb(30,179,4) 0%, rgb(138,255,117) 100%);
+	background-image: -webkit-linear-gradient(bottom, rgb(30,179,4) 0%, rgb(138,255,117) 100%);
+	background-image: -ms-linear-gradient(bottom, rgb(30,179,4) 0%, rgb(138,255,117) 100%);
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+	background-image: -webkit-gradient(
+	linear,
+	left bottom,
+	left top,
+	color-stop(0, rgb(30,179,4)),
+	color-stop(1, rgb(138,255,117))
+	);
 }
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
+.navbar .brand {
+	color: #222222;
+}
+.sidebar-container {
+	border-right: 1px solid #999999;
+	height: 100%;
+}
+/* User Profile Styling */
+.sidebar {
 	display: block;
+	margin-top: 50px;
 }
-body {
-	line-height: 1;
+#username {
+	display: inline;
 }
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-
-/*
- * templates
- *
- */
-
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: #eaeafa;
-}
-
-a {
-  color: #00B7FF;
+#userpic {
+	float: left;
+	margin-right: 10px;
 }
 
 /***********************/
@@ -69,7 +41,7 @@ a {
 }
 #course-selector input {
 	display: block;
-	width: 30em;
+	width: 15em;
   padding: 6px;
   margin-right: 10px;
 }
@@ -82,9 +54,11 @@ a {
 
 #session-creation {
 	float: left;
-	width:100%
+	width:100%;
 }
-
+#create-session {
+	margin-bottom: 5px;
+}
 #select-course
 {
 	display: none;
@@ -93,6 +67,22 @@ a {
 #time
 {
 	display: none;
+}
+#time-input {
+	width: 100px;
+}
+#hour-pick {
+	width: 75px;
+	margin-left: 5px;
+}
+#halfday-pick {
+	width: 50px;
+	margin-left: 5px;
+}
+/* JqueryUI Widget styling */
+#ui-datepicker-div {
+	background: white;
+	border: 1px solid #666;
 }
 
 #title
@@ -114,3 +104,4 @@ a {
 {
 	display: none;
 }
+
