@@ -124,12 +124,16 @@ var SessionCreationView = Backbone.View.extend ({
 	},
 
 	submitSessionCreation: function (event) {
-		var time = $('#time-input').val();
+		var day = $('#time-input').val();
+		var dayformatted = day.slice(6) + '-' + day.slice(0,2) + '-' + day.slice(3,5);
+		var hour = $('#hour-pick').val();
+		var halfday = $('#halfday-pick').val();
+		var datestring = new String(dayformatted + 'T' + hour + ':00Z');
 		var course = $('#select-course-input').val();
 		var title = $('#title-input').val();
 		var location = $('#location-input').val();
 		var description = $('#description-input').val();
-		this.model.set({time: time, course: course, title: title, location: location, description: description});
+		this.model.set({time: datestring, course: course, title: title, location: location, description: description});
 		this.model.save();
 	}
 });

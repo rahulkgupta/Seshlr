@@ -54,7 +54,7 @@ exports.createSession = function (req, res) {
 	console.log(course);
 	var description = req.body.description;
 	var location = req.body.location;
-	//sesh.time = time;
+	sesh.time = time;
 	sesh.title = title;
 	sesh.description = description;
 	var classes = mongoose.model('Class'); 
