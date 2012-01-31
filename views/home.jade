@@ -37,12 +37,12 @@ script(type='text/javascript')
 					h6
 						i.icon.book
 						| Classes
-					each course in userdata['classes']
+					each course in userdata.classes
 						p #{course.dept} #{course.num}
 					h6 
 						i.icon.list
 						| Sessions
-					each session in studytimes
+					each session in userdata.studytimes
 						p #{session.title}
 				
 		.span9	
@@ -63,7 +63,7 @@ script(type='text/javascript')
 				div#select-course
 					span Select Course:
 					select#select-course-input
-						each course in courses
+						each course in userdata.courses
 							option(value=course._id) #{course.name}
 					
 				div#time
@@ -90,5 +90,5 @@ script(type='text/javascript')
 
 			//
 				#study-times
-					each studytime in studytimes
+					each studytime in userdata.studytimes
 						#{studytime.title}
