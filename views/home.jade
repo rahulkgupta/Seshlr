@@ -68,7 +68,7 @@ script(type='text/javascript')
 				div#select-course
 					span Select Course:
 					select#select-course-input
-						each course in userdata.courses
+						each course in userdata.classes
 							option(value=course._id) #{course.name}
 					
 				div#time
@@ -92,4 +92,3 @@ script(type='text/javascript')
 					textarea#description-input
 				button#submit-session.btn Submit
 			#session-feed
-
