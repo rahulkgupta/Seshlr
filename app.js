@@ -150,6 +150,7 @@ everyone.now.searchCourse = function (department, text, callback) {
 }
 
 everyone.now.addSession = function (session) {
+	console.log('adding session');
 	var study = mongoose.model('StudyTime');
 	var sesh = new study();
 	var time = session.time;

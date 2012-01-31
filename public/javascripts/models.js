@@ -133,7 +133,7 @@ var SessionCreationView = Backbone.View.extend ({
 		var title = $('#title-input').val();
 		var location = $('#location-input').val();
 		var description = $('#description-input').val();
-		this.model.set({time: time, course: course, title: title, location: location, description: description});
+		this.model.set({course: course, title: title, location: location, description: description});
 		now.addSession(this.model);
 	}
 });

@@ -19,7 +19,7 @@ script(type='text/javascript')
 			now.distributeSession = function (session) {
 				if (session.course._id in userdata['classes']._id)
 					$('#session-feed').append(session.title);
-				$('#session-feed').append(userdata['classes']._id);		
+				$('#session-feed').append(session.title);		
 			}
 			$(function() {
 				$( "#time-input" ).datepicker();
