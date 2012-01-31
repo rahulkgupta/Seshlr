@@ -12,7 +12,6 @@ exports.index = function(req, res){
 
 exports.home = function(req, res){
   if (req.loggedIn) {
-		console.log(req.user.studytimes)
 		res.render('home', { title: 'Welcome', userdata: req.user});
 	}
 	else {

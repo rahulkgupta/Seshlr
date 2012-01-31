@@ -16,13 +16,15 @@ script(type='text/javascript')
 			//var app = new CompleterApp()
 			//var appView = new CompleterAppView({model: app});			
 			//now session feed function
-			now.distributeSession = function (session) {
-				if (session.course._id in userdata['classes']._id)
-					$('#session-feed').append(session.title);
-				$('#session-feed').append(userdata['classes']._id);		
+			now.distributeSession = function (session, userdata) {
+				for (var i = 0; i < userdata.classes.length; i++) {
+					if (session.course[0]._id == userdata.classes[i]._id) {
+						$("#session-feed").append(session.title);
+					}
+				}
 			}
 			$(function() {
-				$( "#time-input" ).datepicker();
+				$("#time-input").datepicker();
 			});
 		});
 
