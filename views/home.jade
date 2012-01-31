@@ -42,12 +42,12 @@ script(type='text/javascript')
 					h6
 						i.icon.book
 						| Classes
-					each course in userdata['classes']
+					each course in userdata.classes
 						p #{course.dept} #{course.num}
 					h6 
 						i.icon.list
 						| Sessions
-					each session in studytimes
+					each session in userdata.studytimes
 						p #{session.title}
 				
 		.span9	
@@ -68,19 +68,19 @@ script(type='text/javascript')
 				div#select-course
 					span Select Course:
 					select#select-course-input
-						each course in courses
+						each course in userdata.courses
 							option(value=course._id) #{course.name}
 					
 				div#time
 					span Select Date:
 					input#time-input
 					select#hour-pick
-						each _ in [12,1,2,3,4,5,6,7,8,9,10,11]
+						each _ in [00,01,02,03,04,05,06,07,08,09,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
 							option #{_}:00
 							option #{_}:30
-					select#halfday-pick
-						option AM
-						option PM
+					// select#halfday-pick
+							option AM
+							option PM
 				div#title
 					span Enter a Title:
 					input#title-input
@@ -92,3 +92,4 @@ script(type='text/javascript')
 					textarea#description-input
 				button#submit-session.btn Submit
 			#session-feed
+

@@ -13,7 +13,7 @@ exports.index = function(req, res){
 exports.home = function(req, res){
   if (req.loggedIn) {
 		console.log(req.user.studytimes)
-		res.render('home', { title: 'Welcome', userdata: req.user, courses: req.user.classes, studytimes: req.user.studytimes});
+		res.render('home', { title: 'Welcome', userdata: req.user});
 	}
 	else {
 		res.redirect('/'); // Eventually this needs to be enabled.
@@ -55,7 +55,7 @@ exports.createSession = function (req, res) {
 	console.log(course);
 	var description = req.body.description;
 	var location = req.body.location;
-	//sesh.time = time;
+	sesh.time = time;
 	sesh.title = title;
 	sesh.description = description;
 	var x = "hello"
