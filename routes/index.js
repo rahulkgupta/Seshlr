@@ -1,6 +1,7 @@
 var querystring = require('querystring');
 var mongoose = require('mongoose');
 
+
 exports.index = function(req, res){
 	if (req.loggedIn) {
 		res.render('home', { title: 'Welcome' });
@@ -64,12 +65,7 @@ exports.createSession = function (req, res) {
 		sesh.course.push(doc);
 		sesh.save(function (err) {
 				if (err) console.log(err);
-				req.user.studytimes.push(sesh);
-		req.user.save(function (err, sesh) {
-			if (err) {console.log(err);}
-			else {
-				console.log("courses " + sesh)
-			});
+		});
 	
 		//sesh.save();
 		req.user.studytimes.push(sesh);
@@ -77,7 +73,7 @@ exports.createSession = function (req, res) {
 			if (err) {console.log(err);}
 			else {
 				console.log("courses " + sesh)
-				
+					//now.addSession(sesh);
 			}
 		});
 	});

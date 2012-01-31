@@ -149,6 +149,40 @@ everyone.now.searchCourse = function (department, text, callback) {
 	classes.find({dept: department, num: regex}, callback);
 }
 
+everyone.now.addSession = function (session) {
+	var study = mongoose.model('StudyTime');
+	var sesh = new study();
+	var time = session.time;
+	var title = session.title;
+	var course = session.course;
+	//console.log(course);
+	var description = session.description;
+	var location = session.location;
+	//sesh.time = time;
+	sesh.title = title;
+	sesh.description = description;
+	var classes = mongoose.model('Class');
+	var userId = this.user.session.userId; 
+	var course = classes.findById(course, function (err,doc) {
+		sesh.course.push(doc);
+		sesh.save(function (err) {
+				if (err) console.log(err);
+		});
+		user.findById(userId,function(err,usr) {
+			usr.studytimes.push(sesh);
+			usr.save(function (err) {
+				if (err) {console.log(err);}
+				else {
+					console.log("courses " + sesh)
+					everyone.now.distributeSession(sesh);
+				}
+			});		
+
+		});
+	});
+
+}
+
 everyone.now.searchDept = function (text, callback) {
 	var regex = new RegExp('\^' + text + '\.*', 'gi');
 	console.log(regex);	

@@ -14,8 +14,13 @@ script(type='text/javascript')
 			var sessModel = new SessionCreationModel();
 			var sessCreateView = new SessionCreationView({model: sessModel});
 			//var app = new CompleterApp()
-			//var appView = new CompleterAppView({model: app});
-			
+			//var appView = new CompleterAppView({model: app});			
+			//now session feed function
+			now.distributeSession = function (session) {
+				if (session.course._id in userdata['classes']._id)
+					$('#session-feed').append(session.title);
+				$('#session-feed').append(userdata['classes']._id);		
+			}
 			$(function() {
 				$( "#time-input" ).datepicker();
 			});
@@ -86,9 +91,4 @@ script(type='text/javascript')
 					span Description:
 					textarea#description-input
 				button#submit-session.btn Submit
-
-
-			//
-				#study-times
-					each studytime in studytimes
-						#{studytime.title}
+			#session-feed
