@@ -31,72 +31,48 @@ script(type='text/javascript')
 			});
 		});
 
-.navbar.navbar-static
-	.navbar-inner
-		.container
-				a.brand(href='/') StudyWithMe
-.container
-	.row
-		.span3
-			.sidebar-container
-				a(href=userdata.link)
-					h5#username #{userdata.name}
-				a(href=userdata.link)
-					img#userpic(src=userdata.picture, width='60', height='82')
-				.sidebar
-					h6
-						i.icon.book
-						| Classes
-					each course in userdata.classes
-						li.course(id='#{course._id}') #{course.dept} #{course.num}
-					h6 
-						i.icon.list
-						| Sessions
-					.mysessions
-						each session in userdata.studytimes
-							a(href="sessions/#{session._id}")
-								p #{session.title}
-				
-		.span9	
-			#course-selector
-				#dept-search
-					h3 Dept:
-						input(type='text', id='dept-search-input')
-					#depts
+.span3
+	include includes/sidebar		
+.span9	
+	#course-selector
+		#dept-search
+			h3 Dept:
+				input(type='text', id='dept-search-input')
+			#depts
 
-				#course-search
-					h3 Course:
-						input(type='text', id='course-search-input')
-					#courses
+		#course-search
+			h3 Course:
+				input(type='text', id='course-search-input')
+			#courses
+	
+	#session-creation
+		div
+			button#create-session.btn Create a Session
+		div#select-course
+			span Select Course:
+			select#select-course-input
+				each course in userdata.classes
+					option(value=course._id) #{course.name}
 			
-			#session-creation
-				div
-					button#create-session.btn Create a Session
-				div#select-course
-					span Select Course:
-					select#select-course-input
-						each course in userdata.classes
-							option(value=course._id) #{course.name}
-					
-				div#time
-					span Select Date:
-					input#time-input
-					select#hour-pick
-						each _ in [00,01,02,03,04,05,06,07,08,09,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
-							option #{_}:00
-							option #{_}:30
-					// select#halfday-pick
-							option AM
-							option PM
-				div#title
-					span Enter a Title:
-					input#title-input
-				div#location
-					span Enter a location:
-					input#location-input
-				div#description
-					span Description:
-					textarea#description-input
-				button#submit-session.btn Submit
-			#session-feed
-			#classtest
+		div#time
+			span Select Date:
+			input#time-input
+			select#hour-pick
+				each _ in [00,01,02,03,04,05,06,07,08,09,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
+					option #{_}:00
+					option #{_}:30
+			// select#halfday-pick
+					option AM
+					option PM
+		div#title
+			span Enter a Title:
+			input#title-input
+		div#location
+			span Enter a location:
+			input#location-input
+		div#description
+			span Description:
+			textarea#description-input
+		button#submit-session.btn Submit
+	#session-feed
+	#classtest

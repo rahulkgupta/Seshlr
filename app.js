@@ -144,6 +144,8 @@ console.log("Express server listening on port %d in %s mode", app.address().port
 
 var everyone = nowjs.initialize(app, {cookieKey:'pectus'});
 var classes = mongoose.model('Class'); 
+var study = mongoose.model('StudyTime');
+var users = mongoose.model('User');
 everyone.now.searchCourse = function (department, text, callback) {
 	console.log(department);
 	var regex = new RegExp('\^' + text + '\.*', 'gi');
@@ -153,7 +155,6 @@ everyone.now.searchCourse = function (department, text, callback) {
 
 everyone.now.addSession = function (session, callback) {
 	console.log('adding session');
-	var study = mongoose.model('StudyTime');
 	var sesh = new study();
 	var time = session.time;
 	var title = session.title;
@@ -186,6 +187,52 @@ everyone.now.addSession = function (session, callback) {
 		});
 	});
 
+}
+
+everyone.now.deleteSession = function (sessionid) {
+	// Not working for unknown reasons - need to research using find query with IDs.
+	console.log(sessionid)
+	users.find({ 'studytimes._id': string(sessionid)}, function(err, docs) {
+		if (err) {
+			console.log(err)
+		}
+		else {
+			console.log(docs);
+			docs.forEach(function(user) {
+				user.studytimes.id(sessionid).remove();
+				user.save(function (err) {
+					console.log('Session with ID:' + sessionid + 'removed from user' + user.name);
+			});
+		});
+		}
+	}); 
+	/* users.find({}, function(err, docs) {
+		docs.forEach(function(user) {
+			user.studytimes.forEach(function(studytime) {
+				if (studytime._id == sessionid) {
+					console.log(studytime);
+					user.studytimes.id(sessionid).remove();
+					user.save(function (err) {
+						if (err) {
+							console.log(err)
+						}
+						else {
+							console.log('Session with ID:' + sessionid + 'removed from user' + user.name);
+						}
+					});
+				}
+			});
+		});
+	}); */
+	/* study.findById(sessionid, function(err, studysesh) {
+		if (err) {
+			console.log(err);
+		}
+		else {
+			console.log(studysesh);
+			studysesh.remove();
+		}
+	}); */
 }
 
 everyone.now.searchDept = function (text, callback) {

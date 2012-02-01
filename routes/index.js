@@ -12,7 +12,7 @@ exports.index = function(req, res){
 
 exports.home = function(req, res){
   if (req.loggedIn) {
-		res.render('home', { title: 'Welcome', userdata: req.user});
+		res.render('home', { title: 'Welcome', userdata: req.user, rooturl: ''});
 	}
 	else {
 		res.redirect('/'); // Eventually this needs to be enabled.
@@ -30,7 +30,7 @@ exports.classes = function (req, res) {
 
 exports.sessions = function (req, res) {
 	if (req.loggedIn) {
-		res.render ('sessions', { title: 'Sessions', userdata: req.user});
+		res.render ('sessions', { title: 'Sessions', userdata: req.user, rooturl: ''});
 	}
 	else {
 		res.redirect('/');
@@ -43,9 +43,11 @@ exports.sessionPage = function (req, res) {
 		var sessionTitle = sessions.findById(req.params.id, function(err, doc) {
 			if (err) {
 				console.log (err);
+				// If the session has been deleted or the user enters an invalid URL
+				res.render('sessions/notfound', { title: 'Session not Found', userdata: req.user, rooturl: '..' });
 			}
 			else {
-				res.render('sessions/page', { title: doc.title , session: doc, userdata: req.user });
+				res.render('sessions/page', { title: doc.title , session: doc, userdata: req.user, rooturl: '..' });
 			}
 		});
 	}

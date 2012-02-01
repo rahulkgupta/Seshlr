@@ -1,0 +1,18 @@
+.sidebar-container
+		a(href="#{rooturl}/home")
+			h5#username #{userdata.name}
+		a(href="#{rooturl}/home")
+			img#userpic(src=userdata.picture, width='60', height='82')
+		.sidebar
+			h6
+				i.icon.book
+				| Classes
+			each course in userdata.classes
+				li.course(id='#{course._id}') #{course.dept} #{course.num}
+			h6 
+				i.icon.list
+				| Sessions
+			.mysessions
+				each session in userdata.studytimes
+					a(href="#{rooturl}/sessions/#{session._id}")
+						p #{session.title}

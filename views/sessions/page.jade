@@ -1,0 +1,23 @@
+script(type='text/javascript')
+		head.js(
+				"https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js",
+				"https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js",
+				"/javascripts/underscore/underscore-min.js",
+				"/javascripts/backbone/backbone-min.js",
+				"/nowjs/now.js"
+				
+			);
+script(type='text/javascript')
+		head.ready(function() {
+			// Eventually need to use backbone for this.
+			$('.delete').click(function() {
+				now.deleteSession("!{session._id}");
+			});
+				
+		});
+
+.span3
+	include ../includes/sidebar
+.span9
+	p #{session.title}
+	a.delete(href="#") Click Here to delete this session.
