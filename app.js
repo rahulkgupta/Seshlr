@@ -174,7 +174,8 @@ everyone.now.addSession = function (session) {
 			usr.save(function (err) {
 				if (err) {console.log(err);}
 				else {
-					console.log("courses " + sesh)
+					// console.log("courses " + sesh)
+					// console.log(usr)
 					everyone.now.distributeSession(sesh);
 				}
 			});		

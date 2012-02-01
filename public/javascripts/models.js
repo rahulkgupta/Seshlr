@@ -1,33 +1,3 @@
-
-//credit to Jed Parsons
-//https://github.com/jedp/redis-completer
-//
-/* var Department = Backbone.Model.extend({});
-var DepartmentView = Backbone.View.extend({
-  el: $('#depts'),
-  
-  events: {
-  	'click .dept-select' : 'submit',
-  },
-
-  initialize: function(dept) {
-    _.bindAll(this, 'render');
-    this.render(dept);
-  },
-
-  render: function(dept) {
-    $(this.el).append('<a href="javascript:void(0)" class="dept-select" data-id="' + dept + '" >' + dept + '</a><br />');
-  },
-  
-  submit: function(event) {
-  	var self = this;
-  	var dept = $(event.currentTarget).data('id');
-  	now.submit(dept);
-  	event.stopPropogation();
-  },
-  
-}); */
-
 var SearchView = Backbone.View.extend({
 	el : '#course-selector',
 	depts: '#depts',
@@ -102,7 +72,36 @@ var SessionCreationModel = Backbone.Model.extend ({
 		return '/create_session';
 	}
 
+});
+
+var CourseModel = Backbone.Model.extend ({});
+
+var CourseView = Backbone.View.extend ({
+	
+	el: "#classtest",
+	
+	initialize: function () {
+		$(this.el).append(JSON.stringify(this.model))
+	}
+
 })
+var CourseCollection = Backbone.Collection.extend ({
+
+	model:CourseModel,
+	
+	initialize: function () {
+			var self = this;
+		_.each ($('.course'), function (course) {
+				var courseModel = new CourseModel({id: course.id, name: $(course).text()});
+				var courseView = new CourseView({model:courseModel});
+				self.add(courseModel);
+		});
+		
+	}	
+
+});
+
+
 var SessionCreationView = Backbone.View.extend ({
 
 	el: "#session-creation",
@@ -133,7 +132,7 @@ var SessionCreationView = Backbone.View.extend ({
 		var title = $('#title-input').val();
 		var location = $('#location-input').val();
 		var description = $('#description-input').val();
-		this.model.set({course: course, title: title, location: location, description: description});
+		this.model.set({time: datestring, course: course, title: title, location: location, description: description});
 		now.addSession(this.model);
 	}
 });

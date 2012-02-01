@@ -16,13 +16,18 @@ script(type='text/javascript')
 			//var app = new CompleterApp()
 			//var appView = new CompleterAppView({model: app});			
 			//now session feed function
+			var courseCollection = new CourseCollection();
 			now.distributeSession = function (session) {
-				if (session.course._id in userdata['classes']._id)
+				var courseId = session.course[0]._id;
+				//$('#session-feed').append(courseId);
+				var course = courseCollection.get(courseId);	
+				//$('#session-feed').append(JSON.stringify(courseCollection));
+				if (course != null)
 					$('#session-feed').append(session.title);
-				$('#session-feed').append(session.title);		
+				//$('#session-feed').append(session.course);		
 			}
 			$(function() {
-				$( "#time-input" ).datepicker();
+				$("#time-input").datepicker();
 			});
 		});
 
@@ -43,7 +48,7 @@ script(type='text/javascript')
 						i.icon.book
 						| Classes
 					each course in userdata.classes
-						p #{course.dept} #{course.num}
+						li.course(id='#{course._id}') #{course.dept} #{course.num}
 					h6 
 						i.icon.list
 						| Sessions
@@ -92,3 +97,4 @@ script(type='text/javascript')
 					textarea#description-input
 				button#submit-session.btn Submit
 			#session-feed
+			#classtest
