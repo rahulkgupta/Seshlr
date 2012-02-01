@@ -28,6 +28,15 @@ exports.classes = function (req, res) {
 	//console.log(scheds);	
 }
 
+exports.sessions = function (req, res) {
+	if (req.loggedIn) {
+		res.render ('sessions/', { title: 'Sessions', userdata: req.user});
+	}
+	else {
+		res.redirect('/');
+	}
+};
+
 exports.addClass = function (req, res) {
 	console.log(req.params.id);
 	if (req.loggedIn) {
@@ -45,7 +54,7 @@ exports.addClass = function (req, res) {
 	res.redirect('/home');
 }
 
-exports.createSession = function (req, res) {
+/* exports.createSession = function (req, res) {
 	var study = mongoose.model('StudyTime');
 	var sesh = new study();
 	var time = req.body.time;
@@ -76,5 +85,5 @@ exports.createSession = function (req, res) {
 			}
 		});
 	});
-}
+} */
 

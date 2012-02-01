@@ -1,33 +1,3 @@
-
-//credit to Jed Parsons
-//https://github.com/jedp/redis-completer
-//
-/* var Department = Backbone.Model.extend({});
-var DepartmentView = Backbone.View.extend({
-  el: $('#depts'),
-  
-  events: {
-  	'click .dept-select' : 'submit',
-  },
-
-  initialize: function(dept) {
-    _.bindAll(this, 'render');
-    this.render(dept);
-  },
-
-  render: function(dept) {
-    $(this.el).append('<a href="javascript:void(0)" class="dept-select" data-id="' + dept + '" >' + dept + '</a><br />');
-  },
-  
-  submit: function(event) {
-  	var self = this;
-  	var dept = $(event.currentTarget).data('id');
-  	now.submit(dept);
-  	event.stopPropogation();
-  },
-  
-}); */
-
 var SearchView = Backbone.View.extend({
 	el : '#course-selector',
 	depts: '#depts',
