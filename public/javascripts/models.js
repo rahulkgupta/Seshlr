@@ -72,7 +72,36 @@ var SessionCreationModel = Backbone.Model.extend ({
 		return '/create_session';
 	}
 
+});
+
+var CourseModel = Backbone.Model.extend ({});
+
+var CourseView = Backbone.View.extend ({
+	
+	el: "#classtest",
+	
+	initialize: function () {
+		$(this.el).append(JSON.stringify(this.model))
+	}
+
 })
+var CourseCollection = Backbone.Collection.extend ({
+
+	model:CourseModel,
+	
+	initialize: function () {
+			var self = this;
+		_.each ($('.course'), function (course) {
+				var courseModel = new CourseModel({id: course.id, name: $(course).text()});
+				var courseView = new CourseView({model:courseModel});
+				self.add(courseModel);
+		});
+		
+	}	
+
+});
+
+
 var SessionCreationView = Backbone.View.extend ({
 
 	el: "#session-creation",
