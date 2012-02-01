@@ -30,7 +30,7 @@ exports.classes = function (req, res) {
 
 exports.sessions = function (req, res) {
 	if (req.loggedIn) {
-		res.render ('sessions/', { title: 'Sessions', userdata: req.user});
+		res.render ('sessions', { title: 'Sessions', userdata: req.user});
 	}
 	else {
 		res.redirect('/');

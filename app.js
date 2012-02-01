@@ -127,7 +127,7 @@ app.get('/home', routes.home);
 app.get('/pande', routes.pande);
 app.get('/classes', routes.classes);
 app.get('/add_class/:id', routes.addClass)
-app.get('/sessions/', routes.sessions)
+app.get('/sessions', routes.sessions)
 app.get('/sessions/:id',routes.sessionPage)
 // app.post('/create_session', routes.createSession)
 
