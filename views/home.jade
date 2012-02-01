@@ -52,8 +52,10 @@ script(type='text/javascript')
 					h6 
 						i.icon.list
 						| Sessions
-					each session in userdata.studytimes
-						p #{session.title}
+					.mysessions
+						each session in userdata.studytimes
+							a(href="sessions/#{session._id}")
+								p #{session.title}
 				
 		.span9	
 			#course-selector

@@ -151,7 +151,7 @@ everyone.now.searchCourse = function (department, text, callback) {
 	classes.find({dept: department, num: regex}, callback);
 }
 
-everyone.now.addSession = function (session) {
+everyone.now.addSession = function (session, callback) {
 	console.log('adding session');
 	var study = mongoose.model('StudyTime');
 	var sesh = new study();
@@ -173,6 +173,7 @@ everyone.now.addSession = function (session) {
 		});
 		user.findById(userId,function(err,usr) {
 			usr.studytimes.push(sesh);
+			callback(sesh);
 			usr.save(function (err) {
 				if (err) {console.log(err);}
 				else {

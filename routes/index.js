@@ -37,6 +37,23 @@ exports.sessions = function (req, res) {
 	}
 };
 
+exports.sessionPage = function (req, res) {
+	if (req.loggedIn) {
+		var sessions = mongoose.model('StudyTime');
+		var sessionTitle = sessions.findById(req.params.id, function(err, doc) {
+			if (err) {
+				console.log (err);
+			}
+			else {
+				res.render('sessions/page', { title: doc.title , session: doc, userdata: req.user });
+			}
+		});
+	}
+	else {
+		res.redirect('/');
+	}
+}
+
 exports.addClass = function (req, res) {
 	console.log(req.params.id);
 	if (req.loggedIn) {
