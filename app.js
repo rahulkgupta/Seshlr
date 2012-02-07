@@ -189,23 +189,29 @@ everyone.now.addSession = function (session, callback) {
 
 }
 
-everyone.now.deleteSession = function (sessionid) {
-	// Not working for unknown reasons - need to research using find query with IDs.
+everyone.now.removeSession = function (sessionid) {
+	// Cannot figure out why but keep getting undefined method for remove(). Not sure what's wrong.
 	console.log(sessionid)
-	users.find({ 'studytimes._id': string(sessionid)}, function(err, docs) {
+	var userID = this.user.session.userId;
+	users.findById(userID, function(err, usr) {
 		if (err) {
-			console.log(err)
+			console.log(err);
 		}
 		else {
-			console.log(docs);
-			docs.forEach(function(user) {
-				user.studytimes.id(sessionid).remove();
-				user.save(function (err) {
-					console.log('Session with ID:' + sessionid + 'removed from user' + user.name);
+			var i = 0
+			usr.studytimes.forEach(function(studytime) {
+				if (studytime._id == sessionid) {
+					usr.studytimes[i].remove();
+					usr.save(function (err) {
+						console.log(usr.name + 'has deleted session' + sessionid + 'from their studytimes');
+					});
+				}
+				else {
+					i++;
+				}
 			});
-		});
 		}
-	}); 
+	});
 	/* users.find({}, function(err, docs) {
 		docs.forEach(function(user) {
 			user.studytimes.forEach(function(studytime) {
