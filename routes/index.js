@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 
 exports.index = function(req, res){
 	if (req.loggedIn) {
-		res.render('home', { title: 'Welcome' });
+		res.redirect('/home');
 	} else {
 		res.render('index' , { title: 'StudyWithMe'});	
 	}	
