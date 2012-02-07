@@ -42,6 +42,13 @@ var StudyTime = new Schema ({
 	, course: [Class]
 	, description : String
 	, title	:	String
+	, comments: [SessionComment]
+});
+
+var SessionComment = new Schema ({
+		time: Date
+	, author: String
+	, text: String
 });
 
 var studyTime = mongoose.model('StudyTime', StudyTime);
@@ -146,6 +153,7 @@ var everyone = nowjs.initialize(app, {cookieKey:'pectus'});
 var classes = mongoose.model('Class'); 
 var study = mongoose.model('StudyTime');
 var users = mongoose.model('User');
+var seshcomment = mongoose.model('SessionComment', SessionComment)
 everyone.now.searchCourse = function (department, text, callback) {
 	console.log(department);
 	var regex = new RegExp('\^' + text + '\.*', 'gi');
@@ -174,12 +182,12 @@ everyone.now.addSession = function (session, callback) {
 		});
 		user.findById(userId,function(err,usr) {
 			usr.studytimes.push(sesh);
-			callback(sesh);
 			usr.save(function (err) {
 				if (err) {console.log(err);}
 				else {
 					// console.log("courses " + sesh)
 					// console.log(usr)
+					callback(sesh);
 					everyone.now.distributeSession(sesh);
 				}
 			});		
@@ -252,5 +260,30 @@ everyone.now.submitClass = function (department, classNum, callback) {
 		console.log(this.user.session)
 		//everyauth.user.save(callback);
 	});
+}
 	
+everyone.now.addSessionComment = function (text, author, sessionid) {
+	console.log('Adding comment');
+	var comment = new seshcomment();
+	comment.text = text;
+	comment.author = author;
+	comment.save(function(err) {
+		if (err) {
+			console.log(err);
+		}
+	});
+	study.findById(sessionid, function(err, sesh) {
+		console.log(sesh);
+		// console.log(comment);
+		sesh.comments.push(comment);
+		sesh.save(function(err) {
+			if (err) {
+				console.log(err)
+			}
+			else {
+				console.log('Comment added');
+				everyone.now.distributeSessionComment(comment, author);
+			}
+		});
+	});	
 }

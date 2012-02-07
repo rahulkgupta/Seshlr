@@ -10,8 +10,17 @@ script(type='text/javascript')
 script(type='text/javascript')
 		head.ready(function() {
 			// Eventually need to use backbone for this.
+			now.distributeSessionComment = function(comment, author) {
+				$('#comments').append('<p>' + comment.text + '</p>');
+			}
+			
 			$('.delete').click(function() {
 				now.removeSession("!{session._id}");
+			});
+			
+			$('.addcomment').click(function() {
+				var comment = $('.commentbox').val();
+				now.addSessionComment(comment, "!{userdata.name}", "!{session._id}");
 			});
 				
 		});
@@ -21,3 +30,14 @@ script(type='text/javascript')
 .span9
 	p #{session.title}
 	a.delete(href="#") Click Here to delete this session.
+	#commentarea
+		h4 Comments
+		#comments
+			each comment in session.comments
+				p #{comment.text}
+		h5 Add a comment.
+		#commentbox
+			input.commentbox(type='textarea')
+			br
+			a.addcomment(href="javascript:void(0)") Post
+		

@@ -4,6 +4,7 @@ We are currently using Node, Now, Backbone, Mongoose, and Mongo for development.
 You might have to remove the mongoose module and clone it from the mongoose github in order for the database to work properly.
 
 To Do:
+-- Add notifications and use tinycon for dynamic favicon updates.
 -- Add a uniqueness check to classes for users so you cannot add the same class more than once. Either some combination of num and dept or a unique id.
 -- Create a front-end for the auto-completer.
 -- Figure out how to get rid of the bottom border on html content that is being created by jQueryUI.
