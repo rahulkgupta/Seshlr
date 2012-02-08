@@ -129,7 +129,7 @@ app.configure('development', function(){
 });
 
 app.configure('production', function(){
-	app.use(express.session({ secret: "keyboard cat" , key : 'pectus', store: mongooseSessionStore }));
+	app.use(express.session({ secret: "keyboard cat" , key : 'pectus'}));
   app.use(express.errorHandler()); 
 });
 
