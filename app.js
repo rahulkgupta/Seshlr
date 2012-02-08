@@ -11,10 +11,16 @@ var sys = require('util')
   , url = require('url');
 var mongoose = require('mongoose');
 
-/* Additional Modules */
+console.log(__dirname + '/public/config');
+var cfg = require('konphyg')(__dirname + '/public/config');
+var configdata = cfg('config');
+
+var app = module.exports = express.createServer();
+
+
 // DB Config
 
-mongoose.connect('mongodb://seshly:cactus@ds029847.mongolab.com:29847/seshlydb');
+mongoose.connect(configdata.db);
 var Schema = mongoose.Schema
 
 var StudyTime = new Schema ({
@@ -77,10 +83,8 @@ function addUser (source, sourceUser) {
 }
 
 everyauth.google
-	.appId('1095962159613-6r0npd9s054ddnrncfk3520cek429q03.apps.googleusercontent.com')
-	.appSecret('FSVmF-HfoLHTOuhYPEGeIVEC')
-  // .appId('1095962159613-0t9btcfjmduba0ii9i92qihb90rj8dh0.apps.googleusercontent.com')
-  // .appSecret('4UjKFXYVTvehM0Y_3MG53t34')
+  .appId(configdata.appId)
+  .appSecret(configdata.appSecret)
   .scope('https://www.googleapis.com/auth/userinfo.profile')
 	.findOrCreateUser( function( sess, accessToken, extra, googleUser) {
 		var promise = this.Promise();
@@ -102,9 +106,6 @@ everyauth.everymodule.findUserById( function (userId, callback) {
 });
 	
 // App Config
-
-var app = module.exports = express.createServer();
-
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
@@ -142,7 +143,7 @@ app.get('/sessions/:id',routes.sessionPage)
 
 
 var port = process.env.PORT || 3000;
-app.listen(port);
+app.listen(config.port);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 
 
