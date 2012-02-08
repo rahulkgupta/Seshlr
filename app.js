@@ -224,18 +224,18 @@ everyone.now.submitClass = function (department, classNum, callback) {
 		users.findById(userID, function(err, usr) {
 			if (err) { console.log(err); }
 			else {
-				if (usr.classes.indexOf(course)) {
+				/* if (usr.classes.indexOf(course)) {
 					console.log('The user is already enrolled in this class');
 				}
-				else {
+				else { */
 					usr.classes.push(course);
 					usr.save(function(err) {
 						if (err) { console.log(err); }
 						else {
 							callback(course);
-						}
+					  }
 					});
-				}
+				// }
 			}
 		});
 	});
