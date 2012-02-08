@@ -14,7 +14,7 @@ var mongoose = require('mongoose');
 /* Additional Modules */
 // DB Config
 
-mongoose.connect('mongodb://localhost/peck');
+mongoose.connect('mongodb://seshly:cactus@ds029847.mongolab.com:29847/seshlydb');
 var Schema = mongoose.Schema
 
 var StudyTime = new Schema ({
