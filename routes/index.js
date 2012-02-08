@@ -57,7 +57,7 @@ exports.sessionPage = function (req, res) {
 	}
 }
 
-exports.addClass = function (req, res) {
+/* exports.addClass = function (req, res) {
 	console.log(req.params.id);
 	if (req.loggedIn) {
 		var classes = mongoose.model('Class'); 
@@ -74,7 +74,7 @@ exports.addClass = function (req, res) {
 	res.redirect('/home');
 }
 
-/* exports.createSession = function (req, res) {
+ exports.createSession = function (req, res) {
 	var study = mongoose.model('StudyTime');
 	var sesh = new study();
 	var time = req.body.time;

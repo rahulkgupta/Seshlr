@@ -42,7 +42,6 @@ var User = new Schema ({
 
 var user = mongoose.model('User', User);
 
-
 var SessionComment = new Schema ({
 		time: Date
 	, author: String
@@ -131,7 +130,7 @@ app.get('/', routes.index);
 app.get('/home', routes.home);
 app.get('/pande', routes.pande);
 app.get('/classes', routes.classes);
-app.get('/add_class/:id', routes.addClass)
+// app.get('/add_class/:id', routes.addClass)
 app.get('/sessions', routes.sessions)
 app.get('/sessions/:id',routes.sessionPage)
 // app.post('/create_session', routes.createSession)
@@ -196,55 +195,19 @@ everyone.now.addSession = function (session, callback) {
 }
 
 everyone.now.removeSession = function (sessionid) {
-	// Cannot figure out why but keep getting undefined method for remove(). Not sure what's wrong.
 	console.log(sessionid)
 	var userID = this.user.session.userId;
 	users.findById(userID, function(err, usr) {
-		if (err) {
-			console.log(err);
-		}
+		if (err) { console.log(err); }
 		else {
-			var i = 0
-			usr.studytimes.forEach(function(studytime) {
-				if (studytime._id == sessionid) {
-					usr.studytimes[i].remove();
-					usr.save(function (err) {
-						console.log(usr.name + 'has deleted session' + sessionid + 'from their studytimes');
-					});
-				}
-				else {
-					i++;
+			usr.studytimes.id(sessionid).remove()
+			usr.save(function(err) {
+				if (err) {
+					console.log(err);
 				}
 			});
 		}
 	});
-	/* users.find({}, function(err, docs) {
-		docs.forEach(function(user) {
-			user.studytimes.forEach(function(studytime) {
-				if (studytime._id == sessionid) {
-					console.log(studytime);
-					user.studytimes.id(sessionid).remove();
-					user.save(function (err) {
-						if (err) {
-							console.log(err)
-						}
-						else {
-							console.log('Session with ID:' + sessionid + 'removed from user' + user.name);
-						}
-					});
-				}
-			});
-		});
-	}); */
-	/* study.findById(sessionid, function(err, studysesh) {
-		if (err) {
-			console.log(err);
-		}
-		else {
-			console.log(studysesh);
-			studysesh.remove();
-		}
-	}); */
 }
 
 everyone.now.searchDept = function (text, callback) {
@@ -254,9 +217,25 @@ everyone.now.searchDept = function (text, callback) {
 }
 
 everyone.now.submitClass = function (department, classNum, callback) {
-	classes.findOne({dept: department, num: classNum}, function (err,doc) {
-		console.log(this.user.session)
-		//everyauth.user.save(callback);
+	var userID = this.user.session.userId;
+	classes.findOne({dept: department, num: classNum}, function (err,course) {
+		users.findById(userID, function(err, usr) {
+			if (err) { console.log(err); }
+			else {
+				if (usr.classes.indexOf(course)) {
+					console.log('The user is already enrolled in this class');
+				}
+				else {
+					usr.classes.push(course);
+					usr.save(function(err) {
+						if (err) { console.log(err); }
+						else {
+							callback(course);
+						}
+					});
+				}
+			}
+		});
 	});
 }
 	
