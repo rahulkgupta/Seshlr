@@ -77,8 +77,10 @@ function addUser (source, sourceUser) {
 }
 
 everyauth.google
-  .appId('1095962159613-0t9btcfjmduba0ii9i92qihb90rj8dh0.apps.googleusercontent.com')
-  .appSecret('4UjKFXYVTvehM0Y_3MG53t34')
+	.appId('1095962159613-6r0npd9s054ddnrncfk3520cek429q03.apps.googleusercontent.com')
+	.appSecret('FSVmF-HfoLHTOuhYPEGeIVEC')
+  // .appId('1095962159613-0t9btcfjmduba0ii9i92qihb90rj8dh0.apps.googleusercontent.com')
+  // .appSecret('4UjKFXYVTvehM0Y_3MG53t34')
   .scope('https://www.googleapis.com/auth/userinfo.profile')
 	.findOrCreateUser( function( sess, accessToken, extra, googleUser) {
 		var promise = this.Promise();
