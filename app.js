@@ -195,7 +195,6 @@ everyone.now.addSession = function (session, callback) {
 }
 
 everyone.now.removeSession = function (sessionid) {
-	// Cannot figure out why but keep getting undefined method for remove(). Not sure what's wrong.
 	console.log(sessionid)
 	var userID = this.user.session.userId;
 	users.findById(userID, function(err, usr) {
@@ -203,47 +202,14 @@ everyone.now.removeSession = function (sessionid) {
 			console.log(err);
 		}
 		else {
-			var i = 0
-			usr.studytimes.forEach(function(studytime) {
-				if (studytime._id == sessionid) {
-					usr.studytimes[i].remove();
-					usr.save(function (err) {
-						console.log(usr.name + 'has deleted session' + sessionid + 'from their studytimes');
-					});
-				}
-				else {
-					i++;
+			usr.studytimes.id(sessionid).remove()
+			usr.save(function(err) {
+				if (err) {
+					console.log(err);
 				}
 			});
 		}
 	});
-	/* users.find({}, function(err, docs) {
-		docs.forEach(function(user) {
-			user.studytimes.forEach(function(studytime) {
-				if (studytime._id == sessionid) {
-					console.log(studytime);
-					user.studytimes.id(sessionid).remove();
-					user.save(function (err) {
-						if (err) {
-							console.log(err)
-						}
-						else {
-							console.log('Session with ID:' + sessionid + 'removed from user' + user.name);
-						}
-					});
-				}
-			});
-		});
-	}); */
-	/* study.findById(sessionid, function(err, studysesh) {
-		if (err) {
-			console.log(err);
-		}
-		else {
-			console.log(studysesh);
-			studysesh.remove();
-		}
-	}); */
 }
 
 everyone.now.searchDept = function (text, callback) {
