@@ -13,5 +13,6 @@
 		, "jsdom" : ""
 		, "jquery" : ""
 		, "konphyg": ""
+		, "session-mongoose": ""
   }
 }

@@ -11,9 +11,14 @@ var sys = require('util')
   , url = require('url');
 var mongoose = require('mongoose');
 
-console.log(__dirname + '/public/config');
 var cfg = require('konphyg')(__dirname + '/public/config');
 var configdata = cfg('config');
+
+var SessionMongoose = require("session-mongoose");
+var mongooseSessionStore = new SessionMongoose({
+    url: configdata.sessiondb,
+    interval: 120000 // expiration check worker run interval in millisec (default: 60000)
+});
 
 var app = module.exports = express.createServer();
 
@@ -112,7 +117,6 @@ app.configure(function(){
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
   app.use(express.cookieParser());
-  app.use(express.session({ secret: "keyboard cat" , key : 'pectus'}));
   app.use(express.methodOverride());
   app.use(everyauth.middleware());
   app.use(app.router);
@@ -120,10 +124,12 @@ app.configure(function(){
 });
 everyauth.helpExpress(app);
 app.configure('development', function(){
+	app.use(express.session({ secret: "keyboard cat" , key : 'pectus'}));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
 });
 
 app.configure('production', function(){
+	app.use(express.session({ secret: "keyboard cat" , key : 'pectus', store: mongooseSessionStore }));
   app.use(express.errorHandler()); 
 });
 
