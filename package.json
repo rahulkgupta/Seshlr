@@ -11,5 +11,6 @@
 		, "http-agent": ""
 		, "mongoose": ""
 		, "jsdom" : ""
+		, "jquery" : ""
   }
 }
