@@ -10,5 +10,6 @@
 		, "everyauth": ""
 		, "http-agent": ""
 		, "mongoose": ""
+		, "jsdom" : ""
   }
 }
