@@ -12,5 +12,6 @@
 		, "mongoose": ""
 		, "jsdom" : ""
 		, "jquery" : ""
+		, "konphyg": ""
   }
 }
