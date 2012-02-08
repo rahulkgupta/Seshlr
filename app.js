@@ -143,7 +143,7 @@ app.get('/sessions/:id',routes.sessionPage)
 
 
 var port = process.env.PORT || 3000;
-app.listen(config.port);
+app.listen(port);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 
 
