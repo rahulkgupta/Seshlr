@@ -148,7 +148,7 @@ console.log("Express server listening on port %d in %s mode", app.address().port
 
 //nowjs methods
 
-var everyone = nowjs.initialize(app, {cookieKey:'pectus'});
+var everyone = nowjs.initialize(app, {cookieKey:'pectus', {socketio: {'transports': ["xhr-polling"], 'polling duration': "10" }}});
 var classes = mongoose.model('Class'); 
 var study = mongoose.model('StudyTime');
 var users = mongoose.model('User');
