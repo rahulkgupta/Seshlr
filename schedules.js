@@ -9,7 +9,7 @@ var util = require('util')
 
 // DB Schema
 
-mongoose.connect('mongodb://localhost/peck');
+mongoose.connect('mongodb://seshly:cactus@ds029847.mongolab.com:29847/seshlydb');
 var Schema = mongoose.Schema
 
 

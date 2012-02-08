@@ -1,2 +1,2 @@
-web: node app.js
+web: node schedules.js
 worker: node schedules.js
