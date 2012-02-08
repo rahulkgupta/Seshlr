@@ -130,7 +130,7 @@ app.get('/', routes.index);
 app.get('/home', routes.home);
 app.get('/pande', routes.pande);
 app.get('/classes', routes.classes);
-app.get('/add_class/:id', routes.addClass)
+// app.get('/add_class/:id', routes.addClass)
 app.get('/sessions', routes.sessions)
 app.get('/sessions/:id',routes.sessionPage)
 // app.post('/create_session', routes.createSession)
@@ -198,9 +198,7 @@ everyone.now.removeSession = function (sessionid) {
 	console.log(sessionid)
 	var userID = this.user.session.userId;
 	users.findById(userID, function(err, usr) {
-		if (err) {
-			console.log(err);
-		}
+		if (err) { console.log(err); }
 		else {
 			usr.studytimes.id(sessionid).remove()
 			usr.save(function(err) {
@@ -219,9 +217,20 @@ everyone.now.searchDept = function (text, callback) {
 }
 
 everyone.now.submitClass = function (department, classNum, callback) {
-	classes.findOne({dept: department, num: classNum}, function (err,doc) {
-		console.log(this.user.session)
-		//everyauth.user.save(callback);
+	var userID = this.user.session.userId;
+	classes.findOne({dept: department, num: classNum}, function (err,course) {
+		users.findById(userID, function(err, usr) {
+			if (err) { console.log(err); }
+			else {
+				usr.classes.push(course);
+				usr.save(function(err) {
+					if (err) { console.log(err); }
+					else {
+						callback(course);
+					}
+				});
+			}
+		});
 	});
 }
 	

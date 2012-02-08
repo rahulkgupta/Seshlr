@@ -7,12 +7,13 @@
 			h6
 				i.icon.book
 				| Classes
-			each course in userdata.classes
-				li.course(id='#{course._id}') #{course.dept} #{course.num}
+			ul.mycourses	
+				each course in userdata.classes
+					li.course(id='#{course._id}') #{course.dept} #{course.num}
 			h6 
 				i.icon.list
 				| Sessions
-			.mysessions
+			ul.mysessions
 				each session in userdata.studytimes
 					a(href="#{rooturl}/sessions/#{session._id}")
 						p #{session.title}
