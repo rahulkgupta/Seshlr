@@ -11,6 +11,7 @@ script(type='text/javascript')
 		head.ready(function() {
 			// Eventually need to use backbone for this.
 			now.distributeSessionComment = function(comment, author) {
+				$('.nocomments').html('');
 				$('#comments').append('<p>' + comment.text + '</p>');
 			}
 			
@@ -21,6 +22,7 @@ script(type='text/javascript')
 			$('.addcomment').click(function() {
 				var comment = $('.commentbox').val();
 				now.addSessionComment(comment, "!{userdata.name}", "!{session._id}");
+				$('.commentbox').val('');
 			});
 				
 		});
@@ -33,6 +35,8 @@ script(type='text/javascript')
 	#commentarea
 		h4 Comments
 		#comments
+			if session.comments.length == 0
+				p.nocomments There are no comments for this session.
 			each comment in session.comments
 				p #{comment.text}
 		h5 Add a comment.
