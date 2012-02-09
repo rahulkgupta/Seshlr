@@ -142,4 +142,4 @@ var SessionCreationView = Backbone.View.extend ({
 });
 
 
-
+var SessionModel = Backbone.Model.extend ({});

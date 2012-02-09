@@ -70,6 +70,8 @@ var Class = new Schema ({
 
 
 
+
+
 var sched = mongoose.model('Class',Class); 
 
 // Everyauth Config
