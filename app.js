@@ -34,10 +34,11 @@ var StudyTime = new Schema ({
 					x : Number
 				,	y : Number
 		}
-	, course: [Class]
+	, course: { type: Schema.ObjectId, ref: 'Class' }
 	, description : String
 	, title	:	String
 	, comments: [SessionComment]
+	, users: [{ type: Schema.ObjectId, ref: 'User' }]
 });
 
 var User = new Schema ({
@@ -47,15 +48,14 @@ var User = new Schema ({
 	,	picture: String
 	,	refreshToken: String
 	, expiresIn: Number
-	, classes: [Class]
-	, studytimes : [StudyTime]
+	, classes: [{ type: Schema.ObjectId, ref: 'Class' }]
 });
 
 var user = mongoose.model('User', User);
 
 var SessionComment = new Schema ({
 		time: Date
-	, author: String
+	, author: { type: Schema.ObjectId, ref: 'User' }
 	, text: String
 });
 
