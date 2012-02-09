@@ -28,6 +28,14 @@ var app = module.exports = express.createServer();
 mongoose.connect(configdata.db);
 var Schema = mongoose.Schema
 
+
+var Class = new Schema ({
+    dept  : String
+  , num   : String
+  , name  : String
+});
+
+
 var StudyTime = new Schema ({
 		time 	: Date
 	,	loc 	: {
@@ -38,7 +46,7 @@ var StudyTime = new Schema ({
 	, description : String
 	, title	:	String
 	, comments: [SessionComment]
-	, users: [{ type: Schema.ObjectId, ref: 'User' }]
+	, users: [{ type: Number, ref: 'User' }]
 });
 
 var User = new Schema ({
@@ -61,11 +69,6 @@ var SessionComment = new Schema ({
 
 var studyTime = mongoose.model('StudyTime', StudyTime);
 
-var Class = new Schema ({
-    dept  : String
-  , num   : String
-  , name  : String
-});
 
 
 
@@ -185,23 +188,26 @@ everyone.now.addSession = function (session, callback) {
 	var classes = mongoose.model('Class');
 	var userId = this.user.session.userId; 
 	var course = classes.findById(course, function (err,doc) {
-		sesh.course.push(doc);
+		sesh.course = doc;
+		sesh.users.push(userId);
+		console.log("pushed userId")
 		sesh.save(function (err) {
 				if (err) console.log(err);
 		});
-		user.findById(userId,function(err,usr) {
-			usr.studytimes.push(sesh);
-			usr.save(function (err) {
-				if (err) {console.log(err);}
-				else {
-					// console.log("courses " + sesh)
-					// console.log(usr)
-					callback(sesh);
-					everyone.now.distributeSession(sesh);
-				}
-			});		
+		callback(sesh);
+		everyone.now.distributeSession(sesh);
+//		user.findById(userId,function(err,usr) {
+//			usr.studytimes.push(sesh);
+//			usr.save(function (err) {
+//				if (err) {console.log(err);}
+//				else {
+//					// console.log("courses " + sesh)
+//					// console.log(usr)
+//					
+//				}
+//			});		
 
-		});
+//		});
 	});
 
 }

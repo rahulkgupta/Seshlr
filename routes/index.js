@@ -12,7 +12,21 @@ exports.index = function(req, res){
 
 exports.home = function(req, res){
   if (req.loggedIn) {
-		res.render('home', { title: 'Welcome', userdata: req.user, rooturl: ''});
+		userId = req.user.id;
+		mongoose.model('User')
+		.findOne({_id : userId})
+		.populate('classes')
+		.run(function (err, usr) {	
+			mongoose.model('StudyTime')
+			.find({users : userId})
+			.populate('classes')
+			.run(function (err, studytimes) {
+				console.log(studytimes)
+				res.render('home', { title: 'Welcome', userdata: usr, sessions: studytimes, rooturl: ''});
+			});
+			
+		});
+		
 	}
 	else {
 		res.redirect('/');

@@ -14,3 +14,6 @@
 				i.icon.list
 				| Sessions
 			ul.mysessions
+				each session in sessions
+					a(href="#{rooturl}/sessions/#{session._id}")
+						p #{session.title}
