@@ -5,11 +5,13 @@ var util = require('util')
   , jsdom = require('jsdom').jsdom
   , mongoose = require('mongoose');
 
+var cfg = require('konphyg')(__dirname + '/public/config');
+var configdata = cfg('config');
 
 
 // DB Schema
 
-mongoose.connect('mongodb://seshly:cactus@ds029847.mongolab.com:29847/seshlydb');
+mongoose.connect(configdata.db);
 var Schema = mongoose.Schema
 
 
