@@ -228,6 +228,7 @@ everyone.now.searchDept = function (text, callback) {
 
 everyone.now.submitClass = function (department, classNum, callback) {
 	var userID = this.user.session.userId;
+	console.log(userID);
 	classes.findOne({dept: department, num: classNum}, function (err,course) {
 		users.findById(userID, function(err, usr) {
 			if (err) { console.log(err); }
@@ -236,6 +237,7 @@ everyone.now.submitClass = function (department, classNum, callback) {
 					console.log('The user is already enrolled in this class');
 				}
 				else { */
+					console.log(usr);
 					usr.classes.push(course);
 					usr.save(function(err) {
 						if (err) { console.log(err); }
