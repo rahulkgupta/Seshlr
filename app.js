@@ -11,10 +11,21 @@ var sys = require('util')
   , url = require('url');
 var mongoose = require('mongoose');
 
-/* Additional Modules */
+var cfg = require('konphyg')(__dirname + '/public/config');
+var configdata = cfg('config');
+
+var SessionMongoose = require("session-mongoose");
+var mongooseSessionStore = new SessionMongoose({
+    url: "mongodb://seshly:cactus@ds029797.mongolab.com:29797/sessionstore",
+    interval: 120000 // expiration check worker run interval in millisec (default: 60000)
+});
+
+var app = module.exports = express.createServer();
+
+
 // DB Config
 
-mongoose.connect('mongodb://localhost/peck');
+mongoose.connect(configdata.db);
 var Schema = mongoose.Schema
 
 var StudyTime = new Schema ({
@@ -77,8 +88,8 @@ function addUser (source, sourceUser) {
 }
 
 everyauth.google
-  .appId('1095962159613-0t9btcfjmduba0ii9i92qihb90rj8dh0.apps.googleusercontent.com')
-  .appSecret('4UjKFXYVTvehM0Y_3MG53t34')
+  .appId(configdata.appId)
+  .appSecret(configdata.appSecret)
   .scope('https://www.googleapis.com/auth/userinfo.profile')
 	.findOrCreateUser( function( sess, accessToken, extra, googleUser) {
 		var promise = this.Promise();
@@ -101,28 +112,27 @@ everyauth.everymodule.findUserById( function (userId, callback) {
 	
 // App Config
 
-var app = module.exports = express.createServer();
+app.configure('development', function(){
+	app.use(express.cookieParser());
+  app.use(express.session({ secret: "keyboard cat" , key : 'pectus'}));
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
+});
 
-
+app.configure('production', function(){
+	app.use(express.cookieParser());
+  app.use(express.session({ secret: "keyboard cat" , key : 'pectus', store: mongooseSessionStore}));
+  app.use(express.errorHandler()); 
+});
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
-  app.use(express.cookieParser());
-  app.use(express.session({ secret: "keyboard cat" , key : 'pectus'}));
   app.use(express.methodOverride());
   app.use(everyauth.middleware());
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
 });
 everyauth.helpExpress(app);
-app.configure('development', function(){
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
-});
-
-app.configure('production', function(){
-  app.use(express.errorHandler()); 
-});
 
 // Routes
 
@@ -139,14 +149,14 @@ app.get('/sessions/:id',routes.sessionPage)
 
 
 
-
-app.listen(3000);
+var port = process.env.PORT || 3000;
+app.listen(port);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 
 
 //nowjs methods
 
-var everyone = nowjs.initialize(app, {cookieKey:'pectus'});
+var everyone = nowjs.initialize(app, {cookieKey:'pectus', socketio: {'transports': ["xhr-polling"], 'polling duration': "10" }});
 var classes = mongoose.model('Class'); 
 var study = mongoose.model('StudyTime');
 var users = mongoose.model('User');
@@ -222,18 +232,18 @@ everyone.now.submitClass = function (department, classNum, callback) {
 		users.findById(userID, function(err, usr) {
 			if (err) { console.log(err); }
 			else {
-				if (usr.classes.indexOf(course)) {
+				/* if (usr.classes.indexOf(course)) {
 					console.log('The user is already enrolled in this class');
 				}
-				else {
+				else { */
 					usr.classes.push(course);
 					usr.save(function(err) {
 						if (err) { console.log(err); }
 						else {
 							callback(course);
-						}
+					  }
 					});
-				}
+				// }
 			}
 		});
 	});

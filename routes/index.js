@@ -11,12 +11,11 @@ exports.index = function(req, res){
 };
 
 exports.home = function(req, res){
-	console.log("going home");
   if (req.loggedIn) {
 		res.render('home', { title: 'Welcome', userdata: req.user, rooturl: ''});
 	}
 	else {
-		res.redirect('/'); // Eventually this needs to be enabled.
+		res.redirect('/');
 	}
 };
 

@@ -1,0 +1,6 @@
+{
+		"db": "mongodb://seshly:cactus@ds029847.mongolab.com:29847/seshlydb"
+	,	"sessiondb": "mongodb://seshly:cactus@ds029797.mongolab.com:29797/sessionstore"
+	, "appId": "1095962159613-6r0npd9s054ddnrncfk3520cek429q03.apps.googleusercontent.com"
+	, "appSecret": "FSVmF-HfoLHTOuhYPEGeIVEC"
+}
