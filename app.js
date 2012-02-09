@@ -16,7 +16,7 @@ var configdata = cfg('config');
 
 var SessionMongoose = require("session-mongoose");
 var mongooseSessionStore = new SessionMongoose({
-    url: configdata.sessiondb,
+    url: "mongodb://seshly:cactus@ds029797.mongolab.com:29797/sessionstore",
     interval: 120000 // expiration check worker run interval in millisec (default: 60000)
 });
 
@@ -112,25 +112,27 @@ everyauth.everymodule.findUserById( function (userId, callback) {
 	
 // App Config
 
+app.configure('development', function(){
+	app.use(express.cookieParser());
+  app.use(express.session({ secret: "keyboard cat" , key : 'pectus'}));
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
+});
+
+app.configure('production', function(){
+	app.use(express.cookieParser());
+  app.use(express.session({ secret: "keyboard cat" , key : 'pectus', store: mongooseSessionStore}));
+  app.use(express.errorHandler()); 
+});
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
-  app.use(express.cookieParser());
-  app.use(express.session({ secret: "keyboard cat" , key : 'pectus'}));
   app.use(express.methodOverride());
   app.use(everyauth.middleware());
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
 });
 everyauth.helpExpress(app);
-app.configure('development', function(){
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
-});
-
-app.configure('production', function(){
-  app.use(express.errorHandler()); 
-});
 
 // Routes
 
