@@ -17,33 +17,29 @@ script(type='text/javascript')
 			//var appView = new CompleterAppView({model: app});			
 			//now session feed function
 			var courseCollection = new CourseCollection();
+			console.log(courseCollection);
 			now.distributeSession = function (session) {
-				var courseId = session.course[0]._id;
-				//$('#session-feed').append(courseId);
+				var courseId = session.course;
 				var course = courseCollection.get(courseId);	
-				//$('#session-feed').append(JSON.stringify(courseCollection));
-				if (course != null)
-					$('#session-feed').append(session.title);
-				//$('#session-feed').append(session.course);		
+				if (course != null) {
+					var sess = new SessionModel({title: session.title, course: course.get('name')});
+					var sessView = new SessionView({model: sess});
+				}
 			}
 			$(function() {
 				$("#time-input").datepicker();
 			});
 		});
 
-.span2
-	include includes/sidebar		
-.span6	
-	#course-selector
-		#dept-search
-			h3 Dept:
-				input(type='text', id='dept-search-input')
-			#depts
+#session-view(style='display: none')
+	.span3 {{ tile }}
+	.span3 {{ course }}
+	a.span2.btn#add-session Add
 
-		#course-search
-			h3 Course:
-				input(type='text', id='course-search-input')
-			#courses
+.span3
+	include includes/sidebar		
+.span9	
+	
 	
 	#session-creation
 		div
@@ -75,6 +71,4 @@ script(type='text/javascript')
 			textarea#description-input
 		button#submit-session.btn Submit
 	#session-feed
-	#classtest
-.span4
-	include includes/feed
+

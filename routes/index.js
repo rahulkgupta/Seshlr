@@ -33,12 +33,9 @@ exports.home = function(req, res){
 	}
 };
 
-exports.classes = function (req, res) {
-	var classes = mongoose.model('Class'); 	
-	var scheds = classes.find({}, function (err,docs) {
-		console.log(docs);
-		res.render ('classes' , { title: 'Welcome', scheds: docs });
-	});
+exports.addClass = function (req, res) {
+
+	res.render ('addclass' , { title: 'Welcome'});
 	//console.log(scheds);	
 }
 
@@ -54,14 +51,18 @@ exports.sessions = function (req, res) {
 exports.sessionPage = function (req, res) {
 	if (req.loggedIn) {
 		var sessions = mongoose.model('StudyTime');
-		var sessionTitle = sessions.findById(req.params.id, function(err, doc) {
+		mongoose.model('StudyTime')
+		.findById(req.params.id)
+		.populate('users')
+		.run(function(err,doc) {
 			if (err) {
 				console.log (err);
 				// If the session has been deleted or the user enters an invalid URL
 				res.render('sessions/notfound', { title: 'Session not Found', userdata: req.user, rooturl: '..' });
 			}
 			else {
-				res.render('sessions/page', { title: doc.title , session: doc, userdata: req.user, rooturl: '..' });
+				console.log(doc.users)
+				res.render('sessions/page', { title: doc.title , sessions:[], session: doc, userdata: req.user, rooturl: '..' });
 			}
 		});
 	}

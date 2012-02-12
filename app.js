@@ -144,7 +144,7 @@ everyauth.helpExpress(app);
 app.get('/', routes.index);
 app.get('/home', routes.home);
 app.get('/pande', routes.pande);
-app.get('/classes', routes.classes);
+app.get('/addclass', routes.addClass);
 // app.get('/add_class/:id', routes.addClass)
 app.get('/sessions', routes.sessions)
 app.get('/sessions/:id',routes.sessionPage)
@@ -179,23 +179,29 @@ everyone.now.addSession = function (session, callback) {
 	var time = session.time;
 	var title = session.title;
 	var course = session.course;
-	//console.log(course);
+	console.log(course);
 	var description = session.description;
 	var location = session.location;
 	//sesh.time = time;
 	sesh.title = title;
 	sesh.description = description;
 	var classes = mongoose.model('Class');
-	var userId = this.user.session.userId; 
+	var userId = this.user.session.userId;
+	sesh.course = course;
+	sesh.users.push(userId);
+	sesh.save(function (err) {
+			if (err) console.log(err);
+			else {
+				callback(sesh);
+				everyone.now.distributeSession(sesh);
+			}
+		});
 	var course = classes.findById(course, function (err,doc) {
 		sesh.course = doc;
 		sesh.users.push(userId);
-		console.log("pushed userId")
-		sesh.save(function (err) {
-				if (err) console.log(err);
-		});
-		callback(sesh);
-		everyone.now.distributeSession(sesh);
+		//console.log("pushed userId")
+		
+		
 //		user.findById(userId,function(err,usr) {
 //			usr.studytimes.push(sesh);
 //			usr.save(function (err) {

@@ -5,13 +5,14 @@
 			img#userpic(src=userdata.picture, width='60', height='82')
 		.sidebar
 			h6
-				i.icon.book
+				i.icon-book
 				| Classes
+				a.btn.btn-small(href="/addclass") +
 			ul.mycourses	
 				each course in userdata.classes
 					li.course(id='#{course._id}') #{course.dept} #{course.num}
 			h6 
-				i.icon.list
+				i.icon-list
 				| Sessions
 			ul.mysessions
 				each session in sessions

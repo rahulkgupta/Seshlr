@@ -1,3 +1,7 @@
+_.templateSettings = {
+    interpolate : /\{\{(.+?)\}\}/g
+  };
+
 var SearchView = Backbone.View.extend({
 	el : '#course-selector',
 	depts: '#depts',
@@ -143,3 +147,30 @@ var SessionCreationView = Backbone.View.extend ({
 
 
 var SessionModel = Backbone.Model.extend ({});
+
+var SessionView = Backbone.View.extend ({
+
+	el: "#session-feed",	
+	
+	template: _.template($('#session-view').html()),
+
+	events: {
+	'click #add-session' : 'addSession'
+	},
+
+	initialize: function() {
+		_.bindAll(this,"render");
+		console.log(this.model)
+		this.render();
+	},
+
+	render: function () {
+		console.log(this.template);
+		$(this.el).append(this.template({tile: this.model.get('title'), course: this.model.get('course')}));
+		return this;
+	},
+	addSession: function (event) {
+			//now.addSession(this.model,)
+		
+	}
+});
