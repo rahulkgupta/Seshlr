@@ -173,7 +173,7 @@ everyone.now.searchCourse = function (department, text, callback) {
 	classes.find({dept: department, num: regex}, callback);
 }
 
-everyone.now.addSession = function (session, callback) {
+everyone.now.createSession = function (session, callback) {
 	console.log('adding session');
 	var sesh = new study();
 	var time = session.time;
@@ -218,6 +218,18 @@ everyone.now.addSession = function (session, callback) {
 
 }
 
+everyone.now.addSession = function (sessionId, callback) {
+	var userId = this.user.session.userId;
+	study.findById(sessionId, function (err, sesh) {
+		sesh.users.push(userId);
+		sesh.save(function (err) {
+			callback(sesh);
+			//gonna need to update the users section for the session if at all.
+		})
+	});
+	
+	
+}
 everyone.now.removeSession = function (sessionid) {
 	console.log(sessionid)
 	var userID = this.user.session.userId;

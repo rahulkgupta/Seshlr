@@ -139,7 +139,7 @@ var SessionCreationView = Backbone.View.extend ({
 		var location = $('#location-input').val();
 		var description = $('#description-input').val();
 		this.model.set({time: datestring, course: course, title: title, location: location, description: description});
-		now.addSession(this.model, function(sessiondata) { // Callback with data from the DB.
+		now.createSession(this.model, function(sessiondata) { // Callback with data from the DB.
 			$('.mysessions').append('<a href="sessions/' + sessiondata._id + '"> <p>' + sessiondata.title + '</p></a>');
 		});
 	}
@@ -170,7 +170,8 @@ var SessionView = Backbone.View.extend ({
 		return this;
 	},
 	addSession: function (event) {
-			//now.addSession(this.model,)
-		
+			now.addSession(this.model.id, function(sessiondata) { // Callback with data from the DB.
+				$('.mysessions').append('<a href="sessions/' + sessiondata._id + '"> <p>' + sessiondata.title + '</p></a>');
+			});
 	}
 });

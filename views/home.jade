@@ -22,7 +22,7 @@ script(type='text/javascript')
 				var courseId = session.course;
 				var course = courseCollection.get(courseId);	
 				if (course != null) {
-					var sess = new SessionModel({title: session.title, course: course.get('name')});
+					var sess = new SessionModel({title: session.title, course: course.get('name'), id: session._id});
 					var sessView = new SessionView({model: sess});
 				}
 			}
