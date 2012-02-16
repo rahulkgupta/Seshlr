@@ -175,3 +175,19 @@ var SessionView = Backbone.View.extend ({
 			});
 	}
 });
+
+var SeshCollection = Backbone.Collection.extend ({
+	
+	model: SessionModel,
+
+	initialize: function () {
+		var self = this;
+	_.each ($('.course'), function (course) {
+			var sessionModel = new sessionModel({id: course.id, name: $(course).text()});
+			var courseView = new CourseView({model:courseModel});
+			self.add(courseModel);
+	});
+		
+	}	
+	
+});

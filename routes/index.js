@@ -13,14 +13,21 @@ exports.home = function(req, res){
   if (req.loggedIn) {
 		userId = req.user.id;
 		mongoose.model('User')
-		.findOne({_id : userId})
+		.findById(userId)
 		.populate('classes')
 		.run(function (err, usr) {	
 			mongoose.model('StudyTime')
 			.find({users : userId})
 			.run(function (err, studytimes) {
-				console.log(studytimes)
-				res.render('home', { title: 'Welcome', userdata: usr, sessions: studytimes, rooturl: ''});
+				mongoose.model('StudyTime')
+				.find({course: {$in : usr.classes}})
+				.populate('course',['name','_id'])
+				.run(function (err, studyfeeds) {
+						console.log(studyfeeds);
+						res.render('home', { title: 'Welcome', userdata: usr, sessions: studytimes, sessionfeed: studyfeeds, rooturl: ''});
+				}); 
+				//console.log(studytimes)
+				
 			});
 			
 		});

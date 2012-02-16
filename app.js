@@ -24,58 +24,10 @@ var app = module.exports = express.createServer();
 
 
 // DB Config
-
-mongoose.connect(configdata.db);
-var Schema = mongoose.Schema
-
-
-var Class = new Schema ({
-    dept  : String
-  , num   : String
-  , name  : String
-});
-
-
-var StudyTime = new Schema ({
-		time 	: Date
-	,	loc 	: {
-					x : Number
-				,	y : Number
-		}
-	, course: { type: Schema.ObjectId, ref: 'Class' }
-	, description : String
-	, title	:	String
-	, comments: [SessionComment]
-	, users: [{ type: Number, ref: 'User' }]
-});
-
-var User = new Schema ({
-		_id: {type: Number, unique: true}	
-	,	name: String
-	,	link: String
-	,	picture: String
-	,	refreshToken: String
-	, expiresIn: Number
-	, classes: [{ type: Schema.ObjectId, ref: 'Class' }]
-});
-
-var user = mongoose.model('User', User);
-
-var SessionComment = new Schema ({
-		time: Date
-	, author: { type: Schema.ObjectId, ref: 'User' }
-	, text: String
-});
-
-var studyTime = mongoose.model('StudyTime', StudyTime);
+var models = require(__dirname+'/models.js');
 
 
 
-
-
-
-
-var sched = mongoose.model('Class',Class); 
 
 // Everyauth Config
 var everyauth = require('everyauth'),
@@ -162,10 +114,11 @@ console.log("Express server listening on port %d in %s mode", app.address().port
 //nowjs methods
 
 var everyone = nowjs.initialize(app, {cookieKey:'pectus', socketio: {'transports': ["xhr-polling"], 'polling duration': "10" }});
+
 var classes = mongoose.model('Class'); 
 var study = mongoose.model('StudyTime');
 var users = mongoose.model('User');
-var seshcomment = mongoose.model('SessionComment', SessionComment)
+var seshcomment = mongoose.model('SessionComment');
 everyone.now.searchCourse = function (department, text, callback) {
 	console.log(department);
 	var regex = new RegExp('\^' + text + '\.*', 'gi');

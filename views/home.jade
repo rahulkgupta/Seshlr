@@ -9,6 +9,10 @@ script(type='text/javascript')
 				
 			);
 script(type='text/javascript')
+		
+		var s1 = new SessionModel({title:'test', course: 'test'});
+		var s1view = new SessionView ({model:s1})
+
 		head.ready(function() {
 			var searchView = new SearchView();
 			var sessModel = new SessionCreationModel();
@@ -17,7 +21,7 @@ script(type='text/javascript')
 			//var appView = new CompleterAppView({model: app});			
 			//now session feed function
 			var courseCollection = new CourseCollection();
-			console.log(courseCollection);
+			var seshCollection = new SeshCollection();
 			now.distributeSession = function (session) {
 				var courseId = session.course;
 				var course = courseCollection.get(courseId);	
@@ -71,3 +75,8 @@ script(type='text/javascript')
 			textarea#description-input
 		button#submit-session.btn Submit
 	#session-feed
+		each session in sessionfeed
+			#session-view
+				.span3 #{session.title}
+				.span3(id=#{session.course._id}) #{session.course.name}
+				a.span2.btn#add-session Add
