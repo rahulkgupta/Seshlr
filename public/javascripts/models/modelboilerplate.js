@@ -2,7 +2,7 @@ define([
   'underscore',
   'backbone'
 	'now'
-], function($, _, Backbone){
+], function(_, Backbone){
 	var ??? = Backbone.Model.extend({
 		//urlRoot: ONLY IF model is not part of a collection
 	});
