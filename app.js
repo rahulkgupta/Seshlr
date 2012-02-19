@@ -2,6 +2,7 @@
 
 var express = require('express')
   , routes = require('./routes')
+  , apis = require('./routes/apis.js')
 
 var nowjs = require('now');
 
@@ -105,7 +106,8 @@ app.get('/sessions', routes.sessions)
 app.get('/sessions/:id',routes.sessionPage)
 // app.post('/create_session', routes.createSession)
 
-
+// APIs
+app.get('/apis/user/:id', apis.user)
 
 
 
