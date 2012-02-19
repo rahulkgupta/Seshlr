@@ -5,10 +5,14 @@ define([
   'backbone', 
 	'now',
 	'views/home/userview'
-], function($, _, Backbone, now, userView){
+	'views/home/sessionfeedview'
+], function($, _, Backbone, now, uView,sfView){
   var initialize = function(){
     // Pass in our Router module and call it's initialize function
-		var uView = new userView;
+		var userView = new uView;
+		var sessionFeedView = new sfView;
+		
+		
   }
 
   return {
