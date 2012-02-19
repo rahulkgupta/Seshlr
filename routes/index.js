@@ -5,7 +5,7 @@ exports.index = function(req, res){
 	if (req.loggedIn) {
 		res.redirect('/home');
 	} else {
-		res.render('index' , { title: 'StudyWithMe'});	
+		res.render('index' , { title: 'Seshlr'});	
 	}	
 };
 
@@ -23,7 +23,6 @@ exports.home = function(req, res){
 				.find({course: {$in : usr.classes}})
 				.populate('course',['name','_id'])
 				.run(function (err, studyfeeds) {
-						console.log(studyfeeds);
 						res.render('home', { title: 'Welcome', userdata: usr, sessions: studytimes, sessionfeed: studyfeeds, rooturl: ''});
 				}); 
 				//console.log(studytimes)
