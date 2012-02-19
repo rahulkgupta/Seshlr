@@ -7,6 +7,5 @@ define([
 	var userModel = Backbone.model.extend({
 		urlRoot:'/apis/user'
 	});
-  return userModel;
-  return {};
+  return new userModel;
 });
