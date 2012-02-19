@@ -1,39 +1,41 @@
-script(type='text/javascript')
-		head.js(
-				"https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js",
-				"https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js",
-				"/javascripts/underscore/underscore-min.js",
-				"/javascripts/backbone/backbone-min.js",
-				"/nowjs/now.js",
-				"/javascripts/models.js"
-				
-			);
-script(type='text/javascript')
-		
-		var s1 = new SessionModel({title:'test', course: 'test'});
-		var s1view = new SessionView ({model:s1})
+//script(type='text/javascript')
+//		head.js(
+//				"https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js",
+//				"https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js",
+//				"/javascripts/underscore/underscore-min.js",
+//				"/javascripts/backbone/backbone-min.js",
+//				"/nowjs/now.js",
+//				"/javascripts/models.js"
+//			);
 
-		head.ready(function() {
-			var searchView = new SearchView();
-			var sessModel = new SessionCreationModel();
-			var sessCreateView = new SessionCreationView({model: sessModel});
-			//var app = new CompleterApp()
-			//var appView = new CompleterAppView({model: app});			
-			//now session feed function
-			var courseCollection = new CourseCollection();
-			var seshCollection = new SeshCollection();
-			now.distributeSession = function (session) {
-				var courseId = session.course;
-				var course = courseCollection.get(courseId);	
-				if (course != null) {
-					var sess = new SessionModel({title: session.title, course: course.get('name'), id: session._id});
-					var sessView = new SessionView({model: sess});
-				}
-			}
-			$(function() {
-				$("#time-input").datepicker();
-			});
-		});
+append head
+		script(data-main="/javascripts/main", src='/javascripts/libs/require/require.js')
+
+//script(type='text/javascript')		
+//		head.ready(function() {
+//			var searchView = new SearchView();
+//			var sessModel = new SessionCreationModel();
+//			var sessCreateView = new SessionCreationView({model: sessModel});
+//			//var app = new CompleterApp()
+//			//var appView = new CompleterAppView({model: app});			
+//			//now session feed function
+//			var courseCollection = new CourseCollection();
+//			//var seshCollection = new SeshCollection();
+//			now.distributeSession = function (session) {
+//				var courseId = session.course;
+//				var course = courseCollection.get(courseId);	
+//				if (course != null) {
+//					var sess = new SessionModel({title: session.title, course: course.get('name'), id: session._id});
+//					var sessView = new SessionView({model: sess});
+//				}
+//			}
+//			$(function() {
+//				$("#time-input").datepicker();
+//			});
+//		});
+
+
+
 
 #session-view(style='display: none')
 	.span3 {{ tile }}
@@ -80,3 +82,5 @@ script(type='text/javascript')
 				.span3 #{session.title}
 				.span3(id=#{session.course._id}) #{session.course.name}
 				a.span2.btn#add-session Add
+
+

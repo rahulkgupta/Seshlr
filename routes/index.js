@@ -24,7 +24,7 @@ exports.home = function(req, res){
 				.populate('course',['name','_id'])
 				.run(function (err, studyfeeds) {
 						console.log(studyfeeds);
-						res.render('home', { title: 'Welcome', userdata: usr, sessions: studytimes, sessionfeed: studyfeeds, rooturl: ''});
+						res.render('home', { title: 'Welcome', test: 'test', userdata: usr, sessions: studytimes, sessionfeed: studyfeeds, rooturl: ''});
 				}); 
 				//console.log(studytimes)
 				

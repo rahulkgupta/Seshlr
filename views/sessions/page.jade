@@ -1,31 +1,23 @@
-script(type='text/javascript')
-		head.js(
-				"https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js",
-				"https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js",
-				"/javascripts/underscore/underscore-min.js",
-				"/javascripts/backbone/backbone-min.js",
-				"/nowjs/now.js"
-				
-			);
-script(type='text/javascript')
-		head.ready(function() {
-			// Eventually need to use backbone for this.
-			now.distributeSessionComment = function(comment, author) {
-				$('.nocomments').html('');
-				$('#comments').append('<p>' + comment.text + '</p>');
-			}
-			
-			$('.delete').click(function() {
-				now.removeSession("!{session._id}");
-			});
-			
-			$('.addcomment').click(function() {
-				var comment = $('.commentbox').val();
-				now.addSessionComment(comment, "!{userdata.name}", "!{session._id}");
-				$('.commentbox').val('');
-			});
-				
-		});
+
+//script(type='text/javascript')
+//		head.ready(function() {
+//			// Eventually need to use backbone for this.
+//			now.distributeSessionComment = function(comment, author) {
+//				$('.nocomments').html('');
+//				$('#comments').append('<p>' + comment.text + '</p>');
+//			}
+//			
+//			$('.delete').click(function() {
+//				now.removeSession("!{session._id}");
+//			});
+//			
+//			$('.addcomment').click(function() {
+//				var comment = $('.commentbox').val();
+//				now.addSessionComment(comment, "!{userdata.name}", "!{session._id}");
+//				$('.commentbox').val('');
+//			});
+//				
+//		});
 
 .span3
 	include ../includes/sidebar
