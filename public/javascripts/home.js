@@ -4,11 +4,11 @@ define([
   'underscore',
   'backbone', 
 	'now',
-	'views/home/user'
+	'views/home/userview'
 ], function($, _, Backbone, now, userView){
   var initialize = function(){
     // Pass in our Router module and call it's initialize function
-		alert(locals.userId);
+		var uView = new userView;
   }
 
   return {

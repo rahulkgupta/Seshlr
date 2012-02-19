@@ -1,25 +1,57 @@
 /* Global Styling */
-.navbar-inner {
-	background-image: linear-gradient(bottom, rgb(30,179,4) 0%, rgb(138,255,117) 100%);
-	background-image: -o-linear-gradient(bottom, rgb(30,179,4) 0%, rgb(138,255,117) 100%);
-	background-image: -moz-linear-gradient(bottom, rgb(30,179,4) 0%, rgb(138,255,117) 100%);
-	background-image: -webkit-linear-gradient(bottom, rgb(30,179,4) 0%, rgb(138,255,117) 100%);
-	background-image: -ms-linear-gradient(bottom, rgb(30,179,4) 0%, rgb(138,255,117) 100%);
 
-	background-image: -webkit-gradient(
-	linear,
-	left bottom,
-	left top,
-	color-stop(0, rgb(30,179,4)),
-	color-stop(1, rgb(138,255,117))
-	);
-}
-.navbar .brand {
-	color: #222222;
+/* Sidebar */
+h1.logo {
+	width: 125px;
+	height: 60px;
+	margin: 10px auto;
+	text-indent: 1000em;
+	overflow: hidden;
+	background: url('../images/logo.png') no-repeat 0 center;
 }
 .sidebar-container {
-	border-right: 1px solid #999999;
-	height: 100%;
+	border: 1px solid #dddddd;
+	border-radius: 5px;
+	background: #eaeaea;
+}
+@-webkit-keyframes rotatecog {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to { 
+    -webkit-transform: rotate(360deg);
+  }
+}
+.settingsicon {
+	margin-left: 5px;
+	margin-top: 6px;
+}
+.settingsicon:hover {
+	-moz-transform: rotate(15deg);
+  -webkit-animation-name:             rotatecog; 
+    -webkit-animation-duration:         0.5s; 
+    -webkit-animation-iteration-count:  infinite;
+    -webkit-animate-timing-function: linear;
+
+}
+.sidebar-container h3 {
+	padding-left: 13px;
+	text-align: center;
+}
+.sidebar-container h4 {
+	display: block;
+}
+ul.sidebar-nav-tabs {
+	width: 100%;
+	margin:0; padding:0;
+	float: left;
+	text-indent: none;
+	list-style: none;
+}
+.sidebar-nav-tabs li {
+	text-align: center;
+	float: left;
+	width: 50%;
 }
 /* User Profile Styling */
 .sidebar {
@@ -82,8 +114,9 @@
 /* JqueryUI Widget styling */
 #ui-datepicker-div {
 	background: white;
-	border: 1px solid #666;
 }
+.ui-datepicker-header { border: 1px solid #ddd; border-bottom: none;}
+.ui-datepicker-calendar { border: 1px solid #ddd;}
 
 #title
 {

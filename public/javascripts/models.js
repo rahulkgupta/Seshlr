@@ -140,7 +140,7 @@ var SessionCreationView = Backbone.View.extend ({
 		var description = $('#description-input').val();
 		this.model.set({time: datestring, course: course, title: title, location: location, description: description});
 		now.createSession(this.model, function(sessiondata) { // Callback with data from the DB.
-			$('.mysessions').append('<a href="sessions/' + sessiondata._id + '"> <p>' + sessiondata.title + '</p></a>');
+			// $('.mysessions').append('<a href="sessions/' + sessiondata._id + '"> <p>' + sessiondata.title + '</p></a>');
 		});
 	}
 });

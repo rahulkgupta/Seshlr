@@ -1,11 +1,12 @@
 define([
   'jquery',
   'underscore',
-  'backbone'
+  'backbone',
 	'now'
 ], function($, _, Backbone){
-	var userModel = Backbone.model.extend({
-		urlRoot:'/apis/user'
+	var userModel = Backbone.Model.extend({
+		urlRoot:'/apis/user',
+	
 	});
   return new userModel;
 });

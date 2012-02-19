@@ -2,4 +2,6 @@
 		"db": "mongodb://localhost/peck"
 	, "appId": "1095962159613-0t9btcfjmduba0ii9i92qihb90rj8dh0.apps.googleusercontent.com"
 	, "appSecret": "4UjKFXYVTvehM0Y_3MG53t34"
+	,	"fbappid": "301313516595558"
+	, "fbappsecret": "7e8ff1cbec6ede536d39c5565f775ddf"
 }

@@ -3,4 +3,6 @@
 	,	"sessiondb": "mongodb://seshly:cactus@ds029797.mongolab.com:29797/sessionstore"
 	, "appId": "1095962159613-6r0npd9s054ddnrncfk3520cek429q03.apps.googleusercontent.com"
 	, "appSecret": "FSVmF-HfoLHTOuhYPEGeIVEC"
+	,	"fbappid": "372998862712377"
+	, "fbappsecret": "8d3661ab3c33a6531bb2377192649900"
 }
