@@ -19,14 +19,11 @@ require([
 
   // Load our app module and pass it to our definition function
   'home',
-  'sidebar'
-
   // Some plugins have to be loaded in order due to their non AMD compliance
   // Because these scripts are not "modules" they do not pass any values to the definition function below
-], function(Home, Sidebar){
+], function(Home){
 	now.ready(function(){
 		Home.initialize();
-		Sidebar.initialize();
 	});
 	
   // The "app" dependency is passed in as "App"

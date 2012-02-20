@@ -126,7 +126,7 @@ app.get('/sessions/:id',routes.sessionPage)
 
 // APIs
 app.get('/apis/user', apis.user)
-app.get('/apis/user/sidebar/', apis.sidebar)
+app.get('/apis/user/sidebar', apis.sidebar)
 app.get('/apis/user/:id', apis.user)
 app.get('/apis/seshfeed', apis.seshfeed);
 app.get('/apis/seshfeed/:id', apis.seshfeed)

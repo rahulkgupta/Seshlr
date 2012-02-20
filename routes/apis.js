@@ -22,7 +22,7 @@ exports.user = function(req, res) {
 }
 
 exports.sidebar = function(req, res) {
-	var userId = req.params.id;
+	var userId = req.user.id
 	mongoose.model('User')
 	.findById(userId)
 	.populate('classes')
@@ -32,6 +32,7 @@ exports.sidebar = function(req, res) {
 			.populate('classes')
 			.run(function (err, studytimes) {
 				var classes = []
+				var i=0;
 				usr.classes.forEach(function(course) {
 					classes.push({
 						'id': course._id,
@@ -39,10 +40,7 @@ exports.sidebar = function(req, res) {
 						'num' : course.num ,
 						'name': course.name,
 						'sessions': []
-					})				
-				});
-				var i=0; // This cannot possibly the most efficient way to do this -- will have to revisit.
-				usr.classes.forEach(function(course) {
+					})
 					studytimes.forEach(function(sesh) {
 						if (sesh.course.equals(course._id)) {
 							classes[i]['sessions'].push({
@@ -58,6 +56,8 @@ exports.sidebar = function(req, res) {
 					i++;
 				});
 				var rv = {
+					'id': usr._id,
+					'name': usr.name,
 					'classes': classes
 				}
 				res.send(rv)

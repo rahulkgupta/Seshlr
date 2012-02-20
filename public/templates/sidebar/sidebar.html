@@ -1,6 +1,7 @@
-<h3 class="username"><a href="#profile-link-here"><%= user.get("name") %></a></h3>
+<h3 class="username"><a href="#profile-link-here"><%= user.get("name") %></a>
+	<a href="/settings"><i class="icon-cog settingsicon"></i></a></h3>
 
-h3.username: a(href='#profile-link-here') #{userdata.name}
+<!-- h3.username: a(href='#profile-link-here') #{userdata.name}
 		a(href='#{rooturl}/settings'): i.icon-cog.settingsicon
 	ul.sidebar-nav-tabs
 		li#sessions: a(href='#sidenav-sessions'): h4 Sessions
@@ -14,4 +15,4 @@ h3.username: a(href='#profile-link-here') #{userdata.name}
 				if session.course.equals(course._id)
 					li: a(href='#{rooturl}/sessions/#{session._id}) #{session.title}
 	#sidenav-notifications
-		p Placeholder
+		p Placeholder -->

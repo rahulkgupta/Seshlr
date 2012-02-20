@@ -5,13 +5,15 @@ define([
   'backbone',
 	'views/home/userview',
 	'views/home/seshfeedview',
-	'views/courses/searchdepts'
-], function($, _, Backbone, uView,sfView, SearchDepts){
+	'views/courses/searchdepts',
+	'views/sidebar/sidebar'
+], function($, _, Backbone, uView,sfView, SearchDepts, sidebarView){
   var initialize = function(){
     // Pass in our Router module and call it's initialize function
 		var userView = new uView;
 		var seshFeedView = new sfView;
 		var searchview = new SearchDepts;
+		var sidebarView = new sidebarView;
 		
   }
 

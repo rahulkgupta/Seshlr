@@ -22,5 +22,5 @@ define([
 		}
 
 	});
-  return sidebarView;
+  return new sidebarView;
 });
