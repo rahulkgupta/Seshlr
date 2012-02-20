@@ -11,11 +11,11 @@ define([
 ], function($, _, Backbone, uView,sfView, SearchDepts, sidebarView, CreateSesh){
   var initialize = function(){
     // Pass in our Router module and call it's initialize function
-//		var userView = new uView;
-//		var seshFeedView = new sfView;
+		var userView = new uView;
+		var seshFeedView = new sfView;
 		var searchview = new SearchDepts;
-//		var createSesh = new CreateSesh;
-//		var sidebarView = new sidebarView;
+		var createSesh = new CreateSesh;
+		var sidebarView = new sidebarView;
   }
 
   return {

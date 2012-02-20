@@ -1,8 +1,7 @@
 define([
   'jquery',
   'underscore',
-  'backbone',
-	'now'
+  'backbone'
 ], function($, _, Backbone){
 	var sidebarModel = Backbone.Model.extend({
 		urlRoot:'/apis/user/sidebar',
