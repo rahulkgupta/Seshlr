@@ -64,3 +64,27 @@ exports.sidebar = function(req, res) {
 			});
 		});
 }
+
+exports.seshfeed = function (req, res)
+{
+	var userId = req.params.id;
+	if (!userId) {
+		console.log("no id");
+		var userId = req.user.id; // If the route is being called without an ID, use the logged in user own ID.
+		console.log(userId);
+	}
+
+	mongoose.model('User')
+		.findById(userId)
+		.populate('classes')
+		.run(function (err, usr) {
+			mongoose.model('StudyTime')
+				.find({course: {$in : usr.classes}})
+				.populate('course',['name','_id'])
+				.run(function (err, studyfeeds) {
+					console.log(studyfeeds);
+					res.send(studyfeeds);
+				});
+			});
+		
+}

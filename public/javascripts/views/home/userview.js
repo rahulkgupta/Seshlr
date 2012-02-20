@@ -5,7 +5,7 @@ define([
 	'models/user',
 	'text!templates/user/user.html'
 ], function($, _, Backbone, userModel, userTemplate){
-	var userView = Backbone.View.extend({
+	var UserView = Backbone.View.extend({
 		el: $("#session-feed"),
 		initialize: function () {
 			this.model = userModel;
@@ -23,5 +23,5 @@ define([
 		}
 
 	});
-  return userView;
+  return UserView;
 });

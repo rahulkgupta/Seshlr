@@ -1,9 +1,9 @@
 define([
   'jquery',
   'underscore',
-  'backbone'
+  'backbone',
 	'now'
-], function($, _, Backbone){
+], function($, _, Backbone, now){
 
   return {};
 });

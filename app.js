@@ -128,6 +128,9 @@ app.get('/sessions/:id',routes.sessionPage)
 app.get('/apis/user', apis.user)
 app.get('/apis/user/:id', apis.user)
 app.get('/apis/sidebar/:id', apis.sidebar)
+app.get('/apis/seshfeed', apis.seshfeed);
+app.get('/apis/seshfeed/:id', apis.seshfeed)
+
 
 
 var port = process.env.PORT || 3000;
@@ -279,4 +282,8 @@ everyone.now.addSessionComment = function (text, author, sessionid) {
 			}
 		});
 	});	
+}
+
+everyone.now.test = function () {
+	alert('test');
 }
