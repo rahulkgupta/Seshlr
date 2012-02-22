@@ -21,6 +21,12 @@ define([
 				var compiledTemplate = _.template( seshFeedTemplate, data );
 				console.log(compiledTemplate);
 				$(this.el).append(compiledTemplate)
+		},
+
+		addSession: function (event) {
+			now.addSession(this.model.id, function(sessiondata) { // Callback with data from the DB.
+				//add the session to your current sessions
+			});
 		}
 
 	});

@@ -1,7 +1,7 @@
 <h3 class="username"><a href="#profile-link-here"><%= courses.get("name") %></a>
 	<a href="/settings"><i class="icon-cog settingsicon"></i></a></h3>
-	<% _.each(classes, function(class){ %>
-   <li><%= class.get("name") %></li> 
+	<% _.each(courses, function(course){ %>
+   <li><%= course.get("name") %></li> 
   <% }); %>
 	<ul class="sidebar-nav-tabs">
 		<li id="sessions"><a href="#sidenav-sessions"><h4>Sessions</h4></a></li>
