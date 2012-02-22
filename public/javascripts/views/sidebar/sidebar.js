@@ -2,20 +2,21 @@ define([
   'jquery',
   'underscore',
   'backbone',
-	'models/sidebar',
+	'collections/userclassescollection',
 	'text!templates/sidebar/sidebar.html'
-], function($, _, Backbone, sidebarModel, sidebarTemplate){
+], function($, _, Backbone, classCollection, sidebarTemplate){
 	var sidebarView = Backbone.View.extend({
 		el: $(".sidebar-container"),
 		initialize: function () {
-			this.model = sidebarModel;
-			this.model.bind('change',this.render, this);
-			this.model.fetch();
+			this.collection = classCollection;
+			this.collection.bind('reset',this.render, this);
+			this.collection.fetch();
 		},
 		render: function () {
 
 				var data = {
-					user: this.model
+					_: _,
+					classes: this.collection.models
 				};
 				var compiledTemplate = _.template( sidebarTemplate, data );
 				$(this.el).append(compiledTemplate)
