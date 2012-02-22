@@ -86,10 +86,4 @@ append head
 			textarea#description-input
 		button#submit-session.btn Submit
 	#session-feed
-		each session in sessionfeed
-			#session-view
-				.span3 #{session.title}
-				.span3(id=#{session.course._id}) #{session.course.name}
-				a.span2.btn#add-session Add
-
 
