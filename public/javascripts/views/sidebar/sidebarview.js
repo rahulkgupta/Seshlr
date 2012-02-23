@@ -18,7 +18,6 @@ define([
 		
 		initialize: function () {
 			this.user = userData;
-			this.user.bind('reset',this.render, this);
 			this.user.fetch();
 			this.seshs = userSshs;
 			this.courses = userCrses;
