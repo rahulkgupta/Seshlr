@@ -2,8 +2,8 @@ define([
   'underscore',
   'backbone',
 ], function( _, Backbone){
-	var courseModel = Backbone.Model.extend({
+	var userCourse = Backbone.Model.extend({
 		
 	});
-  return courseModel;
+  return userCourse;
 });
