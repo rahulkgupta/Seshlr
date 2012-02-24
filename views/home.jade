@@ -33,57 +33,43 @@ append head
 //			$(function() {
 //				$("#time-input").datepicker();
 //			});
-		});
+//		});
 
 
-#session-view(style='display: none')
-	.span3 {{ tile }}
-	.span3 {{ course }}
-	a.span2.btn#add-session Add
 
 .span3
 	include includes/sidebar		
-.span9	
-	
-	#course-selector
-		#dept-search
-			h3 Dept:
-				input(type='text', id='dept-search-input')
-			#depts
-
-		#course-search
-			h3 Course:
-				input(type='text', id='course-search-input')
-			#courses
-	
+.span9
 	#session-creation
-		div
-			button#create-session.btn Create a Session
-		div#select-course
-			span Select Course:
-			select#select-course-input
-				each course in userdata.classes
-					option(value=course._id) #{course.name}
-			
-		div#time
-			span Select Date:
-			input#time-input
-			select#hour-pick
-				each _ in [00,01,02,03,04,05,06,07,08,09,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
-					option #{_}:00
-					option #{_}:30
-			// select#halfday-pick
-					option AM
-					option PM
-		div#title
-			span Enter a Title:
-			input#title-input
-		div#location
-			span Enter a location:
-			input#location-input
-		div#description
-			span Description:
-			textarea#description-input
-		button#submit-session.btn Submit
 	#session-feed
+
+//		div
+//			button#create-session.btn Create a Session
+//		div#select-course
+//			span Select Course:
+//			select#select-course-input
+//				each course in userdata.classes
+//					option(value=course._id) #{course.name}
+//			
+//		div#time
+//			span Select Date:
+//			input#time-input
+//			select#hour-pick
+//				each _ in [00,01,02,03,04,05,06,07,08,09,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
+//					option #{_}:00
+//					option #{_}:30
+//			// select#halfday-pick
+//					option AM
+//					option PM
+		div#title
+//			span Enter a Title:
+//			input#title-input
+//		div#location
+//			span Enter a location:
+//			input#location-input
+//		div#description
+//			span Description:
+//			textarea#description-input
+//		button#submit-session.btn Submit
+
 

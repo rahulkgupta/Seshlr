@@ -13,5 +13,5 @@ define([
 
   });
  
-  return new userSessionsCollection;
+  return userSessionsCollection;
 });

@@ -11,5 +11,5 @@ define([
 	for (i; i < 1000000; i++)
 	{
 	}
-  return new userModel;
+  return userModel;
 });

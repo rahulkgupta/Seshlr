@@ -8,18 +8,16 @@ define([
 	var SeshFeedView = Backbone.View.extend({
 		el: $("#session-feed"),
 		initialize: function () {
-			this.collection = seshFeedCollection;
+			this.collection = new seshFeedCollection;
 			this.collection.bind('reset',this.render, this);
-			this.collection.fetch();
+			//this.collection.fetch();
 		},
 		render: function () {
-				console.log(this.collection);
 				var data = {
 					_: _,
 					seshs: this.collection.models
 				};
 				var compiledTemplate = _.template( seshFeedTemplate, data );
-				console.log(compiledTemplate);
 				$(this.el).append(compiledTemplate)
 		},
 
@@ -27,6 +25,12 @@ define([
 			now.addSession(this.model.id, function(sessiondata) { // Callback with data from the DB.
 				//add the session to your current sessions
 			});
+		},
+
+		addSeshView: function (sesh) {
+			this.collection.add(sesh, {at: 0})
+			this.remove();
+			this.render();
 		}
 
 	});

@@ -166,7 +166,7 @@ everyone.now.createSession = function (session, callback) {
 	var course = session.course;
 	console.log(course);
 	var description = session.description;
-	var location = session.location;
+//	var location = session.location;
 	//sesh.time = time;
 	sesh.title = title;
 	sesh.description = description;

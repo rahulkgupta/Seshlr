@@ -9,8 +9,11 @@
 <div id="sidebar-tab-content">
 	<div id="sidenav-sessions">
 		<% _.each(courses, function(course){ %>
-			<h5><%= course.get("dept") %> <%= course.get("num") %></h3>
+			<div>course!</div>
+			<h5><%= course.get("dept") %> <%= course.get("num") %></h5>
+			<div><%= seshs %></div>
 			<% _.each(seshs, function(sesh){ %>
+				<div>sesh!</div>
 				<% if (sesh.get("course") == course.get("_id")) { %>
    				<p><a href="/sessions/<%= sesh.get("_id") %>"><%= sesh.get("title") %></a></p>
    			<% }; %>

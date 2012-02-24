@@ -17,21 +17,22 @@ define([
 		},
 		
 		initialize: function () {
-			this.user = userData;
-			this.user.bind('reset',this.render, this);
+			this.user = new userData;
 			this.user.fetch();
-			this.seshs = userSshs;
-			this.courses = userCrses;
-			this.courses.bind('reset',this.render, this);
+			this.seshs = new userSshs;
+			this.courses = new userCrses;
 			this.seshs.fetch();
+			this.courses.bind('reset',this.render, this);
 			this.courses.fetch();
 		},
 		render: function () {
+			console.log(this.seshs.models);
 			var data = {
 				_: _,
+				$: $,
 				user: this.user,
-				courses: this.courses.models,
-				seshs: this.seshs.models
+				seshs: this.seshs.models,
+				courses: this.courses.models
 			};
 			var compiledTemplate = _.template( sidebarTemplate, data );
 			$(this.el).append(compiledTemplate)
