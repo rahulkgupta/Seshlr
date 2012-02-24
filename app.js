@@ -3,7 +3,7 @@
 var express = require('express')
   , routes = require('./routes')
   , apis = require('./routes/apis.js')
-	, expose = require('express-expose');
+
 var nowjs = require('now');
 
 
