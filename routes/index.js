@@ -11,27 +11,9 @@ exports.index = function(req, res){
 
 exports.home = function(req, res){
   if (req.loggedIn) {
-		userId = req.user.id;
-		mongoose.model('User')
-		.findById(userId)
-		.populate('classes')
-		.run(function (err, usr) {	
-			mongoose.model('StudyTime')
-			.find({users : userId})
-			.run(function (err, studytimes) {
-				mongoose.model('StudyTime')
-				.find({course: {$in : usr.classes}})
-				.populate('course',['name','_id'])
-				.run(function (err, studyfeeds) {
-						res.render('home', { title: 'Welcome', userdata: usr, sessions: studytimes, sessionfeed: studyfeeds, rooturl: ''});
-				}); 
-				//console.log(studytimes)
-				
-			});
-			
-		});
-		
+		res.render('home', { title: 'Welcome'});
 	}
+	//console.log(studytimes)
 	else {
 		res.redirect('/');
 	}
@@ -76,3 +58,5 @@ exports.sessionPage = function (req, res) {
 		res.redirect('/');
 	}
 }
+
+
