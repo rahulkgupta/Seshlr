@@ -3,22 +3,35 @@ define([
   'underscore',
   'backbone',
 	'collections/seshfeedcollection',
+	'collections/userseshscollection',
+	'views/home/seshview',
 	'text!templates/seshfeed.html'
-], function($, _, Backbone, seshFeedCollection, seshFeedTemplate){
+], function($, _, Backbone, seshFeedCollection, userSeshCollection, seshView, seshFeedTemplate){
 	var SeshFeedView = Backbone.View.extend({
 		el: $("#session-feed"),
 		initialize: function () {
-			this.collection = new seshFeedCollection;
-			this.collection.bind('reset',this.render, this);
-			//this.collection.fetch();
+			this.seshFeed = new seshFeedCollection;
+			this.userSesh = new userSeshCollection;
+			this.seshFeed.bind('reset',this.render, this);
+			var self = this;
+			this.userSesh.fetch({success: function() {
+					self.seshFeed.fetch();
+				}});
+			
 		},
 		render: function () {
-				var data = {
-					_: _,
-					seshs: this.collection.models
-				};
-				var compiledTemplate = _.template( seshFeedTemplate, data );
-				$(this.el).append(compiledTemplate)
+				for (var i = 0; i < this.seshFeed.length; i++) {
+					sesh = this.seshFeed.at(i);
+					console.log(sesh)
+					var sesh;
+					console.log(this.userSesh.get(sesh.id))
+					if (!this.userSesh.get(sesh.id)) {
+						sesh = new seshView (sesh, false)	
+					} else {
+						sesh = new seshView (sesh, true)	
+					}
+					sesh.render();
+				}
 		},
 
 		addSession: function (event) {

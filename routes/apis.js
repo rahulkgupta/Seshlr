@@ -42,6 +42,8 @@ exports.usersessions = function (req, res) {
 	.find({users: userId})
 	.populate('classes')
 	.run(function (err, studytimes) {
+		console.log(studytimes.length)
+		console.log(" ")
 		res.send(studytimes)
 	});	
 }
