@@ -1,14 +1,4 @@
 /* Global Styling */
-
-/* Sidebar */
-h1.logo {
-	width: 125px;
-	height: 60px;
-	margin: 10px auto;
-	text-indent: 1000em;
-	overflow: hidden;
-	background: url('../images/logo.png') no-repeat 0 center;
-}
 h1.biglogo {
 	margin: 25px auto;
 	margin-bottom: -40px;
@@ -20,18 +10,16 @@ h1.biglogo {
 	z-index: 20;
 	position: relative;
 }
-.hero-unit { background: whiteSmoke;}
-.index-page {
-	text-align: center;
-	position: relative;
-	z-index: 10;
+
+/* Sidebar */
+h1.logo {
+	width: 125px;
+	height: 60px;
+	margin: 10px auto;
+	text-indent: 1000em;
+	overflow: hidden;
+	background: url('../images/logo.png') no-repeat 0 center;
 }
-.index-page p, em{
-	font-size: 16px;
-	font-family: ‘Open Sans’, Arial, serif;
-}
-.index-page p {font-weight: 400;}
-.index-page em {font-weight: 700;}
 .sidebar-container {
 	border: 1px solid #dddddd;
 	border-radius: 5px;
@@ -96,18 +84,47 @@ ul.sidebar-nav-tabs {
 	background: #DDDDDD;
 	box-shadow: inset 0 3px 5px #CECECE;
 }
-/* User Profile Styling */
-.sidebar {
-	display: block;
-	margin-top: 50px;
+/* Index Page Styling */
+.hero-unit { background: whiteSmoke;}
+.index-page {
+	text-align: center;
+	position: relative;
+	z-index: 10;
 }
-#username {
-	display: inline;
+.index-page p, em{
+	font-size: 16px;
+	font-family: ‘Open Sans’, Arial, serif;
 }
-#userpic {
+.index-page p {font-weight: 400;}
+.index-page em {font-weight: 700;}
+
+/* Signup Page Styling */
+.signup-container {
+	display: inline-block;
+	border-radius: 6px;
+	border: 1px solid #DDDDDD;
+}
+#signup-guide {
+	padding: 40px 0 30px 0;
+	box-shadow: inset -5px 0 7px -2px #CECECE;
+	position: relative;
 	float: left;
-	margin-right: 10px;
+	display: inline-block;
+	width: 25%;
+	height: 200px;
+	background: #EAEAEA;
 }
+#signup-content {
+	padding: 40px 0 30px 0;
+	border-left: 1px solid #CCCCCC;
+	position: relative;
+	float: right;
+	display: inline-block;
+	width: 75%;
+	height: 200px;
+	background: whiteSmoke;
+}
+
 
 /***********************/
 
