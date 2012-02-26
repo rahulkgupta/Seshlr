@@ -7,10 +7,8 @@ define([
     
 		model: userCourse,
 		
-		url: '/apis/user/classes'
+		url: '/apis/user/classes',
 		
-
-
   });
  
   return UserClassesCollection;

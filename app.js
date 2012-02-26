@@ -78,6 +78,7 @@ everyauth.facebook
   	console.log(fbUser.name + ' is attempting to authorize with the site');
   	addUser('facebook', fbUser)
   	sess.userId = fbUser.id;
+		console.log(sess);
   	return promise.fulfill(fbUser);
   })
   .redirectPath('/home');
@@ -179,12 +180,14 @@ everyone.now.createSession = function (session, callback) {
 			if (err) console.log(err);
 			else {
 				callback(sesh);
-				everyone.now.distributeSession(sesh);
+				mongoose.model('StudyTime')
+				.findById(sesh.id)
+				.populate('course')
+				.run(function (err, studytime) {
+					console.log(studytime)
+					everyone.now.distributeSession(studytime);
+				});	
 			}
-		});
-	var course = classes.findById(course, function (err,doc) {
-		sesh.course = doc;
-		sesh.users.push(userId);
 		//console.log("pushed userId")
 		
 		

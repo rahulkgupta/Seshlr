@@ -16,20 +16,14 @@ define([
 
 		},
 		
-		initialize: function () {
-			this.user = new userData;
-			this.user.fetch();
-			this.seshs = new userSshs;
-			this.courses = new userCrses;
-			this.courses.bind('reset',this.render, this);
-			var self = this;
-			this.seshs.fetch({success: function() {
-					self.courses.fetch();
-				}
-			});
+		initialize: function (userData, courses, userSeshs) {
+			this.user = userData;
+			this.seshs = userSeshs;
+			this.courses = courses;
+			this.seshs.bind('add', this.addSesh, this)
+			this.render();
 		},
 		render: function () {
-			console.log(this.seshs.models);
 			var data = {
 				_: _,
 				$: $,
@@ -59,7 +53,7 @@ define([
 		},
 		
 		addSesh: function(sesh) {
-
+			$("#" + sesh.get('course')).append('<div> blah </div>')
 		}
  
 	});

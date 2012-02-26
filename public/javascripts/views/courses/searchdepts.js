@@ -29,7 +29,6 @@ define([
 			var self = this;
 
 		  now.searchDept(text, function(err, docs) {
-				console.
 		  	$(self.depts).html('');
 		  	docs.forEach(function(dept) {
 		  		// var department = new DepartmentView(dept);

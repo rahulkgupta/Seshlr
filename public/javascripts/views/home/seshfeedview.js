@@ -9,22 +9,17 @@ define([
 ], function($, _, Backbone, seshFeedCollection, userSeshCollection, seshView, seshFeedTemplate){
 	var SeshFeedView = Backbone.View.extend({
 		el: $("#session-feed"),
-		initialize: function () {
-			this.seshFeed = new seshFeedCollection;
-			this.userSesh = new userSeshCollection;
-			this.seshFeed.bind('reset',this.render, this);
+		initialize: function (courses,userSeshs,seshFeed) {
+			this.courses = courses
+			this.seshFeed = seshFeed
+			this.userSesh = userSeshs
 			var self = this;
-			this.userSesh.fetch({success: function() {
-					self.seshFeed.fetch();
-				}});
-			
+			this.render();
 		},
 		render: function () {
 				for (var i = 0; i < this.seshFeed.length; i++) {
 					sesh = this.seshFeed.at(i);
-					console.log(sesh)
 					var sesh;
-					console.log(this.userSesh.get(sesh.id))
 					if (!this.userSesh.get(sesh.id)) {
 						sesh = new seshView (sesh, false)	
 					} else {
@@ -41,9 +36,13 @@ define([
 		},
 
 		addSeshView: function (sesh) {
-			this.collection.add(sesh, {at: 0})
-			this.remove();
-			this.render();
+			this.seshFeed.add(sesh);
+			if (!this.userSesh.get(sesh._id)) {
+				seshItem = new seshView (this.seshFeed.get(sesh._id), false);
+			} else {
+				seshItem = new seshView (this.seshFeed.get(sesh._id), true);
+			}
+			$(this.el).prepend(seshItem.preRender())
 		}
 
 	});

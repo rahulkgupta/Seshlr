@@ -15,7 +15,8 @@ define([
 			this.model = sesh;
 			this.added = added;
 		},
-		render: function () {
+
+		render: function () {	
 				var data = {
 					_: _,
 					sesh: this.model,
@@ -25,8 +26,20 @@ define([
 				$(this.el).append(compiledTemplate)
 		},
 
+		preRender: function () {	
+				var data = {
+					_: _,
+					sesh: this.model,
+					added: this.added
+				};
+				var compiledTemplate = _.template( seshFeedTemplate, data );
+				return compiledTemplate;
+		},
+
 		addSession: function (event) {
-			now.addSession(this.model.id);
+			now.addSession(this.model.id, function (sesh) {
+
+			});
 		},
 	});
   return SeshFeedView;
