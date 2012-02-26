@@ -76,16 +76,30 @@ everyauth.facebook
   .findOrCreateUser( function( sess, accessToken, extra, fbUser) {
   	var promise = this.Promise();
   	console.log(fbUser.name + ' is attempting to authorize with the site');
-  	addUser('facebook', fbUser)
-  	sess.userId = fbUser.id;
-		console.log(sess);
-  	return promise.fulfill(fbUser);
+  	user.findById(fbUser.id, function(err, usr) {
+  		if (err) { console.log(err) }
+  		else {
+  			if (usr) {
+  				console.log(usr.name + ' already exists -- authenticating now')
+  				sess.userExists = true;
+  				sess.userId = fbUser.id;
+  			}
+  			else {
+  				addUser('facebook', fbUser);
+  				console.log('Added new user ' + fbUser.name);
+  				sess.userExists = false;
+  				sess.userId = fbUser.id;
+  			}
+  			console.log(sess);
+  			promise.fulfill(fbUser);
+   		}
+  	});
   })
   .redirectPath('/home');
 
 
 everyauth.everymodule.findUserById( function (userId, callback) {
-	//console.log(userId);
+	console.log(userId);
   user.findById(userId, callback);
   // callback has the signature, function (err, user) {...}
 });
