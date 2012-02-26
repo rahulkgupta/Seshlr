@@ -11,7 +11,7 @@ exports.index = function(req, res){
 
 exports.home = function(req, res){
   if (req.loggedIn) {
-		res.render('home', { title: 'Welcome'});
+		res.render('home', { title: 'Home'});
 	}
 	//console.log(studytimes)
 	else {
@@ -21,7 +21,7 @@ exports.home = function(req, res){
 
 exports.addClass = function (req, res) {
 
-	res.render ('addclass' , { title: 'Welcome'});
+	res.render ('addclass' , { title: 'Add Course'});
 	//console.log(scheds);	
 }
 
@@ -57,6 +57,9 @@ exports.sessionPage = function (req, res) {
 	else {
 		res.redirect('/');
 	}
-}
+};
 
+exports.settings = function (req, res) {
+	res.render('settings', {title: 'Settings'});
+}
 

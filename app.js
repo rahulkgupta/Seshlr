@@ -122,6 +122,7 @@ app.get('/addclass', routes.addClass);
 // app.get('/add_class/:id', routes.addClass)
 app.get('/sessions', routes.sessions)
 app.get('/sessions/:id',routes.sessionPage)
+app.get('/settings', routes.settings)
 // app.post('/create_session', routes.createSession)
 
 // APIs
@@ -232,6 +233,7 @@ everyone.now.removeSession = function (sessionid) {
 }
 
 everyone.now.searchDept = function (text, callback) {
+	console.log(this.user.session)
 	var regex = new RegExp('\^' + text + '\.*', 'gi');
 	console.log(regex);	
 	classes.distinct('dept' , {dept: regex} , callback);
