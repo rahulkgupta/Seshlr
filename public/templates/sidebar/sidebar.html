@@ -11,7 +11,7 @@
 		<% _.each(courses, function(course){ %>
 			<h5><%= course.get("dept") %> <%= course.get("num") %></h5>
 			<% _.each(seshs, function(sesh){ %>
-				<% if (sesh.get("course") == course.get("_id")) { %>
+				<% if (sesh.get("course") == course.id) { %>
    				<p><a href="/sessions/<%= sesh.get("_id") %>"><%= sesh.get("title") %></a></p>
    			<% }; %>
  			<% }); %>

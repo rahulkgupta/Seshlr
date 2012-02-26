@@ -21,9 +21,12 @@ define([
 			this.user.fetch();
 			this.seshs = new userSshs;
 			this.courses = new userCrses;
-			this.seshs.fetch();
 			this.courses.bind('reset',this.render, this);
-			this.courses.fetch();
+			var self = this;
+			this.seshs.fetch({success: function() {
+					self.courses.fetch();
+				}
+			});
 		},
 		render: function () {
 			console.log(this.seshs.models);

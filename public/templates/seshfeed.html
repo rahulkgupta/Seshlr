@@ -1,9 +1,9 @@
 <div>
-  <% _.each(seshs, function(sesh){ %>
-		<div>
-			<h3><%= sesh.get("title") %></h3> 
-			<span><%= sesh.get('course').name%></span>
-			<a class="btn" id="add-session">Add</a>
-		</div>
-  <% }); %>
+	<h3><%= sesh.get("title") %></h3> 
+	<span><%= sesh.get('course').name%></span>
+	<% if (added) {%>
+		<a class="btn" class="manage-session">Manage</a>
+	<% } else { %>
+		<a class="btn" class="add-session">Add</a>
+	<% }; %>
 </div>
