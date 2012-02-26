@@ -8,7 +8,7 @@ define([
 		el: $("#session-feed"),
 
 		events: {
-			'click .add-session' : 'addSession',
+			'click #add-session' : 'addSession',
 
 		},
 		initialize: function (sesh, added) {
