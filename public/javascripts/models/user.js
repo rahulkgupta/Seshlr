@@ -7,9 +7,5 @@ define([
 		urlRoot:'/apis/user',
 	
 	});
-	var i = 0;
-	for (i; i < 1000000; i++)
-	{
-	}
   return userModel;
 });

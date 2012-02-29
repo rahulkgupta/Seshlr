@@ -56,7 +56,7 @@ exports.sidebar = function(req, res) {
 	.run(function (err, usr) {
 		mongoose.model('StudyTime')
 			.find({users: userId})
-			.populate('classes')
+			.populate('course')
 			.run(function (err, studytimes) {
 				var classes = []
 				var i=0;

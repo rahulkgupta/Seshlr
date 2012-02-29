@@ -8,8 +8,7 @@ define([
 		model: userSeshModel,
 		
 		url: '/apis/user/sessions'
-		
-
+	
 
   });
  
