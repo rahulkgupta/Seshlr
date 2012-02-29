@@ -74,32 +74,30 @@ everyauth.facebook
   .appSecret(configdata.fbappsecret)
   .scope('email')
   .findOrCreateUser( function( sess, accessToken, extra, fbUser) {
-  	var promise = this.Promise();
+  	var promise = new Promise()
   	console.log(fbUser.name + ' is attempting to authorize with the site');
+  	var auth_user;
   	user.findById(fbUser.id, function(err, usr) {
   		if (err) { console.log(err) }
   		else {
-  			if (usr) {
-  				console.log(usr.name + ' already exists -- authenticating now')
-  				sess.userExists = true;
-  				sess.userId = fbUser.id;
-  			}
-  			else {
-  				addUser('facebook', fbUser);
-  				console.log('Added new user ' + fbUser.name);
-  				sess.userExists = false;
-  				sess.userId = fbUser.id;
-  			}
-  			console.log(sess);
-  			promise.fulfill(fbUser);
-   		}
+  			auth_user = usr;
+  		}
   	});
+  	if (auth_user) {
+  		console.log(fbUser.name + 'already exists -- authenticating now');
+  		sess.userExists = true;
+  	} else {
+  		console.log('Adding new user' + fbUser.name + 'to the user table');
+  		sess.userExists = false;
+  	}
+  	sess.userId = fbUser.id;
+  	console.log(sess);
+  	return promise.fulfill(fbUser);
   })
   .redirectPath('/home');
 
 
 everyauth.everymodule.findUserById( function (userId, callback) {
-	console.log(userId);
   user.findById(userId, callback);
   // callback has the signature, function (err, user) {...}
 });
@@ -130,15 +128,13 @@ everyauth.helpExpress(app);
 
 // Routes
 
-app.get('/', routes.index);
-app.get('/home', routes.home);
-app.get('/pande', routes.pande);
-app.get('/addclass', routes.addClass);
-// app.get('/add_class/:id', routes.addClass)
+app.get('/', routes.index)
+app.get('/home', routes.home)
+app.get('/pande', routes.pande)
+app.get('/addclass', routes.addClass)
 app.get('/sessions', routes.sessions)
 app.get('/sessions/:id',routes.sessionPage)
 app.get('/settings', routes.settings)
-// app.post('/create_session', routes.createSession)
 
 // APIs
 app.get('/apis/user', apis.user)
@@ -148,8 +144,9 @@ app.get('/apis/user/classes', apis.userclasses)
 app.get('/apis/user/classes/:id', apis.userclasses)
 app.get('/apis/user/sidebar', apis.sidebar)
 app.get('/apis/user/:id', apis.user)
-app.get('/apis/seshfeed', apis.seshfeed);
+app.get('/apis/seshfeed', apis.seshfeed)
 app.get('/apis/seshfeed/:id', apis.seshfeed)
+app.get('/apis/allclasses', apis.allclasses)
 
 
 
@@ -248,10 +245,14 @@ everyone.now.removeSession = function (sessionid) {
 }
 
 everyone.now.searchDept = function (text, callback) {
-	console.log(this.user.session)
 	var regex = new RegExp('\^' + text + '\.*', 'gi');
 	console.log(regex);	
 	classes.distinct('dept' , {dept: regex} , callback);
+}
+
+everyone.now.submitDept = function (dept, callback) {
+	console.log('Finding course numbers for dept:' + dept);
+	classes.distinct('num', {dept: dept}, callback);
 }
 
 everyone.now.submitClass = function (department, classNum, callback) {
