@@ -1,7 +1,9 @@
 define([
   'underscore',
-  'backbone'
-], function($, _, Backbone){
-	var deptModel = Backbone.model.extend({});
+  'backbone',
+], function( _, Backbone){
+	var deptModel = Backbone.Model.extend({
+		
+	});
   return deptModel;
 });

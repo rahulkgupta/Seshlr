@@ -74,25 +74,25 @@ everyauth.facebook
   .appSecret(configdata.fbappsecret)
   .scope('email')
   .findOrCreateUser( function( sess, accessToken, extra, fbUser) {
-  	var promise = new Promise()
+  	var promise = this.Promise();
   	console.log(fbUser.name + ' is attempting to authorize with the site');
-  	var auth_user;
+  	sess.userId = fbUser.id;
   	user.findById(fbUser.id, function(err, usr) {
   		if (err) { console.log(err) }
   		else {
-  			auth_user = usr;
+  			if (usr) {
+  				sess.userExists = true;
+  				console.log(fbUser.name + ' already exists -- authenticating now');
+  			}
+  			else {
+  				sess.userExists = false;
+  				console.log('Adding new user ' + fbUser.name + ' to the user table');
+  				addUser('facebook', fbUser);
+  			}
+  			promise.fulfill(fbUser);
   		}
   	});
-  	if (auth_user) {
-  		console.log(fbUser.name + 'already exists -- authenticating now');
-  		sess.userExists = true;
-  	} else {
-  		console.log('Adding new user' + fbUser.name + 'to the user table');
-  		sess.userExists = false;
-  	}
-  	sess.userId = fbUser.id;
-  	console.log(sess);
-  	return promise.fulfill(fbUser);
+  	return promise
   })
   .redirectPath('/home');
 

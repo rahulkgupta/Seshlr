@@ -11,10 +11,17 @@ exports.index = function(req, res){
 
 exports.home = function(req, res){
   if (req.loggedIn) {
-  	if (req.session.userExists) {  
-  		res.render('signup', { title: 'Welcome'}); 
+  	if (req.session.userExists) {
+  	// if (false) { 
+  		res.render('home', { title: 'Welcome'}); 
   	} else {
-  		res.render('signup', { title: 'Get started with Seshlr'});
+  		mongoose.model('Class').distinct('dept', {}, function(err, depts) {
+  			typeahead_depts = []
+  			depts.forEach(function(dept) {
+  				typeahead_depts.push('"' + dept + '"');
+  			});
+  			res.render('signup', { title: 'Get started with Seshlr', depts: typeahead_depts});
+  		});
   	}
   } else {
   	res.redirect('/');
