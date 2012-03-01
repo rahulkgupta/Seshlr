@@ -8,7 +8,7 @@ define([
 	'collections/userseshscollection',
 	'collections/seshfeedcollection',
 	'views/home/seshfeedview',
-	'views/home/addclasses',
+	'views/home/addclass',
 	'views/sidebar/sidebarview',
 	'views/home/seshcreationview'
 ], function($, _, Backbone, userData, userCrses, userSshs, seshFeedCollection, sfView, SearchDepts, sidebarView, CreateSesh){
@@ -19,7 +19,7 @@ define([
 		var user = new userData;
 		var courses = new userCrses;
 		var userSeshs = new userSshs;
-		var searchView = new SearchDepts
+		var searchView = new SearchDepts;
 		var seshFeed = new seshFeedCollection();
 		user.fetch({success: function () {
 			courses.fetch({success: function () {
