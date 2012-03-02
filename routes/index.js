@@ -11,8 +11,8 @@ exports.index = function(req, res){
 
 exports.home = function(req, res){
   if (req.loggedIn) {
-  	// if (req.session.userExists) {
-  	if (false) { 
+  	if (req.session.userExists) {
+  	// if (false) { 
   		res.render('home', { title: 'Welcome'}); 
   	} else {
   		mongoose.model('Class').distinct('dept', {}, function(err, depts) {

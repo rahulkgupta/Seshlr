@@ -105,17 +105,17 @@ ul.sidebar-nav-tabs {
 	border: 1px solid #DDDDDD;
 }
 #signup-guide {
-	padding: 40px 0 30px 0;
+	padding: 20px 0 20px 0;
 	box-shadow: inset -5px 0 7px -2px #CECECE;
 	position: relative;
 	float: left;
 	display: inline-block;
 	width: 25%;
-	height: 200px;
+	height: 240px;
 	background: #EAEAEA;
 }
 #signup-content {
-	padding: 40px 0 30px 0;
+	padding: 50px 0 30px 0;
 	border-left: 1px solid #CCCCCC;
 	position: relative;
 	float: right;
@@ -124,8 +124,32 @@ ul.sidebar-nav-tabs {
 	height: 200px;
 	background: whiteSmoke;
 }
-
-
+.tasks {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.tasks li h5 {
+	float: left;
+	display: block;
+	width: 20px;
+	height: 20px;
+	padding: 10px;
+	text-align: center;
+	font-weight: 800;
+	color: #FFF;
+	font-size: 18px;
+	border-radius: 20px;
+	background: #ff9280;
+}
+.tasks li p {
+	float: left;
+	margin-left: 5px;
+	margin-top: 10px;
+}
+.sign-up-alert {
+	width: 90%;
+}
 /***********************/
 
 #course-selector h3 {
@@ -142,6 +166,12 @@ ul.sidebar-nav-tabs {
 }
 #course-search {
 	float: left;
+	display: none;
+}
+#course-submit {
+	float: left;
+	margin-top: 28px;
+	display: none;
 }
 
 #session-creation {
