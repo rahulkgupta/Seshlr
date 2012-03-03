@@ -7,7 +7,8 @@ define([
 		el : '#course-selector',
 		
 		events: {
-			'keyup #dept-search-input' : 'test'
+			'keyup #dept-search-input' : 'submitDept',
+			'click #course-submit' : 'submitCourse'
 		},
 		
 		initialize: function() {
@@ -15,15 +16,15 @@ define([
 			$('#course-submit').hide();
 		},
 		
-		test: function(e) {
+		submitCourse: function(e) {
 			console.log('test');
 			if (e.keyCode == 13) {
 				var dept = $("#dept-search-input").val();
 				now.submitDept(dept, function (err, nums) {
 					$('#course-search').show();
 					$('#course-submit').show();
-					var test = $('#course-search-input').typeahead();
-					test.data('typeahead').source = nums;
+					var course_input = $('#course-search-input').typeahead();
+					course_input.data('typeahead').source = nums;
 					$("#course-search-input").focus();
 				});
 			} 
