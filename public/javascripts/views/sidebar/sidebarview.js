@@ -53,6 +53,7 @@ define([
 		},
 		
 		addSesh: function(sesh) {
+			//make a template that will have the sesh info and then just put the compiled template 
 			$("#" + sesh.get('course')).append('<div> blah </div>')
 		}
  

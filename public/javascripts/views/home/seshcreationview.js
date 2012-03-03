@@ -28,7 +28,6 @@ define([
 		showSeshCreation: function (event) {
 			$('#sesh-form').modal()
 			$('#time-input').datepicker();
-		
 		},
 		
 		render: function () {
@@ -42,8 +41,8 @@ define([
 		},
 
 		submitSeshCreation: function (event) {
-			$('#sesh-form').modal("hide")
 			var day = $('#time-input').val();
+			var today = new Date();
 			var dayformatted = day.slice(6) + '-' + day.slice(0,2) + '-' + day.slice(3,5);
 			var hour = $('#hour-pick').val();
 			var halfday = $('#halfday-pick').val();
@@ -51,14 +50,20 @@ define([
 			var course = $('#select-course-input').val();
 			var title = $('#title-input').val();
 			var description = $('#description-input').val();
-			var self = this;
-			this.model.set({time: datestring, course: course, title: title, location: location, description: description});
-			now.createSession(this.model, function(sesh) {
-				self.userSeshs.add(sesh);
-				console.log(self.userSeshs.get(sesh._id))
-			});
+			if (title && day - today > 0) {
+				$('#sesh-form').modal("hide")
+				var self = this;
+				this.model.set({time: datestring, course: course, title: title, location: location, description: description});
+				now.createSession(this.model, function(sesh) {
+					self.userSeshs.add(sesh);
+					console.log(self.userSeshs.get(sesh._id))
+				});
+			} else {
+				console.log('you pecked up')			
+			}
 		}
 	});
+			
 
   return SeshCreationView;
 });

@@ -11,8 +11,8 @@ exports.index = function(req, res){
 
 exports.home = function(req, res){
   if (req.loggedIn) {
-  	if (req.session.userExists) {  
-  		res.render('signup', { title: 'Welcome'}); 
+  	if (true) {  
+  		res.render('home', { title: 'Welcome'}); 
   	} else {
   		res.render('signup', { title: 'Get started with Seshlr'});
   	}
