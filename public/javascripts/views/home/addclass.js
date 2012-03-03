@@ -16,7 +16,7 @@ define([
 			$('#course-submit').hide();
 		},
 		
-		submitCourse: function(e) {
+		submitDept: function(e) {
 			console.log('test');
 			if (e.keyCode == 13) {
 				var dept = $("#dept-search-input").val();
