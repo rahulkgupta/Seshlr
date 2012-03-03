@@ -1,0 +1,27 @@
+append head
+		script(data-main="/javascripts/main", src='/javascripts/libs/require/require.js')
+	
+.logo-box	
+	h1.biglogo Seshlr
+.signup-container
+	#signup-guide
+		.span3
+			h3 Get started with Seshlr
+			ul.tasks
+				li 
+					h5 1
+					p Add your courses
+	#signup-content	
+		.span9
+			#alert-container
+				.alert.alert-success.hide.fade.in.sign-up-alert Class added!
+			#course-selector
+				#dept-search
+					h3 Dept:
+						input(type='text', id='dept-search-input', data-provide='typeahead', data-source='[#{depts}]')
+		
+				#course-search
+					h3 Course:
+						input(type='text', id='course-search-input')
+					
+				a#course-submit.btn.btn-primary(href='#') Add Course
