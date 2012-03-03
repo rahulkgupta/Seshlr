@@ -48,6 +48,18 @@ exports.usersessions = function (req, res) {
 	});	
 }
 
+exports.allclasses = function (req, res) {
+	mongoose.model('Class').find({}, function(err, courses) {
+		res.send(courses);
+	});
+}
+
+exports.alldepts = function (req, res) {
+	mongoose.model('Class').distinct('dept', {}, function(err, depts) {
+		res.send(depts);
+	});
+}
+/*
 exports.sidebar = function(req, res) {
 	var userId = req.user.id
 	mongoose.model('User')
@@ -91,7 +103,7 @@ exports.sidebar = function(req, res) {
 			});
 		});
 }
-
+*/
 exports.seshfeed = function (req, res)
 {
 	var userId = req.params.id;
