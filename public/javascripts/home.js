@@ -8,7 +8,7 @@ define([
 	'collections/userseshscollection',
 	'collections/seshfeedcollection',
 	'views/home/seshcontainerview',
-	'views/home/addclass',
+	'views/includes/addclass',
 	'views/sidebar/sidebarview',
 	'views/home/seshcreationview'
 ], function($, _, Backbone, userData, userCrses, userSshs, seshFeedCollection, sfView, SearchDepts, sidebarView, CreateSesh){

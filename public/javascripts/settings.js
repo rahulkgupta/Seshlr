@@ -3,7 +3,7 @@ define([
   'underscore',
   'backbone',
   'collections/usercoursescollection',
-	'views/home/addclass',
+	'views/includes/addclass',
   'views/includes/removeclass'
 ], function($, _, Backbone, userCrses, searchCourses, removeCourses){
   var initialize = function(){
