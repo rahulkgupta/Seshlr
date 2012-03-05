@@ -29,6 +29,7 @@ var StudyTime = new Schema ({
 var User = new Schema ({
 		_id: {type: Number, unique: true}	
 	,	name: String
+	, first_name: String
 	,	link: String
 	,	picture: String
 	,	refreshToken: String
@@ -36,7 +37,11 @@ var User = new Schema ({
 	, classes: [{ type: Schema.ObjectId, ref: 'Class' }]
 });
 
-	
+var FBFriend  = new Schema ({
+		friend_id: Number
+	,	user_id: Number  
+	, name: String
+});
 
 var SessionComment = new Schema ({
 		time: Date
@@ -46,6 +51,7 @@ var SessionComment = new Schema ({
 
 
 var user = mongoose.model('User', User);
+var fb_friend = mongoose.model('FBFriend', FBFriend);
 var studyTime = mongoose.model('StudyTime', StudyTime);
 
 
@@ -55,6 +61,5 @@ var studyTime = mongoose.model('StudyTime', StudyTime);
 
 
 var sched = mongoose.model('Class',Class); 
-
 var seshcomment = mongoose.model('SessionComment', SessionComment)
 
