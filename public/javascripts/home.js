@@ -7,7 +7,7 @@ define([
 	'collections/usercoursescollection',
 	'collections/userseshscollection',
 	'collections/seshfeedcollection',
-	'views/home/seshfeedview',
+	'views/home/seshcontainerview',
 	'views/home/addclass',
 	'views/sidebar/sidebarview',
 	'views/home/seshcreationview'
@@ -28,7 +28,7 @@ define([
 						console.log(userSeshs.at(0))
 						var sidebar = new sidebarView(user, courses, userSeshs);
 						var createSesh = new CreateSesh(courses, userSeshs);
-						var seshFeedView = new sfView(courses,userSeshs,seshFeed);
+						var seshContainerView = new sfView(courses,userSeshs,seshFeed);
 						now.distributeSession = function (sesh) {
 							seshFeedView.addSeshView(sesh);
 						};

@@ -2,31 +2,35 @@ define([
   'jquery',
   'underscore',
   'backbone',
-	'collections/seshfeedcollection',
-	'collections/userseshscollection',
 	'views/home/seshview',
-	'text!templates/seshfeed.html'
-], function($, _, Backbone, seshFeedCollection, userSeshCollection, seshView, seshFeedTemplate){
+], function($, _, Backbone, seshView){
 	var SeshFeedView = Backbone.View.extend({
+
 		el: $("#session-feed"),
+
 		initialize: function (courses,userSeshs,seshFeed) {
 			this.courses = courses
 			this.seshFeed = seshFeed
 			this.userSesh = userSeshs
 			var self = this;
-			this.render();
+			this.seshFeed.bind('reset',this.render,this)
 		},
 		render: function () {
-				for (var i = 0; i < this.seshFeed.length; i++) {
-					sesh = this.seshFeed.at(i);
-					var sesh;
-					if (!this.userSesh.get(sesh.id)) {
-						sesh = new seshView (sesh, false)	
-					} else {
-						sesh = new seshView (sesh, true)	
-					}
-					sesh.render();
+			for (var i = 0; i < this.seshFeed.length; i++) {
+				sesh = this.seshFeed.at(i);
+				var sView;
+				if (!this.userSesh.get(sesh.id)) {
+					sView = new seshView (sesh, false)	
+				} else {
+					sView = new seshView (sesh, true)	
 				}
+				sView.render();
+			}
+		},
+
+		update:function (seshs) {
+			$(this.el).empty()
+			this.seshFeed.reset(seshs)
 		},
 
 		addSession: function (event) {
@@ -43,8 +47,19 @@ define([
 				seshItem = new seshView (this.seshFeed.get(sesh._id), true);
 			}
 			$(this.el).prepend(seshItem.preRender())
+		},
+
+		orderByTime: function () {
+			var self = this
+			now.orderByTime(function (seshs) {
+				console.log(seshs)
+				$('#sesh-feed-data').remove();
+				self.userSesh.reset(seshs);
+				console.log(self.userSesh)
+			})
 		}
 
 	});
   return SeshFeedView;
 });
+

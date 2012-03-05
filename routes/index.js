@@ -113,4 +113,3 @@ exports.settings = function (req, res) {
 		res.redirect('/');
 	}
 }
-
