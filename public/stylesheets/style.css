@@ -150,16 +150,40 @@ ul.sidebar-nav-tabs {
 .sign-up-alert {
 	width: 90%;
 }
+
+/* Settings */
+#courses-settings {
+	display: block;
+}
+ul#course-list {
+	display: block;
+	width: 400px;
+	list-style: none;
+	margin: 0; padding: 0;
+}
+ul#course-list li {
+	margin: 10px 0;
+	padding: 5px 0;
+	background: #EAEAEA;
+}
+ul#course-list button {
+	position: relative;
+	float: right;
+	margin-top: -5px;
+}
 /***********************/
 
+#course-selector {
+	display: inline-block;
+}
 #course-selector h3 {
 	display: block;
 }
 #course-selector input {
 	display: block;
 	width: 15em;
-  padding: 6px;
-  margin-right: 10px;
+  	padding: 6px;
+  	margin-right: 10px;
 }
 #dept-search {
 	float: left;

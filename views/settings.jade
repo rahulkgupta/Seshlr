@@ -1,13 +1,19 @@
 append head
 		script(data-main="/javascripts/settingsmain", src='/javascripts/libs/require/require.js')
 
-#course-selector
+.span12
+	#alert-container
+		.alert.hide.sign-up-alert
+	#course-selector
 		#dept-search
 			h3 Dept:
-				input(type='text', id='dept-search-input')
-			#depts
+				input(type='text', id='dept-search-input', data-provide='typeahead', data-source='[#{depts}]')
 
 		#course-search
 			h3 Course:
 				input(type='text', id='course-search-input')
-			#courses
+			
+		a#course-submit.btn.btn-primary(href='#') Add Course
+
+	#courses-settings
+		ul#course-list

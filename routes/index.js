@@ -15,19 +15,22 @@ exports.home = function(req, res){
   	// if (false) { 
   		res.render('home', { title: 'Welcome'}); 
   	} else {
-  		mongoose.model('Class').distinct('dept', {}, function(err, depts) {
-  			typeahead_depts = []
-  			depts.forEach(function(dept) {
-  				typeahead_depts.push('"' + dept + '"');
-  			});
-  			res.render('signup', { title: 'Get started with Seshlr', depts: typeahead_depts});
-  		});
+  		res.redirect('/signup');
   	}
   } else {
   	res.redirect('/');
   }
 }
 
+exports.signup = function(req, res) {
+	mongoose.model('Class').distinct('dept', {}, function(err, depts) {
+	typeahead_depts = []
+	depts.forEach(function(dept) {
+		typeahead_depts.push('"' + dept + '"');
+	});
+		res.render('signup', { title: 'Get started with Seshlr', depts: typeahead_depts});
+	});
+}
 /*******************
 	Don't need any of this stuff anymore since we're pulling all the data using the APIs and Backbone.
 		userId = req.user.id;
@@ -49,8 +52,6 @@ exports.home = function(req, res){
 			});
 			
 		});
-		
->>>>>>> Stashed changes
 	}
 	//console.log(studytimes)
 	else {
@@ -99,6 +100,17 @@ exports.sessionPage = function (req, res) {
 };
 
 exports.settings = function (req, res) {
-	res.render('settings', {title: 'Settings'});
+	if (req.loggedIn) {
+		mongoose.model('Class').distinct('dept', {}, function(err, depts) {
+		typeahead_depts = []
+		depts.forEach(function(dept) {
+			typeahead_depts.push('"' + dept + '"');
+		});
+			res.render('settings', { title: 'Settings', depts: typeahead_depts});
+		});
+	}
+	else {
+		res.redirect('/');
+	}
 }
 

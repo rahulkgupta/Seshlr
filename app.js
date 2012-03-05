@@ -5,7 +5,7 @@ var express = require('express')
   , apis = require('./routes/apis.js')
 
 var nowjs = require('now');
-
+var http_request = require('request');
 
 var sys = require('util')
   , fs = require('fs')
@@ -37,11 +37,14 @@ var everyauth = require('everyauth'),
 
 
 var user = mongoose.model('User');
+var FBFriend = mongoose.model('FBFriend');
 
 function addUser (source, sourceUser) {
 	var instance = new user();
 	instance._id = sourceUser.id
-	instance.name = sourceUser.name; 
+	instance.name = sourceUser.name;
+	instance.first_name = sourceUser.first_name;
+	instance.email = sourceUser.email;
 	instance.link = sourceUser.link;
 	if (source == 'google') {
 		instance.picture = sourceUser.link;
@@ -72,14 +75,32 @@ everyauth.google
 everyauth.facebook
   .appId(configdata.fbappid)
   .appSecret(configdata.fbappsecret)
-  .scope('email', 'publish_stream')
+  .scope('email, publish_stream')
   .findOrCreateUser( function( sess, accessToken, extra, fbUser) {
   	var promise = this.Promise();
   	console.log(fbUser.name + ' is attempting to authorize with the site');
   	sess.userId = fbUser.id;
   	user.findById(fbUser.id, function(err, usr) {
-  		if (err) { console.log(err) }
+  		/* if (err) { console.log(err) }
   		else {
+  			graphURL = 'https://graph.facebook.com/' + fbUser.id + '/friends';
+  			db_friends = FBFriend.find({ user_id: fbUser.id}, 'friend_id', function (err, dbfriends) {
+  				console.log(db_freinds);
+					http_request.get({url: graphURL, qs: { 'access_token': accessToken }}, function(err, resp, data) {
+						data = JSON.parse(data);
+						var friends = data.data; // Facebook contains the friends in a list called data X.X
+						friends.forEach(function(friend) {
+								if (dbfriend.friend_id != friend.id) {
+									var instance = new FBFriend;
+									instance.friend_id = friend.id;
+									instance.name = friend.name;
+									instance.user_id = fbUser.id;
+									instance.save();
+								}
+							});
+						});
+					});
+				}); */
   			if (usr) {
   				sess.userExists = true;
   				console.log(fbUser.name + ' already exists -- authenticating now');
@@ -90,7 +111,7 @@ everyauth.facebook
   				addUser('facebook', fbUser);
   			}
   			promise.fulfill(fbUser);
-  		}
+  		// }
   	});
   	return promise
   })
@@ -131,7 +152,7 @@ everyauth.helpExpress(app);
 app.get('/', routes.index)
 app.get('/home', routes.home)
 app.get('/pande', routes.pande)
-app.get('/addclass', routes.addClass)
+app.get('/signup', routes.signup)
 app.get('/sessions', routes.sessions)
 app.get('/sessions/:id',routes.sessionPage)
 app.get('/settings', routes.settings)
@@ -247,6 +268,20 @@ everyone.now.removeSession = function (sessionid) {
 	});
 }
 
+everyone.now.removeCourse = function (courseid, callback) {
+	var userID = this.user.session.userId;
+	console.log('Attempting to remove course')
+	users.findById(userID, function(err, usr) {
+		if (err) { console.log(err); }
+		else {
+			console.log(courseid);
+			var pos = usr.classes.indexOf(courseid);
+			usr.classes.splice(pos, 1);
+			callback(courseid); // For lack of anything more useful to pass back.
+		}
+	});
+}
+
 everyone.now.searchDept = function (text, callback) {
 	var regex = new RegExp('\^' + text + '\.*', 'gi');
 	console.log(regex);	
@@ -266,19 +301,21 @@ everyone.now.submitClass = function (department, classNum, callback) {
 		users.findById(userID, function(err, usr) {
 			if (err) { console.log(err); }
 			else {
-				/* if (usr.classes.indexOf(course)) {
+				if (usr.classes.indexOf(course._id) != -1) { // Honestly this can't be ideal.
 					console.log('The user is already enrolled in this class');
+					callback(false, 'You&#39;re already enrolled in this course!')
 				}
-				else { */
+				else { 
+					console.log(course);
 					console.log(usr);
 					usr.classes.push(course._id);
 					usr.save(function(err) {
 						if (err) { console.log(err); }
 						else {
 							callback(course);
-					  }
+					  } 
 					});
-				// }
+				}
 			}
 		});
 	});
@@ -308,8 +345,4 @@ everyone.now.addSessionComment = function (text, author, sessionid) {
 			}
 		});
 	});	
-}
-
-everyone.now.test = function () {
-	alert('test');
 }

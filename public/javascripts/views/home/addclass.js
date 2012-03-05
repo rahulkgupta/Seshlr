@@ -17,7 +17,6 @@ define([
 		},
 		
 		submitDept: function(e) {
-			console.log('test');
 			if (e.keyCode == 13) {
 				var dept = $("#dept-search-input").val();
 				now.submitDept(dept, function (err, nums) {
@@ -33,11 +32,21 @@ define([
 		submitCourse: function(e) {
 			dept = $('#dept-search-input').val();
 			num = $('#course-search-input').val();
-			now.submitClass(dept, num, function(course) {		
+			now.submitClass(dept, num, function(course, err) {
+				if (err) {
+					$('.alert').html(err);
+					$('.alert').addClass('alert-error');
+				}
+				else {
+					$('.alert').html(course.dept + ' ' + course.num + ' has been added!');
+					$('.alert').addClass('alert-success');
+				}		
 				$('.alert').show().delay(3000);
 				$('.alert').fadeOut(function() {
 					$('#course-selector').css('margin-top', '54px');
 					$('#course-selector').animate({marginTop: 0}, 500);
+				$('.alert').removeClass('alert-error');
+				$('.alert').removeClass('alert-primary');
 				});
 			});
 		},

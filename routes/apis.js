@@ -59,51 +59,7 @@ exports.alldepts = function (req, res) {
 		res.send(depts);
 	});
 }
-/*
-exports.sidebar = function(req, res) {
-	var userId = req.user.id
-	mongoose.model('User')
-	.findById(userId)
-	.populate('classes')
-	.run(function (err, usr) {
-		mongoose.model('StudyTime')
-			.find({users: userId})
-			.populate('course')
-			.run(function (err, studytimes) {
-				var classes = []
-				var i=0;
-				usr.classes.forEach(function(course) {
-					classes.push({
-						'id': course._id,
-						'dept': course.dept,
-						'num' : course.num ,
-						'name': course.name,
-						'sessions': []
-					})
-					studytimes.forEach(function(sesh) {
-						if (sesh.course.equals(course._id)) {
-							classes[i]['sessions'].push({
-								'id': sesh._id,
-								'location': sesh.loc,
-								'time': sesh.time,
-								'description': sesh.description,
-								'title': sesh.title,
-								'comments': sesh.comments
-							});
-						}
-					});
-					i++;
-				});
-				var rv = {
-					'id': usr._id,
-					'name': usr.name,
-					'classes': classes
-				}
-				res.send(rv)
-			});
-		});
-}
-*/
+
 exports.seshfeed = function (req, res)
 {
 	var userId = req.params.id;
