@@ -313,3 +313,40 @@ everyone.now.addSessionComment = function (text, author, sessionid) {
 everyone.now.test = function () {
 	alert('test');
 }
+
+
+//SeshFeed filtering functions
+
+everyone.now.orderByTime = function (callback) {
+	userId = this.user.session.userId;
+	console.log(userId);
+	mongoose.model('User')
+		.findById(userId)
+		.populate('classes')
+		.run(function (err, usr) {
+			mongoose.model('StudyTime')
+				.find({course: {$in : usr.classes}})
+				.sort('time', 1)
+				.populate('course',['name','_id'])
+				.run(function (err, studyfeeds) {
+					callback(studyfeeds);
+				});
+			});
+}
+
+
+everyone.now.filterByCourse = function (course, callback) {
+	console.log(course)
+	userId = this.user.session.userId;
+	mongoose.model('User')
+		.findById(userId)
+		.populate('classes')
+		.run(function (err, usr) {
+			mongoose.model('StudyTime')
+				.find({'course': course})
+				.populate('course',['name','_id'])
+				.run(function (err, studyfeeds) {
+					callback(studyfeeds);
+				});
+			});
+}
