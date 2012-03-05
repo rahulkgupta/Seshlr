@@ -180,7 +180,7 @@ everyone.now.createSession = function (session, callback) {
 	console.log(course);
 	var description = session.description;
 //	var location = session.location;
-	//sesh.time = time;
+	sesh.time = time;
 	sesh.title = title;
 	sesh.description = description;
 	var classes = mongoose.model('Class');

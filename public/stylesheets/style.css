@@ -208,23 +208,4 @@ ul.sidebar-nav-tabs {
 .ui-datepicker-header { border: 1px solid #ddd; border-bottom: none;}
 .ui-datepicker-calendar { border: 1px solid #ddd;}
 
-#title
-{
-	display: none;
-}
-
-#location
-{
-	display: none;
-}
-
-#description
-{
-	display: none;
-}
-
-#submit-session
-{
-	display: none;
-}
 

@@ -14,8 +14,8 @@ define([
 	
 		events: {
 			'click #create-sesh' : 'showSeshCreation',
-			'click #submit-sesh'	: 'submitSeshCreation'
-
+			'click #submit-sesh'	: 'submitSeshCreation',
+			'submit #create-sesh-form' : 'submitSeshCreation'
 		},
 
 		initialize: function(courses, userSeshs){
@@ -41,25 +41,41 @@ define([
 		},
 
 		submitSeshCreation: function (event) {
-			var day = $('#time-input').val();
+			var day = $('#time-input').datepicker('getDate');
+
 			var today = new Date();
-			var dayformatted = day.slice(6) + '-' + day.slice(0,2) + '-' + day.slice(3,5);
+			console.log(today)
+			var daystring = $('#time-input').val();
 			var hour = $('#hour-pick').val();
-			var halfday = $('#halfday-pick').val();
-			var datestring = new String(dayformatted + 'T' + hour + ':00Z');
+			console.log(hour)
+			var hr = hour.split(':')
 			var course = $('#select-course-input').val();
 			var title = $('#title-input').val();
 			var description = $('#description-input').val();
-			if (title && day - today > 0) {
+			if (title && day && day > today) {
+				day.setHours(hr[0],hr[1])
 				$('#sesh-form').modal("hide")
 				var self = this;
-				this.model.set({time: datestring, course: course, title: title, location: location, description: description});
+				this.model.set({time: day, course: course, title: title, location: location, description: description});
 				now.createSession(this.model, function(sesh) {
 					self.userSeshs.add(sesh);
-					console.log(self.userSeshs.get(sesh._id))
+					console.log(sesh.id)
+					location.href='/sessions/' + sesh._id
 				});
 			} else {
-				console.log('you pecked up')			
+				$("#title-form").attr("class", "control-group")
+				$("#date-form").attr("class", "control-group")
+				$('#title-error').text('')
+				$('#date-error').text('')
+				if (!title) {
+					$("#title-form").attr("class", "control-group error")
+					$('#title-error').text('Please enter a title.')
+				}
+				if  (!day || day - today <= 0) {
+					$("#date-form").attr("class", "control-group error")
+					$('#date-error').text('Please provide a date in the future.')
+				}
+				
 			}
 		}
 	});
