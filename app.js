@@ -171,18 +171,19 @@ everyone.now.searchCourse = function (department, text, callback) {
 	classes.find({dept: department, num: regex}, callback);
 }
 	
-everyone.now.createSession = function (session, callback) {
+everyone.now.createSession = function (seshModel, callback) {
 	console.log('adding session');
 	var sesh = new study();
-	var time = session.time;
-	var title = session.title;
-	var course = session.course;
+	var time = seshModel.time;
+	var title = seshModel.title;
+	var course = seshModel.course;
 	console.log(course);
-	var description = session.description;
-//	var location = session.location;
+	var description = seshModel.description;
+//	var location = seshModel.location;
 	sesh.time = time;
 	sesh.title = title;
 	sesh.description = description;
+	sesh.created = seshModel.created
 	var classes = mongoose.model('Class');
 	var userId = this.user.session.userId;
 	sesh.course = course;

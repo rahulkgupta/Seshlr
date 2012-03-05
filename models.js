@@ -22,6 +22,8 @@ var StudyTime = new Schema ({
 	, title	:	String
 	, comments: [SessionComment]
 	, users: [{ type: Number, ref: 'User' }]
+	, created : Date
+	
 });
 
 var User = new Schema ({
@@ -34,7 +36,7 @@ var User = new Schema ({
 	, classes: [{ type: Schema.ObjectId, ref: 'Class' }]
 });
 
-
+	
 
 var SessionComment = new Schema ({
 		time: Date

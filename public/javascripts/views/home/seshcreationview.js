@@ -56,7 +56,7 @@ define([
 				day.setHours(hr[0],hr[1])
 				$('#sesh-form').modal("hide")
 				var self = this;
-				this.model.set({time: day, course: course, title: title, location: location, description: description});
+				this.model.set({time: day, created: today, course: course, title: title, location: location, description: description});
 				now.createSession(this.model, function(sesh) {
 					self.userSeshs.add(sesh);
 					console.log(sesh.id)

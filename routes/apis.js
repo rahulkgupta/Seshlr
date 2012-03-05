@@ -114,10 +114,10 @@ exports.seshfeed = function (req, res)
 	mongoose.model('User')
 		.findById(userId)
 		.populate('classes')
-		.sort([['time', 'descending']])
 		.run(function (err, usr) {
 			mongoose.model('StudyTime')
 				.find({course: {$in : usr.classes}})
+				.sort('created', -1)
 				.populate('course',['name','_id'])
 				.run(function (err, studyfeeds) {
 					res.send(studyfeeds);
