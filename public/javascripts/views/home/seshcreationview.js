@@ -15,14 +15,33 @@ define([
 		events: {
 			'click #create-sesh' : 'showSeshCreation',
 			'click #submit-sesh'	: 'submitSeshCreation',
+			'click .get-fb' : 'fetchFriends',
 			'submit #create-sesh-form' : 'submitSeshCreation'
 		},
 
-		initialize: function(courses, userSeshs){
+		initialize: function(courses, userSeshs, user){
 			this.model = new seshCreateModel;
+			this.user = user;
 			this.courses = courses;
 			this.userSeshs = userSeshs;
 			this.render();
+		},
+
+		fetchFriends: function(event) {
+			event.preventDefault();
+			// Bootstrap button stuff broken, this is good for now.
+			$('.get-fb').addClass('disabled');
+			$('.get-fb').html('One moment please...');
+			now.getFBFriends(function(data) {
+				typeahead_list = []
+				data.forEach(function(friend) {
+					typeahead_list.push(friend.name);
+				});
+				fb_input = $('#fbfriends-input').typeahead();
+				fb_input.data('typeahead').source = typeahead_list;
+				$('.get-fb').hide();
+				$('.fb-group').removeClass('hidden');
+			});
 		},
 
 		showSeshCreation: function (event) {

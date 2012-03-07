@@ -80,6 +80,7 @@ everyauth.facebook
   	var promise = this.Promise();
   	console.log(fbUser.name + ' is attempting to authorize with the site');
   	sess.userId = fbUser.id;
+  	sess.access_token = accessToken;
   	user.findById(fbUser.id, function(err, usr) {
   		/* if (err) { console.log(err) }
   		else {
@@ -101,19 +102,19 @@ everyauth.facebook
 						});
 					});
 				}); */
-  			if (usr) {
-  				sess.userExists = true;
-  				console.log(fbUser.name + ' already exists -- authenticating now');
-  			}
-  			else {
-  				sess.userExists = false;
-  				console.log('Adding new user ' + fbUser.name + ' to the user table');
-  				addUser('facebook', fbUser);
-  			}
-  			promise.fulfill(fbUser);
+		if (usr) {
+			sess.userExists = true;
+			console.log(fbUser.name + ' already exists -- authenticating now');
+		}
+		else {
+			sess.userExists = false;
+			console.log('Adding new user ' + fbUser.name + ' to the user table');
+			addUser('facebook', fbUser);
+		}
+		promise.fulfill(fbUser);
   		// }
   	});
-  	return promise
+  	return promise;
   })
   .redirectPath('/home');
 
@@ -345,6 +346,16 @@ everyone.now.addSessionComment = function (text, author, sessionid) {
 			}
 		});
 	});	
+}
+
+// FB
+everyone.now.getFBFriends = function (callback) {
+	graphURL = 'https://graph.facebook.com/' + this.user.session.userId + '/friends';
+	http_request.get({url: graphURL, qs: { 'access_token': this.user.session.access_token }}, function(err, resp, data) {
+		data = JSON.parse(data);
+		var friends = data.data; // Facebook contains the friends in a list called data X.X
+		callback(friends);
+	});
 }
 
 //SeshFeed filtering functions

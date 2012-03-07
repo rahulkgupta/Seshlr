@@ -12,6 +12,7 @@ exports.user = function(req, res) {
 	.run(function (err, usr) {
 		var rv = {
 			'id': userId,
+			'access_token': req.session.access_token,
 			'name': usr.name,
 			'picture': usr.picture,
 			'link': usr.link

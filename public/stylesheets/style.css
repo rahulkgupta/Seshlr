@@ -84,6 +84,12 @@ ul.sidebar-nav-tabs {
 	background: #DDDDDD;
 	box-shadow: inset 0 3px 5px #CECECE;
 }
+
+/* Sesh Modal */
+button.get-fb {
+	margin-left: 160px;
+}
+
 /* Index Page Styling */
 .hero-unit { background: whiteSmoke;}
 .index-page {

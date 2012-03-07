@@ -27,7 +27,7 @@ define([
 					seshFeed.fetch({success:function() {
 						console.log(userSeshs.at(0))
 						var sidebar = new sidebarView(user, courses, userSeshs);
-						var createSesh = new CreateSesh(courses, userSeshs);
+						var createSesh = new CreateSesh(courses, userSeshs, user);
 						var seshContainerView = new sfView(courses,userSeshs,seshFeed);
 						now.distributeSession = function (sesh) {
 							seshFeedView.addSeshView(sesh);
