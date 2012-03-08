@@ -16,6 +16,8 @@ define([
 			'click #create-sesh' : 'showSeshCreation',
 			'click #submit-sesh'	: 'submitSeshCreation',
 			'click .get-fb' : 'fetchFriends',
+			'keyup #fbfriends-input' : 'addFriend',
+			'click .friendtag' : 'removeFriendTag',
 			'submit #create-sesh-form' : 'submitSeshCreation'
 		},
 
@@ -35,13 +37,27 @@ define([
 			now.getFBFriends(function(data) {
 				typeahead_list = []
 				data.forEach(function(friend) {
-					typeahead_list.push(friend.name);
+					typeahead_list.push([friend.id, friend.name]);
 				});
 				fb_input = $('#fbfriends-input').typeahead();
 				fb_input.data('typeahead').source = typeahead_list;
+				fb_input.data('typeahead').ishidden = true;
 				$('.get-fb').hide();
 				$('.fb-group').removeClass('hidden');
+				$('#fbfriends-input').focus();
 			});
+		},
+
+		removeFriendTag: function(event) {
+			$(event.currentTarget).remove();
+		},
+
+		addFriend: function(event) {
+			if (event.keyCode == 13) {
+				var close = '<a href="#" class="friendtag-close"><i class="icon-remove icon-white"></i></a>'
+				var newtag = $('#friendtag-container').append('<button class="btn btn-primary friendtag">' + $('#fbfriends-input').val() + close + '</button>');
+				newtag.attr('data-value-hidden', $('#fbfriends-input').attr('data-value-hidden'));
+			}
 		},
 
 		showSeshCreation: function (event) {
@@ -60,8 +76,10 @@ define([
 		},
 
 		submitSeshCreation: function (event) {
+			var friends = $('#fbfriends-input').attr('data-value-hidden');
+			now.inviteFBFriends(friends);
+			return 
 			var day = $('#time-input').datepicker('getDate');
-
 			var today = new Date();
 			console.log(today)
 			var daystring = $('#time-input').val();

@@ -89,7 +89,19 @@ ul.sidebar-nav-tabs {
 button.get-fb {
 	margin-left: 160px;
 }
+button.friendtag {
+	margin-left: 5px;
+	margin-top: 5px;
 
+}
+#friendtag-container {
+	margin-left: 160px;
+	margin-bottom: 10px;
+}
+.friendtag-close i {
+	margin-top: 1px;
+	margin-left: 3px;
+}
 /* Index Page Styling */
 .hero-unit { background: whiteSmoke;}
 .index-page {

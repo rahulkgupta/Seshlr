@@ -360,6 +360,15 @@ everyone.now.getFBFriends = function (callback) {
 		callback(friends);
 	});
 }
+everyone.now.inviteFBFriends = function(friends) {
+	graphURL = 'https://graph.facebook.com/' + friends + '/feed';
+	console.log(http_request.post({url: graphURL, qs: {
+									'access_token' : this.user.session.access_token,
+									'message' : 'Join my session on Seshlr!',
+	}}, function(err, resp, data) {
+		console.log(data);
+	}));
+}
 
 //SeshFeed filtering functions
 

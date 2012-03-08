@@ -1489,6 +1489,7 @@
     this.highlighter = this.options.highlighter || this.highlighter
     this.$menu = $(this.options.menu).appendTo('body')
     this.source = this.options.source
+    this.ishidden = this.options.ishidden
     this.shown = false
     this.listen()
   }
@@ -1499,6 +1500,8 @@
 
   , select: function () {
       var val = this.$menu.find('.active').attr('data-value')
+      var hidden = this.$menu.find('.active').attr('data-value-hidden')
+      if (hidden) this.$element.attr('data-value-hidden', hidden)
       this.$element.val(val)
       return this.hide()
     }
@@ -1535,10 +1538,16 @@
         return this.shown ? this.hide() : this
       }
 
-      items = $.grep(this.source, function (item) {
-        if (that.matcher(item) == -1) return item
-      })
-
+      if (this.ishidden) {
+        items = $.grep(this.source, function (item) {
+          if (that.matcher(item[1]) == -1) return item[1]
+        })
+      }
+      else {
+        items = $.grep(this.source, function (item) {
+          if (that.matcher(item) == -1) return item
+        })
+      }
       items = this.sorter(items)
 
       if (!items.length) {
@@ -1558,29 +1567,55 @@
         , caseInsensitive = []
         , item
 
-      while (item = items.shift()) {
-        if (!item.toLowerCase().indexOf(this.query.toLowerCase())) beginswith.push(item)
-        else if (~item.indexOf(this.query)) caseSensitive.push(item)
-        else caseInsensitive.push(item)
+      if (this.ishidden) {
+        while (item = items.shift()) {
+          if (!item[1].toLowerCase().indexOf(this.query.toLowerCase())) beginswith.push(item)
+          else if (~item[1].indexOf(this.query)) caseSensitive.push(item[1])
+          else caseInsensitive.push(item[1])
+        }
+      }
+      else {
+        while (item = items.shift()) {
+          if (!item.toLowerCase().indexOf(this.query.toLowerCase())) beginswith.push(item)
+          else if (~item.indexOf(this.query)) caseSensitive.push(item)
+          else caseInsensitive.push(item)
+        }
       }
 
       return beginswith.concat(caseSensitive, caseInsensitive)
     }
 
   , highlighter: function (item) {
-      return item.replace(new RegExp('(' + this.query + ')', 'ig'), function ($1, match) {
-        return '<strong>' + match + '</strong>'
-      })
+      if (this.ishidden) {
+        return item[1].replace(new RegExp('(' + this.query + ')', 'ig'), function ($1, match) {
+            return '<strong>' + match + '</strong>'
+          })
+      }
+    else {
+        return item.replace(new RegExp('(' + this.query + ')', 'ig'), function ($1, match) {
+          return '<strong>' + match + '</strong>'
+        })
+      }
     }
 
   , render: function (items) {
       var that = this
 
-      items = $(items).map(function (i, item) {
-        i = $(that.options.item).attr('data-value', item)
-        i.find('a').html(that.highlighter(item))
-        return i[0]
-      })
+      if (this.ishidden) {
+        items = $(items).map(function (i, item) {
+          i = $(that.options.item).attr('data-value', item[1])
+          i.attr('data-value-hidden', item[0])
+          i.find('a').html(that.highlighter(item))
+          return i[0]
+        })
+      }
+      else {
+        items = $(items).map(function (i, item) {
+          i = $(that.options.item).attr('data-value', item)
+          i.find('a').html(that.highlighter(item))
+          return i[0]
+        })
+      }
 
       items.first().addClass('active')
       this.$menu.html(items)
