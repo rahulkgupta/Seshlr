@@ -3,7 +3,7 @@
 	<h3><%= sesh.get("title") %></h3> 
 	<span><%= sesh.get('course').name%></span>
 	<% if (added) {%>
-		<a class="btn" id="manage-session">Manage</a>
+		<a href='/sessions/<%=sesh.id%>' class="btn" id="manage-session">Manage</a>
 	<% } else { %>
 		<a class="btn" id="add-session">Add</a>
 	<% }; %>

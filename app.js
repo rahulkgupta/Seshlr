@@ -1,6 +1,7 @@
 // Core Modules
 
 var express = require('express')
+	, expose = require('express-expose')
   , routes = require('./routes')
   , apis = require('./routes/apis.js')
 
@@ -75,7 +76,7 @@ everyauth.google
 everyauth.facebook
   .appId(configdata.fbappid)
   .appSecret(configdata.fbappsecret)
-  .scope('email, publish_stream')
+  .scope('email, publish_stream, offline_access')
   .findOrCreateUser( function( sess, accessToken, extra, fbUser) {
   	var promise = this.Promise();
   	console.log(fbUser.name + ' is attempting to authorize with the site');
@@ -350,15 +351,17 @@ everyone.now.addSessionComment = function (text, author, sessionid) {
 
 // FB
 everyone.now.getFBFriends = function (callback) {
+	console.log(this.user.session.access_token)
 	graphURL = 'https://graph.facebook.com/me/friends';
-	http_request.get({url: graphURL, qs: { 'access_token': this.user.session.access_token }}, function(err, resp, data) {
+	console.log(http_request.get({url: graphURL, qs: { 'access_token': this.user.session.access_token }}, function(err, resp, data) {
 		if (err) {
 			console.log(err)
 		}
 		data = JSON.parse(data);
+		console.log(data)
 		var friends = data.data; // Facebook contains the friends in a list called data X.X
 		callback(friends);
-	});
+	}));
 }
 
 //SeshFeed filtering functions

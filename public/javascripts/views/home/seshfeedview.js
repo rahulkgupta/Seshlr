@@ -47,16 +47,6 @@ define([
 				seshItem = new seshView (this.seshFeed.get(sesh._id), true);
 			}
 			$(this.el).prepend(seshItem.preRender())
-		},
-
-		orderByTime: function () {
-			var self = this
-			now.orderByTime(function (seshs) {
-				console.log(seshs)
-				$('#sesh-feed-data').remove();
-				self.userSesh.reset(seshs);
-				console.log(self.userSesh)
-			})
 		}
 
 	});
