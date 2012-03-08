@@ -76,7 +76,7 @@ everyauth.google
 everyauth.facebook
   .appId(configdata.fbappid)
   .appSecret(configdata.fbappsecret)
-  .scope('email, publish_stream, offline_access')
+  .scope('email, publish_stream')
   .findOrCreateUser( function( sess, accessToken, extra, fbUser) {
   	var promise = this.Promise();
   	console.log(fbUser.name + ' is attempting to authorize with the site');
