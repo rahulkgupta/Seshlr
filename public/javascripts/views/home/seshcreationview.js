@@ -45,18 +45,26 @@ define([
 				$('.get-fb').hide();
 				$('.fb-group').removeClass('hidden');
 				$('#fbfriends-input').focus();
+				$('#friendtag-container').data('value-hidden', []);
 			});
 		},
 
 		removeFriendTag: function(event) {
+			var id = $(event.currentTarget).attr("data-value-hidden")
+			var lst = $('#friendtag-container').data('value-hidden')
+			$('#friendtag-container').data('value-hidden').splice(lst.indexOf(id), 1);
+			console.log(lst)
 			$(event.currentTarget).remove();
 		},
 
 		addFriend: function(event) {
 			if (event.keyCode == 13) {
+				var newid = $('#fbfriends-input').attr('data-value-hidden')
 				var close = '<a href="#" class="friendtag-close"><i class="icon-remove icon-white"></i></a>'
-				var newtag = $('#friendtag-container').append('<button class="btn btn-primary friendtag">' + $('#fbfriends-input').val() + close + '</button>');
-				newtag.attr('data-value-hidden', $('#fbfriends-input').attr('data-value-hidden'));
+				var newtag = $('#friendtag-container').append('<button class="btn btn-primary friendtag" data-value-hidden="' + newid + '">' + $('#fbfriends-input').val() + close + '</button>');
+				$('#friendtag-container').data('value-hidden').push(newid);
+				console.log(newtag.data('value-hidden'));
+				$('#fbfriends-input').val('');
 			}
 		},
 
@@ -76,9 +84,7 @@ define([
 		},
 
 		submitSeshCreation: function (event) {
-			var friends = $('#fbfriends-input').attr('data-value-hidden');
-			now.inviteFBFriends(friends);
-			return 
+			var friends = $('#friendtag-container').data('value-hidden')
 			var day = $('#time-input').datepicker('getDate');
 			var today = new Date();
 			console.log(today)
@@ -97,7 +103,9 @@ define([
 				now.createSession(this.model, function(sesh) {
 					self.userSeshs.add(sesh);
 					console.log(sesh.id)
+					now.inviteFBFriends(friends, sesh._id); // Post invites on FB.
 					location.href='/sessions/' + sesh._id
+					sesh_url = location.href;
 				});
 			} else {
 				$("#title-form").attr("class", "control-group")

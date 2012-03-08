@@ -4,4 +4,5 @@
 	, "appSecret": "4UjKFXYVTvehM0Y_3MG53t34"
 	,	"fbappid": "301313516595558"
 	, "fbappsecret": "7e8ff1cbec6ede536d39c5565f775ddf"
+	, "site_domain": "local.host:3000/"
 }

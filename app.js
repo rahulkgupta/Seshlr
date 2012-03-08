@@ -200,7 +200,7 @@ everyone.now.createSession = function (seshModel, callback) {
 	var time = seshModel.time;
 	var title = seshModel.title;
 	var course = seshModel.course;
-	console.log(course);
+	// console.log(course);
 	var description = seshModel.description;
 //	var location = seshModel.location;
 	sesh.time = time;
@@ -219,7 +219,7 @@ everyone.now.createSession = function (seshModel, callback) {
 				.findById(sesh.id)
 				.populate('course')
 				.run(function (err, studytime) {
-					console.log(studytime)
+					// console.log(studytime)
 					everyone.now.distributeSession(studytime);
 				});	
 			}
@@ -351,26 +351,31 @@ everyone.now.addSessionComment = function (text, author, sessionid) {
 
 // FB
 everyone.now.getFBFriends = function (callback) {
-	console.log(this.user.session.access_token)
 	graphURL = 'https://graph.facebook.com/me/friends';
-	console.log(http_request.get({url: graphURL, qs: { 'access_token': this.user.session.access_token }}, function(err, resp, data) {
+	http_request.get({url: graphURL, qs: { 'access_token': this.user.session.access_token }}, function(err, resp, data) {
 		if (err) {
 			console.log(err)
 		}
 		data = JSON.parse(data);
-		console.log(data)
 		var friends = data.data; // Facebook contains the friends in a list called data X.X
 		callback(friends);
-	}));
+	});
 }
-everyone.now.inviteFBFriends = function(friends) {
-	graphURL = 'https://graph.facebook.com/' + friends + '/feed';
-	console.log(http_request.post({url: graphURL, qs: {
-									'access_token' : this.user.session.access_token,
-									'message' : 'Join my session on Seshlr!',
-	}}, function(err, resp, data) {
-		console.log(data);
-	}));
+everyone.now.inviteFBFriends = function(friends, seshid) {
+	console.log('YOOOO')
+	access_token = this.user.session.access_token;
+	url = configdata.site_domain + 'sessions/' + seshid;
+	console.log(url)
+	friends.forEach(function(friend_id) {
+		graphURL = 'https://graph.facebook.com/' + friend_id + '/feed';
+		http_request.post({url: graphURL, qs: {
+										'access_token' : access_token,
+										'message' : 'Join my session on Seshlr!',
+										'link' : url,
+		}}, function(err, resp, data) {
+			console.log(data);
+		});
+	});
 }
 
 //SeshFeed filtering functions
