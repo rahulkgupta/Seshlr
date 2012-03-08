@@ -174,7 +174,7 @@ app.get('/apis/allclasses', apis.allclasses)
 
 
 var port = process.env.PORT || 3000;
-app.listen(port);
+app.listen(4000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 
 

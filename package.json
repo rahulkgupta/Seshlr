@@ -3,17 +3,6 @@
   , "version": "0.0.1"
   , "private": true
   , "dependencies": {
-      "express": "2.5.5"
-    , "jade": ">= 0.0.1"
-		,	"now": ""
-		, "underscore": ""
-		, "everyauth": "0.2.18"
-		, "http-agent": ""
-		, "mongoose": ""
-		, "jsdom" : ""
-		, "jquery" : ""
-		, "konphyg": ""
-		, "session-mongoose": ""
-		, "request": ""
+      "express": ""
   }
 }
