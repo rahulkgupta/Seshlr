@@ -350,8 +350,11 @@ everyone.now.addSessionComment = function (text, author, sessionid) {
 
 // FB
 everyone.now.getFBFriends = function (callback) {
-	graphURL = 'https://graph.facebook.com/' + this.user.session.userId + '/friends';
+	graphURL = 'https://graph.facebook.com/me/friends';
 	http_request.get({url: graphURL, qs: { 'access_token': this.user.session.access_token }}, function(err, resp, data) {
+		if (err) {
+			console.log(err)
+		}
 		data = JSON.parse(data);
 		var friends = data.data; // Facebook contains the friends in a list called data X.X
 		callback(friends);
