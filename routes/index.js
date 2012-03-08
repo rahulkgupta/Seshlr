@@ -10,10 +10,39 @@ exports.index = function(req, res){
 };
 
 exports.home = function(req, res){
+
   if (req.loggedIn) {
   	if (req.session.userExists) {
-  	// if (false) { 
-  		res.render('home', { title: 'Welcome'}); 
+  	// if (false) {
+  		var userId = req.params.id;
+			if (!userId) {
+				var userId = req.user.id; // If the route is being called without an ID, use the logged in user own ID.
+			}
+			console.log(userId);
+			mongoose.model('User')
+				.findById(userId)
+				.populate('classes')
+				.run(function (err, usr) {
+					mongoose.model('StudyTime')
+						.find({course: {$in : usr.classes}})
+						.sort('created', -1)
+						.populate('course',['name','_id'])
+						.run(function (err, studyfeeds) {
+							mongoose.model('StudyTime')
+								.find({users: userId})
+								.populate('classes')
+								.run(function (err, studytimes) {
+									res.expose(studyfeeds,'express.studyfeeds')
+									res.expose(studytimes,'express.userseshs')
+									res.expose(usr,'express.user')
+									res.expose(usr.classes,'express.courses')
+									res.render('home', { title: 'Welcome'})
+								});	
+							
+						});
+					});
+  		
+
   	} else {
   		res.redirect('/signup');
   	}
