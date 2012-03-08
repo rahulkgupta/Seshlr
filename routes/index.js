@@ -33,7 +33,7 @@ exports.home = function(req, res){
 								.populate('classes')
 								.run(function (err, studytimes) {
 									res.expose(studyfeeds,'express.studyfeeds')
-									res.expose(studytimes,'express.userseshs')
+									res.expose(studytimes,'express.userSeshs')
 									res.expose(usr,'express.user')
 									res.expose(usr.classes,'express.courses')
 									res.render('home', { title: 'Welcome'})
