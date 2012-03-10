@@ -362,10 +362,8 @@ everyone.now.getFBFriends = function (callback) {
 	});
 }
 everyone.now.inviteFBFriends = function(friends, seshid) {
-	console.log('YOOOO')
 	access_token = this.user.session.access_token;
 	url = configdata.site_domain + 'sessions/' + seshid;
-	console.log(url)
 	friends.forEach(function(friend_id) {
 		graphURL = 'https://graph.facebook.com/' + friend_id + '/feed';
 		http_request.post({url: graphURL, qs: {
