@@ -9,7 +9,16 @@ var Class = new Schema ({
   , num   : String
   , name  : String
 });
-
+var User = new Schema ({
+		_id: {type: Number, unique: true}
+	,	name: String
+	, first_name: String
+	,	link: String
+	,	picture: String
+	,	refreshToken: String
+	, expiresIn: Number
+	, classes: [{ type: Schema.ObjectId, ref: 'Class' }]
+});
 
 var StudyTime = new Schema ({
 		time 	: Date
@@ -26,16 +35,7 @@ var StudyTime = new Schema ({
 	
 });
 
-var User = new Schema ({
-		_id: {type: Number, unique: true}	
-	,	name: String
-	, first_name: String
-	,	link: String
-	,	picture: String
-	,	refreshToken: String
-	, expiresIn: Number
-	, classes: [{ type: Schema.ObjectId, ref: 'Class' }]
-});
+
 
 var FBFriend  = new Schema ({
 		friend_id: Number

@@ -9,7 +9,7 @@ define([
 
 		events: {
 			'click #add-session' : 'addSession',
-
+			'click #remove-session' : 'removeSession',
 		},
 		initialize: function (sesh, added) {
 			this.model = sesh;
@@ -40,6 +40,10 @@ define([
 			now.addSession(this.model.id, function (sesh) {
 
 			});
+		},
+
+		removeSession: function (event) {
+			now.removeSession(this.model.id)
 		},
 	});
   return SeshFeedView;

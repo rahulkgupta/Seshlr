@@ -257,11 +257,15 @@ everyone.now.addSession = function (sessionId, callback) {
 everyone.now.removeSession = function (sessionid) {
 	console.log(sessionid)
 	var userID = this.user.session.userId;
-	users.findById(userID, function(err, usr) {
+	mongoose.model('StudyTime')
+	.findById(sessionid)
+	.populate('users')
+	.run(function (err, sesh) {
 		if (err) { console.log(err); }
 		else {
-			usr.studytimes.id(sessionid).remove()
-			usr.save(function(err) {
+			console.log(sesh)
+			sesh.users.id(userID).remove()
+			sesh.save(function(err) {
 				if (err) {
 					console.log(err);
 				}
@@ -388,7 +392,7 @@ everyone.now.orderByTime = function (callback) {
 		.populate('classes')
 		.run(function (err, usr) {
 			mongoose.model('StudyTime')
-				.find({course: {$in : usr.classes}})
+				.find({course: {$in : usr.classes}, time: {$gte :new Date()}})
 				.sort('time', 1)
 				.populate('course',['name','_id'])
 				.run(function (err, studyfeeds) {
@@ -413,3 +417,4 @@ everyone.now.filterByCourse = function (course, callback) {
 				});
 			});
 }
+

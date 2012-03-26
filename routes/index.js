@@ -24,12 +24,12 @@ exports.home = function(req, res){
 				.populate('classes')
 				.run(function (err, usr) {
 					mongoose.model('StudyTime')
-						.find({course: {$in : usr.classes}})
+						.find({course: {$in : usr.classes},time: {$gte :new Date()}})
 						.sort('created', -1)
 						.populate('course',['name','_id'])
 						.run(function (err, studyfeeds) {
 							mongoose.model('StudyTime')
-								.find({users: userId})
+								.find({users: userId, time: {$gte :new Date()}})
 								.populate('classes')
 								.run(function (err, studytimes) {
 									res.expose(studyfeeds,'express.studyfeeds')
@@ -118,6 +118,7 @@ exports.sessionPage = function (req, res) {
 					.find({users: userId})
 					.run(function(err, studytimes) {
 						console.log(studytimes)
+						res.expose()
 						res.render('sessions/page', { title: sesh.title , sessions: studytimes, session: sesh, userdata: usr, rooturl: '..' });
 					});
 			});

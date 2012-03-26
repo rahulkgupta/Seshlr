@@ -41,7 +41,7 @@ exports.usersessions = function (req, res) {
 	}
 	mongoose.model('StudyTime')
 	.find({users: userId})
-	.populate('classes')
+	.populate('course')
 	.run(function (err, studytimes) {
 		console.log(studytimes.length)
 		console.log(" ")
