@@ -104,8 +104,7 @@ define([
 					self.userSeshs.add(sesh);
 					console.log(sesh.id)
 					now.inviteFBFriends(friends, sesh._id); // Post invites on FB.
-					location.href='/sessions/' + sesh._id
-					sesh_url = location.href;
+					// location.href='/sessions/' + sesh._id
 				});
 			} else {
 				$("#title-form").attr("class", "control-group")
