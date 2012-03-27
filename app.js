@@ -40,9 +40,9 @@ var everyauth = require('everyauth'),
 var user = mongoose.model('User');
 var FBFriend = mongoose.model('FBFriend');
 
-function addUser (source, sourceUser) {
+function addUser (source, sourceUser, sess) {
 	var instance = new user();
-	instance._id = sourceUser.id
+	instance.fbId = sourceUser.id
 	instance.name = sourceUser.name;
 	instance.first_name = sourceUser.first_name;
 	instance.email = sourceUser.email;
@@ -53,7 +53,7 @@ function addUser (source, sourceUser) {
 	else {
 		instance.picture = 'https://graph.facebook.com/' + sourceUser.id + '/picture';
 	}
-	instance.save();
+	instance.save()
 	return instance;
 }
 /* 
@@ -80,9 +80,9 @@ everyauth.facebook
   .findOrCreateUser( function( sess, accessToken, extra, fbUser) {
   	var promise = this.Promise();
   	console.log(fbUser.name + ' is attempting to authorize with the site');
-  	sess.userId = fbUser.id;
+  	sess.userFbId = fbUser.id;
   	sess.access_token = accessToken;
-  	user.findById(fbUser.id, function(err, usr) {
+  	user.findOne({fbId: fbUser.id}, function(err, usr) {
   		/* if (err) { console.log(err) }
   		else {
   			graphURL = 'https://graph.facebook.com/' + fbUser.id + '/friends';
@@ -106,11 +106,13 @@ everyauth.facebook
 		if (usr) {
 			sess.userExists = true;
 			console.log(fbUser.name + ' already exists -- authenticating now');
+			sess.userId = usr._id
 		}
 		else {
 			sess.userExists = false;
 			console.log('Adding new user ' + fbUser.name + ' to the user table');
-			addUser('facebook', fbUser);
+			var newUser = addUser('facebook', fbUser,sess);
+			sess.userId = newUser._id
 		}
 		promise.fulfill(fbUser);
   		// }
@@ -121,7 +123,7 @@ everyauth.facebook
 
 
 everyauth.everymodule.findUserById( function (userId, callback) {
-  user.findById(userId, callback);
+  user.findOne({fbId: userId}, callback);
   // callback has the signature, function (err, user) {...}
 });
 	
@@ -158,6 +160,7 @@ app.get('/signup', routes.signup)
 app.get('/sessions', routes.sessions)
 app.get('/sessions/:id',routes.sessionPage)
 app.get('/settings', routes.settings)
+app.get('/test',routes.test)
 
 // APIs
 app.get('/apis/user', apis.user)
@@ -259,12 +262,12 @@ everyone.now.removeSession = function (sessionid) {
 	var userID = this.user.session.userId;
 	mongoose.model('StudyTime')
 	.findById(sessionid)
-	.populate('users')
 	.run(function (err, sesh) {
 		if (err) { console.log(err); }
 		else {
 			console.log(sesh)
-			sesh.users.id(userID).remove()
+			var usridx = sesh.users.indexOf(userID)
+			if (usridx != -1) sesh.users.splice(usridx,1)
 			sesh.save(function(err) {
 				if (err) {
 					console.log(err);

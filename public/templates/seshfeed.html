@@ -1,11 +1,31 @@
 
-<div>
-	<h3><%= sesh.get("title") %></h3> 
-	<span><%= sesh.get('course').name%></span>
-	<% if (added) {%>
-		<a href='/sessions/<%=sesh.id%>' class="btn" id="manage-session">Manage</a>
-		<a id="remove-session" class="btn">Remove</a>
-	<% } else { %>
-		<a class="btn" id="add-session">Add</a>
-	<% }; %>
-</div>
+<tr class="sesh">
+		<td  width="30%" >
+			<% if (added) {%>
+				<a id="remove-session" class="btn btn-small">-</a>
+			<% } else { %>
+				<a class="btn btn-primary btn-small" id="add-session">+</a>
+			<% }; %>
+			<a href='/sessions/<%=sesh.id%>' ><%= sesh.get("title") %></a>
+		</td>
+		<td width="20%" ><%= sesh.get('course').dept + " " + sesh.get('course').num%>
+		</td>
+		<td width="15%" >tests</td>
+		<% 	var hours = date.getHours() %>
+		<%	var min = date.getMinutes() %>
+		<% 	var minStr = min.toString(); %>
+		<%	var noon %>
+		<%	if  (hours > 12) { %>
+		<%		noon = "PM" %>
+		<%		hours = hours - 12 %>
+		<%	} else { %>
+		<%		noon = "AM" %>
+		<%	} %>
+		<%  if (min < 10) { %>
+		<%			var zero = '0' %>
+		<%			minStr = zero.concat(minStr) %>
+		<%	} %>
+		<td width="15%"  ><%= hours + 1 + ":" + minStr + " " + noon %></td> <!--not sure if they're should be a + 1 w/ hours -->
+		<td width="10%" ><%= sesh.get('users').length %></td>
+		<td width="10%"><%= sesh.get('comments').length %></td>
+</tr>

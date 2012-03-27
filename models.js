@@ -10,7 +10,7 @@ var Class = new Schema ({
   , name  : String
 });
 var User = new Schema ({
-		_id: {type: Number, unique: true}
+		fbId: {type: Number, unique: true, index: true }
 	,	name: String
 	, first_name: String
 	,	link: String
@@ -30,7 +30,7 @@ var StudyTime = new Schema ({
 	, description : String
 	, title	:	String
 	, comments: [SessionComment]
-	, users: [{ type: Number, ref: 'User' }]
+	, users: [{ type: Schema.ObjectId, ref: 'User' }]
 	, created : Date
 	
 });

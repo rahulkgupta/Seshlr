@@ -9,11 +9,11 @@ define([
 	'text!templates/seshfeedfilter.html'
 ], function($, _, Backbone, seshFeedCollection, userSeshCollection, seshFeedView, seshFeedTemplate, feedFilterTemplate){
 	var SeshFeedView = Backbone.View.extend({
-		el: $("#session-container"),
+		el: ".sesh-filters",
 
 		events: {
 			'click #order-time' : 'orderByTime',
-			'click #order-course' : 'filterByCourse'
+			'click #course-filter' : 'filterByCourse'
 		},
 
 		initialize: function (courses,userSeshs,seshFeed) {
@@ -21,6 +21,7 @@ define([
 			this.seshFeed = seshFeed
 			this.userSesh = userSeshs
 			this.seshView = new seshFeedView(this.courses, this.userSesh,this.seshFeed)
+			console.log($(this.el).html())
 			var self = this;
 			this.render();
 		},
@@ -30,8 +31,6 @@ define([
 				$: $,
 				courses: this.courses.models
 			};
-			var compiledTemplate = _.template( feedFilterTemplate, data )
-			$(this.el).prepend(compiledTemplate)
 			this.seshView.render();
 		},
 
@@ -62,16 +61,24 @@ define([
 		},
 
 		filterByCourse: function () {
-			var course = $('#course-filter-input').val();
-			var self = this
-			console.log(course)
-			now.filterByCourse(course, function (seshs) {
-				console.log("filtering")
-				console.log('seshs')
+			// var course = $('#course-filter-input').val();
+			// var self = this
+			// console.log(course)
+			// now.filterByCourse(course, function (seshs) {
+			// 	console.log("filtering")
+			// 	console.log('seshs')
 				
-				self.seshView.update(seshs);
-				console.log(self.userSesh)
-			})
+			// 	self.seshView.update(seshs);
+			// 	console.log(self.userSesh)
+			// })
+			var data = {
+				_: _,
+				$: $,
+				courses: this.courses.models
+			};
+			var compiledTemplate = _.template( feedFilterTemplate, data )
+			console.log('pressed')
+			$('#courses').html(compiledTemplate)
 		}
 
 	});

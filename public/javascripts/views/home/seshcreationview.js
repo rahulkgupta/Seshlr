@@ -9,7 +9,7 @@ define([
 	'text!templates/seshcreate.html'
 ], function($, Jui, _, Backbone, bs, seshCreateModel, userCrss, seshcreationTemplate){
 	var SeshCreationView = Backbone.View.extend ({
-
+		
 		el: "#session-creation",
 	
 		events: {

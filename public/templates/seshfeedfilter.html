@@ -1,13 +1,6 @@
-<div class="well">
-	<div class="btn" id ="order-time">Order By Date</div>
-	<div>
-		<select id="course-filter-input">
-			<% _.each(courses, function(course){ %>
-			<option value='<%= course.get("_id") %>'><%= course.get("dept") %> <%= course.get("num") %></option>
-			<% }); %>
-		</select>
-	</div>
-	<div>
-		<div class="btn" id ="order-course">Filter By Course</div>
-	</div>
-</div>
+<select id="course-filter-input">
+	<% _.each(courses, function(course){ %>
+	<option value='<%= course.get("_id") %>'><%= course.get("dept") %> <%= course.get("num") %></option>
+	<% }); %>
+</select>
+

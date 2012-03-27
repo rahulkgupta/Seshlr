@@ -26,11 +26,11 @@ exports.home = function(req, res){
 					mongoose.model('StudyTime')
 						.find({course: {$in : usr.classes},time: {$gte :new Date()}})
 						.sort('created', -1)
-						.populate('course',['name','_id'])
+						.populate('course')
 						.run(function (err, studyfeeds) {
 							mongoose.model('StudyTime')
 								.find({users: userId, time: {$gte :new Date()}})
-								.populate('classes')
+								.populate('course')
 								.run(function (err, studytimes) {
 									res.expose(studyfeeds,'express.studyfeeds')
 									res.expose(studytimes,'express.userSeshs')
@@ -51,6 +51,9 @@ exports.home = function(req, res){
   }
 }
 
+exports.test = function(req,res) {
+	res.render('test', { title: 'Welcome'})
+}
 exports.signup = function(req, res) {
 	mongoose.model('Class').distinct('dept', {}, function(err, depts) {
 	typeahead_depts = []

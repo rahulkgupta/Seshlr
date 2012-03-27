@@ -216,7 +216,6 @@ ul#course-list button {
 }
 
 #session-creation {
-	float: left;
 	width:100%;
 }
 #create-session {
@@ -249,4 +248,14 @@ ul#course-list button {
 .ui-datepicker-header { border: 1px solid #ddd; border-bottom: none;}
 .ui-datepicker-calendar { border: 1px solid #ddd;}
 
+#header
+{
+	text-align: center;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
 
+.session-container
+{
+	min-height: 200px;
+}

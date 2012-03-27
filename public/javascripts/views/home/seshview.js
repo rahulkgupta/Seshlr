@@ -4,12 +4,13 @@ define([
   'backbone',
 	'text!templates/seshfeed.html'
 ], function($, _, Backbone, seshFeedTemplate){
-	var SeshFeedView = Backbone.View.extend({
-		el: $("#session-feed"),
+		var SeshFeedView = Backbone.View.extend({
+
+		tagName:'tr',
 
 		events: {
 			'click #add-session' : 'addSession',
-			'click #remove-session' : 'removeSession',
+			'click #remove-session' : 'removeSession'
 		},
 		initialize: function (sesh, added) {
 			this.model = sesh;
@@ -17,24 +18,19 @@ define([
 		},
 
 		render: function () {	
+				var date = new Date(this.model.get('time'))
 				var data = {
 					_: _,
 					sesh: this.model,
+					date: date,
 					added: this.added
 				};
 				var compiledTemplate = _.template( seshFeedTemplate, data );
-				$(this.el).append(compiledTemplate)
+				
+				this.el.innerHTML = compiledTemplate
+				return this
 		},
 
-		preRender: function () {	
-				var data = {
-					_: _,
-					sesh: this.model,
-					added: this.added
-				};
-				var compiledTemplate = _.template( seshFeedTemplate, data );
-				return compiledTemplate;
-		},
 
 		addSession: function (event) {
 			now.addSession(this.model.id, function (sesh) {
@@ -43,8 +39,9 @@ define([
 		},
 
 		removeSession: function (event) {
-			now.removeSession(this.model.id)
-		},
+			console.log('removing')
+			now.removeSession(this.model.id);
+		}
 	});
   return SeshFeedView;
 });
