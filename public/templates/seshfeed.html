@@ -10,7 +10,7 @@
 		</td>
 		<td width="20%" ><%= sesh.get('course').dept + " " + sesh.get('course').num%>
 		</td>
-		<td width="15%" >tests</td>
+		<td width="15%" ><%= date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear().toString().substr(2)%></td>
 		<% 	var hours = date.getHours() %>
 		<%	var min = date.getMinutes() %>
 		<% 	var minStr = min.toString(); %>
