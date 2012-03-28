@@ -14,11 +14,13 @@ define([
 		events: {
 			'click #order-time' : 'orderByTime',
 			'click #course-filter' : 'toggleCourseFilter',
-			'click #course-filter-input' : 'filterByCourse'
+			'click #course-filter-input' : 'filterByCourse',
+			'click #date-filter' : "orderDates"
 		},
 
 		initialize: function (courses,userSeshs,seshFeed) {
 			this.courses = courses
+			this.ascending = true
 			this.seshFeed = new seshFeedCollection(express.studyfeeds)
 			this.userSesh = userSeshs
 			this.seshView = new seshFeedView(this.courses, this.userSesh,this.seshFeed)
@@ -96,6 +98,26 @@ define([
 			}
 			this.seshFeed = new seshFeedCollection(express.studyfeeds)
 			$('#courses').html("Class")
+		},
+
+		orderDates: function() {
+			var models
+			if (this.ascending) {
+			 models = _.sortBy(this.seshFeed.models, function (model) {
+			 		 var date = new Date(model.get('time'))
+			 		 return (date.getDate() + date.getMonth()*100 + date.getFullYear()*1000)
+			 })
+			 $('#date-filter-icon').attr('class',"icon-chevron-up")
+			} else {
+				models = _.sortBy(this.seshFeed.models, function (model) {
+			 		 var date = new Date(model.get('time'))
+			 		 return -(date.getDate() + date.getMonth()*100 + date.getFullYear()*1000)
+			 })
+				$('#date-filter-icon').attr('class',"icon-chevron-down")
+			}
+			this.seshView.update(models)
+			this.ascending = !this.ascending;
+
 		}
 
 	});

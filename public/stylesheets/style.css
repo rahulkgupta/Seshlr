@@ -259,3 +259,8 @@ ul#course-list button {
 {
 	min-height: 200px;
 }
+
+#sesh-form
+{
+	text-align:left;
+}
