@@ -1,4 +1,5 @@
 <select id="course-filter-input">
+	<option value=0>All </option>
 	<% _.each(courses, function(course){ %>
 	<option value='<%= course.get("_id") %>'><%= course.get("dept") %> <%= course.get("num") %></option>
 	<% }); %>

@@ -13,15 +13,15 @@ define([
 
 		events: {
 			'click #order-time' : 'orderByTime',
-			'click #course-filter' : 'filterByCourse'
+			'click #course-filter' : 'toggleCourseFilter',
+			'click #course-filter-input' : 'filterByCourse'
 		},
 
 		initialize: function (courses,userSeshs,seshFeed) {
 			this.courses = courses
-			this.seshFeed = seshFeed
+			this.seshFeed = new seshFeedCollection(express.studyfeeds)
 			this.userSesh = userSeshs
 			this.seshView = new seshFeedView(this.courses, this.userSesh,this.seshFeed)
-			console.log($(this.el).html())
 			var self = this;
 			this.render();
 		},
@@ -60,7 +60,7 @@ define([
 			})
 		},
 
-		filterByCourse: function () {
+		toggleCourseFilter: function () {
 			// var course = $('#course-filter-input').val();
 			// var self = this
 			// console.log(course)
@@ -78,7 +78,24 @@ define([
 			};
 			var compiledTemplate = _.template( feedFilterTemplate, data )
 			console.log('pressed')
-			$('#courses').html()
+			$('#courses').html(compiledTemplate)
+			
+		},
+
+		filterByCourse: function() {
+			var course = $('#course-filter-input').val();
+			console.log(this.seshFeed);
+			if (course == 0) {
+				this.seshView.update(this.seshFeed.models)
+			} else {
+				var models = _.filter(this.seshFeed.models, function(model) {
+					return model.get('course')._id == course
+				})
+				this.seshView.update(models);
+				
+			}
+			this.seshFeed = new seshFeedCollection(express.studyfeeds)
+			$('#courses').html("Class")
 		}
 
 	});
