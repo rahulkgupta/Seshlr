@@ -20,13 +20,13 @@ define([
 		var user = new userData(express.user)
 		var courses = new userCrses(express.courses);
 		var userSeshs = new userSshs(express.userSeshs);
-		var searchView = new SearchDepts;
 		// courses.add(express.courses[0])
 		// courses.add(express.courses[1])
 		console.log(userSeshs.at(0))
+		console.log(userSeshs)
 		var sidebar = new sidebarView(user, courses, userSeshs);
-		var createSesh = new CreateSesh(courses, userSeshs, user);
-		var seshContainerView = new sfView(courses,userSeshs,seshFeed);
+		//var createSesh = new CreateSesh(courses, userSeshs, user);
+		//var seshContainerView = new sfView(courses,userSeshs,seshFeed);
 		now.distributeSession = function (sesh) {
 			seshFeedView.addSeshView(sesh);
 		};

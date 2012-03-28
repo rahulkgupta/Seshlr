@@ -78,7 +78,7 @@ define([
 			};
 			var compiledTemplate = _.template( feedFilterTemplate, data )
 			console.log('pressed')
-			$('#courses').html(compiledTemplate)
+			$('#courses').html()
 		}
 
 	});

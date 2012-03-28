@@ -30,7 +30,7 @@ exports.home = function(req, res){
 						.run(function (err, studyfeeds) {
 							mongoose.model('StudyTime')
 								.find({users: userId, time: {$gte :new Date()}})
-								.populate('course')
+								.populate('classes')
 								.run(function (err, studytimes) {
 									res.expose(studyfeeds,'express.studyfeeds')
 									res.expose(studytimes,'express.userSeshs')
