@@ -15,12 +15,20 @@ define([
 			'click #order-time' : 'orderByTime',
 			'click #course-filter' : 'toggleCourseFilter',
 			'click #course-filter-input' : 'filterByCourse',
-			'click #date-filter' : "orderDates"
+			'click #date-filter' : "orderDates",
+			'click #time-filter' : "orderTimes",
+			'click #user-filter' : "orderUsers",
+			'click #comm-filter' : "orderComments",
 		},
 
 		initialize: function (courses,userSeshs,seshFeed) {
 			this.courses = courses
-			this.ascending = true
+			this.dAscending = true
+			this.tAscending = true;
+			this.uAscending = true;
+			this.cAscending = true;
+			this.aIcon = "icon-chevron-up"
+			this.dIcon = "icon-chevron-down"
 			this.seshFeed = new seshFeedCollection(express.studyfeeds)
 			this.userSesh = userSeshs
 			this.seshView = new seshFeedView(this.courses, this.userSesh,this.seshFeed)
@@ -101,25 +109,79 @@ define([
 		},
 
 		orderDates: function() {
-			var models
-			if (this.ascending) {
+			var models;
+			if (this.dAscending) {
 			 models = _.sortBy(this.seshFeed.models, function (model) {
 			 		 var date = new Date(model.get('time'))
 			 		 return (date.getDate() + date.getMonth()*100 + date.getFullYear()*1000)
 			 })
-			 $('#date-filter-icon').attr('class',"icon-chevron-up")
+			 $('#date-filter-icon').attr('class',this.aIcon)
 			} else {
 				models = _.sortBy(this.seshFeed.models, function (model) {
 			 		 var date = new Date(model.get('time'))
 			 		 return -(date.getDate() + date.getMonth()*100 + date.getFullYear()*1000)
 			 })
-				$('#date-filter-icon').attr('class',"icon-chevron-down")
+				$('#date-filter-icon').attr('class',this.dIcon)
 			}
 			this.seshView.update(models)
-			this.ascending = !this.ascending;
+			this.dAscending = !this.dAscending;
 
-		}
+		},
 
+		orderTimes: function() {
+			var models;
+			if (this.tAscending) {
+			 models = _.sortBy(this.seshFeed.models, function (model) {
+			 		 var date = new Date(model.get('time'))
+			 		 return date.getTime()
+			 })
+			 $('#time-filter-icon').attr('class',this.aIcon)
+			} else {
+				models = _.sortBy(this.seshFeed.models, function (model) {
+			 		 var date = new Date(model.get('time'))
+			 		 return -(date.getTime())
+			 })
+				$('#time-filter-icon').attr('class',this.dIcon)
+			}
+			this.seshView.update(models)
+			this.tAscending = !this.tAscending;
+		},
+
+		orderUsers: function() {
+			var models;
+			if (this.uAscending) {
+			 models = _.sortBy(this.seshFeed.models, function (model) {
+			 		 return model.get('users').length
+			 })
+			 $('#user-filter-icon').attr('class',this.aIcon)
+			} else {
+				models = _.sortBy(this.seshFeed.models, function (model) {
+			 		 var date = new Date(model.get('time'))
+			 		 return -(model.get('users').length)
+			 })
+				$('#user-filter-icon').attr('class',this.dIcon)
+			}
+			this.seshView.update(models)
+			this.uAscending = !this.uAscending;
+		},
+
+		orderComments: function() {
+			var models;
+			if (this.cAscending) {
+			 models = _.sortBy(this.seshFeed.models, function (model) {
+			 		 return model.get('comments').length
+			 })
+			 $('#comm-filter-icon').attr('class',this.aIcon)
+			} else {
+				models = _.sortBy(this.seshFeed.models, function (model) {
+			 		 var date = new Date(model.get('time'))
+			 		 return -(model.get('comments').length)
+			 })
+				$('#comm-filter-icon').attr('class',this.dIcon)
+			}
+			this.seshView.update(models)
+			this.cAscending = !this.cAscending;
+		},
 	});
   return SeshFeedView;
 });
