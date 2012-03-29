@@ -5,7 +5,6 @@
 // Their usage will become more apparent futher along in the tutorial.
 require.config({
   paths: {
-    jquery: 'https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min',
     underscore: 'libs/underscore/underscore-min',
     backbone: 'libs/backbone/backbone-optamd3-min',
     bs: 'libs/bootstrap/bootstrap',

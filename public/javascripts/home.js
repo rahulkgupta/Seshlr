@@ -22,6 +22,7 @@ define([
     var user = new userData(express.user)
     var courses = new userCrses(express.courses);
     var userSeshs = new userSshs(express.userSeshs);
+    console.log(userSeshs)
     var notifs = new userNotifs(express.userNotifs);
     var searchView = new SearchDepts;
     var calendar = new Calendar;
