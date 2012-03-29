@@ -103,7 +103,8 @@ define([
 				now.createSession(this.model, function(sesh) {
 					self.userSeshs.add(sesh);
 					console.log(sesh.id)
-					now.inviteFBFriends(friends, sesh._id); // Post invites on FB.
+					if (friends) now.inviteFBFriends(friends, sesh._id); // Post invites on FB.
+					// now.createNotification('invited', sesh._id, [646595530]) // Generate notification for invited users.
 					// location.href='/sessions/' + sesh._id
 				});
 			} else {

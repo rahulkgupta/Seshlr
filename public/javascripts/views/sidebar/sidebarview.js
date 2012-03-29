@@ -3,10 +3,11 @@ define([
   'underscore',
   'backbone',
   'models/user',
+  	'collections/usernotifscollection',
 	'collections/usercoursescollection',
 	'collections/userseshscollection',
 	'text!templates/sidebar/sidebar.html'
-], function($, _, Backbone, userData, userCrses, userSshs, sidebarTemplate){
+], function($, _, Backbone, userData, userNotifs, userCrses, userSshs, sidebarTemplate){
 	var sidebarView = Backbone.View.extend({
 		el: $(".sidebar-container"),
 		
@@ -16,8 +17,9 @@ define([
 
 		},
 		
-		initialize: function (userData, courses, userSeshs) {
+		initialize: function (userNotifs, userData, courses, userSeshs) {
 			this.user = userData;
+			this.notifications = userNotifs;
 			this.seshs = userSeshs;
 			this.courses = courses;
 			this.seshs.bind('add', this.addSesh, this)
@@ -29,7 +31,9 @@ define([
 				$: $,
 				user: this.user,
 				seshs: this.seshs.models,
-				courses: this.courses.models
+				courses: this.courses.models,
+				notifications: this.notifications.models,
+				notif_count: this.notifications.models.length
 			};
 			var compiledTemplate = _.template( sidebarTemplate, data );
 			$(this.el).append(compiledTemplate)

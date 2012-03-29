@@ -53,7 +53,25 @@ h1.logo {
 	text-align: center;
 }
 .sidebar-container h4 {
-	display: block;
+	display: inline-block;
+}
+.notif-count {
+	position: absolute;
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+	margin-top: -3px;
+	background: #ff9280;
+}
+.notif-count p {
+	color: #FFF;
+	font-size: 10px;
+	font-weight: 800;
+	position: absolute;
+	margin-left: 4px;
+	margin-top: -3px;
 }
 #sidebar-tab-content {
 	padding: 10px;
@@ -71,7 +89,7 @@ ul.sidebar-nav-tabs {
 }
 .sidebar-nav-tabs li {
 	height: 20px;
-	padding: 5px 0;
+	padding: 6px 0 4px 0;
 	text-align: center;
 	float: left;
 	width: 50%;
@@ -83,6 +101,9 @@ ul.sidebar-nav-tabs {
 .sidebar-nav-tabs li.selected {
 	background: #DDDDDD;
 	box-shadow: inset 0 3px 5px #CECECE;
+}
+.sidebar-nav-tabs li a:hover {
+	text-decoration: none;
 }
 
 /* Sesh Modal */

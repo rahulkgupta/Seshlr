@@ -173,7 +173,7 @@ app.get('/apis/user/:id', apis.user)
 app.get('/apis/seshfeed', apis.seshfeed)
 app.get('/apis/seshfeed/:id', apis.seshfeed)
 app.get('/apis/allclasses', apis.allclasses)
-
+app.get('/apis/notifications', apis.notifications)
 
 
 var port = process.env.PORT || 3000;
@@ -185,7 +185,7 @@ console.log("Express server listening on port %d in %s mode", app.address().port
 
 var everyone = nowjs.initialize(app, {cookieKey:'pectus', socketio: {'transports': ["xhr-polling"], 'polling duration': "10" }});
 
-
+var notification = mongoose.model('Notification');
 var classes = mongoose.model('Class'); 
 var study = mongoose.model('StudyTime');
 var users = mongoose.model('User');
@@ -371,16 +371,28 @@ everyone.now.getFBFriends = function (callback) {
 everyone.now.inviteFBFriends = function(friends, seshid) {
 	access_token = this.user.session.access_token;
 	url = configdata.site_domain + 'sessions/' + seshid;
+
+	notifs = [] // Generate a list of users to send an internal notification too.
 	friends.forEach(function(friend_id) {
-		graphURL = 'https://graph.facebook.com/' + friend_id + '/feed';
-		http_request.post({url: graphURL, qs: {
-										'access_token' : access_token,
-										'message' : 'Join my session on Seshlr!',
-										'link' : url,
-		}}, function(err, resp, data) {
-			console.log(data);
-		});
+		mongoose.model('User')
+			.findById(friend_id, function (err, usr) {
+				if (usr) {
+					notifs.append(friend_id);
+				}
+				else {
+					graphURL = 'https://graph.facebook.com/' + friend_id + '/feed';
+					http_request.post({url: graphURL, qs: {
+													'access_token' : access_token,
+													'message' : 'Join my session on Seshlr!',
+													'link' : url,
+					}}, function(err, resp, data) {
+						console.log(data);
+					});
+				}
+			});
 	});
+
+	everyone.now.createNotification('invited', seshid, notifs); // Send internal notifs.
 }
 
 //SeshFeed filtering functions
@@ -419,3 +431,55 @@ everyone.now.filterByCourse = function (course, callback) {
 			});
 }
 
+// Notifications
+
+everyone.now.createNotification = function (type, item_id, users, content) {
+	// Explicitly handling notifications and their text here -- we can always update how they work here without affecting the front-end
+	// For now, we assume every notification is referencing a session. This will get more complicated later when we have to address other scenarios.
+
+	console.log(users);
+	var user_id = this.user.session.userId;
+	create_notif_db = function (text, type, user_id, item_id) {
+		mongoose.model('StudyTime').findById(item_id, function(err, sesh) {
+			mongoose.model('User').findById(user_id, function(err, usr) {
+				if (type == 'commented')
+					text = usr.name + text + sesh.title + '.'
+				else
+					text = usr.name + text
+
+				// Default to everyone subscribed to the sesh if no specfic users are passed in:
+				if (!users) {
+					users = sesh.users;
+				}
+
+				// Now create the notification.
+				var instance = new notification();
+				instance.users = users;
+				instance.text = text;
+				instance.ref = item_id;
+				instance.save();
+
+				// Distribute the notification.
+				everyone.now.distributeNotification(text, sesh.users)
+			});
+		});
+	}
+
+	// FIXME: There has to be a nicer way to do this then all this stupid type-checking...
+	if (type == 'joined') {
+		notify_text = ' has joined a session you&#39;re attending.'
+		create_notif_db(notify_text, type, user_id, item_id);
+	}
+	else if (type == 'invited') {
+		notify_text = ' invited you to join their session.'
+		create_notif_db(notify_text, type, user_id, item_id);
+	}
+	else if (type == 'commented') {
+		notify_text = ' commented on '
+		create_notif_db(notify_text, type, user_id, item_id);
+	}
+	else if (type == 'starting') {
+		notify_text = ' is starting soon.'  
+		// Not implemented yet.
+	}
+}

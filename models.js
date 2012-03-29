@@ -44,16 +44,24 @@ var FBFriend  = new Schema ({
 });
 
 var SessionComment = new Schema ({
-		time: Date
+		created: Date
 	, author: { type: Schema.ObjectId, ref: 'User' }
 	, text: String
+});
+
+var Notification = new Schema ({
+    created: Date
+  , source: { type: Schema.ObjectId, ref: 'User' }
+  , text: String
+  , ref: { type: Schema.ObjectId, ref: 'Session' }
+  , users: [{ type: Number, ref: 'User' }]
 });
 
 
 var user = mongoose.model('User', User);
 var fb_friend = mongoose.model('FBFriend', FBFriend);
 var studyTime = mongoose.model('StudyTime', StudyTime);
-
+var notification = mongoose.model('Notification', Notification);
 
 
 

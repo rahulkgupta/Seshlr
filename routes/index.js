@@ -32,11 +32,16 @@ exports.home = function(req, res){
 								.find({users: userId, time: {$gte :new Date()}})
 								.populate('classes')
 								.run(function (err, studytimes) {
-									res.expose(studyfeeds,'express.studyfeeds')
-									res.expose(studytimes,'express.userSeshs')
-									res.expose(usr,'express.user')
-									res.expose(usr.classes,'express.courses')
-									res.render('home', { title: 'Welcome'})
+									mongoose.model('Notification')
+										.find({ users: userId })
+										.run(function (err, notifs) {
+											res.expose(notifs, 'express.userNotifs')
+											res.expose(studyfeeds,'express.studyfeeds')
+											res.expose(studytimes,'express.userSeshs')
+											res.expose(usr,'express.user')
+											res.expose(usr.classes,'express.courses')
+											res.render('home', { title: 'Welcome'})
+										});
 								});	
 							
 						});
