@@ -23,12 +23,36 @@ define([
 					_: _,
 					sesh: this.model,
 					date: date,
+					time: this.getTime(date),
 					added: this.added
 				};
 				var compiledTemplate = _.template( seshFeedTemplate, data );
 				
 				this.el.innerHTML = compiledTemplate
 				return this
+		},
+		
+		getTime: function(date) {
+			var hr = date.getHours();
+			var min = date.getMinutes();
+			var minstr = min.toString();
+			if (min < 10) {
+				var zero = '0'
+				minstr = zero.concat(minstr)
+			}
+			var hrtr
+			if (hr == 0) {
+				hr = 12;
+				hrstr = hr + ":" + minstr + " AM"
+			} else if (hr < 12) {
+				hrstr = hr + ":" + minstr + " AM"
+			} else if (hr == 12) {
+				hrstr = hr + ":" + minstr + " PM"
+			} else if (hr > 12) {
+				hr = hr - 12
+				hrstr = hr + ":" + minstr + " PM"
+			}
+			return hrstr
 		},
 
 
