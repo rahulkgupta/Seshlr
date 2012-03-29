@@ -10,7 +10,6 @@ require.config({
     underscore: 'libs/underscore/underscore-min',
     backbone: 'libs/backbone/backbone-optamd3-min',
 		bsmodal: 'libs/bootstrap/bootstrap-modal',
-		now: '/nowjs/now',
     text: 'libs/require/text',
     templates: '../templates'
   }

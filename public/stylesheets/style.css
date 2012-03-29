@@ -251,11 +251,8 @@ ul#course-list button {
 {
 	display: none;
 }
-#time-input {
-	width: 100px;
-}
+
 #hour-pick {
-	width: 75px;
 	margin-left: 5px;
 }
 #halfday-pick {
@@ -284,4 +281,23 @@ ul#course-list button {
 #sesh-form
 {
 	text-align:left;
+}
+
+.ui-state-active
+{
+	border: 1px solid #D4CCB0;
+	background:#000 ;
+	color:#FFF;
+}
+
+.btn.first-form
+{
+	border-radius:0 0 0 0;
+
+}
+
+.btn.first-form.active
+{
+	border-radius:0 0 0 0;
+
 }

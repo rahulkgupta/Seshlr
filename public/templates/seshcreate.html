@@ -17,15 +17,14 @@
 					</div>
 				</div>
 				<div class="control-group" id='date-form'>
-					<label class="control-label" for="time-input">Select a Date</label>
+					<label class="control-label " for="date-input">Select a Date & Time</label>
 					<div class="controls">
-						<input id="time-input"/>
-						<select id="hour-pick">
-								<% _.each([00,01,02,03,04,05,06,07,08,09,10,11,12,13,14,15,16,17,18,19,20,21,22,23], function(time){ %>
-								<option><%= time%>:00</option>
-								<option><%= time%>:30</option>
-								<% }); %>
-						</select>
+						<input id="date-input" class="input-small"></input>
+						<div class="input-append">
+								<input class="input-mini" type="text" id="time-input">
+								<input class="btn first-form" id="am-input" type="button" value="AM"/>
+								<input class="btn" id="pm-input"type="button" value="PM"/>
+						</div>
 						<p class="help-block" id='date-error'></p>
 					</div>
 				</div>

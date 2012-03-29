@@ -375,7 +375,7 @@ everyone.now.inviteFBFriends = function(friends, seshid) {
 	notifs = [] // Generate a list of users to send an internal notification too.
 	friends.forEach(function(friend_id) {
 		mongoose.model('User')
-			.findById(friend_id, function (err, usr) {
+			.find({ fbId: friend_id }, function (err, usr) {
 				if (usr) {
 					notifs.append(friend_id);
 				}

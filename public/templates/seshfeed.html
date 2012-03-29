@@ -11,21 +11,7 @@
 		<td width="20%" ><%= sesh.get('course').dept + " " + sesh.get('course').num%>
 		</td>
 		<td width="15%" ><%= date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear().toString().substr(2)%></td>
-		<% 	var hours = date.getHours() %>
-		<%	var min = date.getMinutes() %>
-		<% 	var minStr = min.toString(); %>
-		<%	var noon %>
-		<%	if  (hours > 12) { %>
-		<%		noon = "PM" %>
-		<%		hours = hours - 12 %>
-		<%	} else { %>
-		<%		noon = "AM" %>
-		<%	} %>
-		<%  if (min < 10) { %>
-		<%			var zero = '0' %>
-		<%			minStr = zero.concat(minStr) %>
-		<%	} %>
-		<td width="15%"  ><%= hours + 1 + ":" + minStr + " " + noon %></td> <!--not sure if they're should be a + 1 w/ hours -->
+		<td width="15%"  ><%= time %></td> 
 		<td width="10%" ><%= sesh.get('users').length %></td>
 		<td width="10%"><%= sesh.get('comments').length %></td>
 </tr>
