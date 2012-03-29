@@ -2,7 +2,8 @@ define([
   'jquery',
   'underscore',
   'backbone',
-], function($, _, Backbone){
+  'bs'
+], function($, _, Backbone,bs){
 	var searchView = Backbone.View.extend({
 		el : '#course-selector',
 		

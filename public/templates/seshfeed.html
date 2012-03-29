@@ -11,7 +11,7 @@
 		<td width="20%" ><%= sesh.get('course').dept + " " + sesh.get('course').num%>
 		</td>
 		<td width="15%" ><%= date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear().toString().substr(2)%></td>
-		<td width="15%"  ><%= time %></td> 
+		<td width="15%"  ><%= time %></td> <!--not sure if they're should be a + 1 w/ hours -->
 		<td width="10%" ><%= sesh.get('users').length %></td>
 		<td width="10%"><%= sesh.get('comments').length %></td>
 </tr>

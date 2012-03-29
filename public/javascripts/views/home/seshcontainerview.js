@@ -5,8 +5,8 @@ define([
 	'collections/seshfeedcollection',
 	'collections/userseshscollection',
 	'views/home/seshfeedview',
-	'text!templates/seshfeed.html',
-	'text!templates/seshfeedfilter.html'
+	'text!/../templates/seshfeed.html',
+	'text!/../templates/seshfeedfilter.html'
 ], function($, _, Backbone, seshFeedCollection, userSeshCollection, seshFeedView, seshFeedTemplate, feedFilterTemplate){
 	var SeshFeedView = Backbone.View.extend({
 		el: ".sesh-filters",

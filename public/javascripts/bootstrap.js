@@ -17,6 +17,9 @@
  * limitations under the License.
  * ========================================================== */
 
+define([
+  'jquery',
+], function($){
 !function( $ ) {
 
   $(function () {
@@ -1764,3 +1767,4 @@
   })
 
 }( window.jQuery );
+})

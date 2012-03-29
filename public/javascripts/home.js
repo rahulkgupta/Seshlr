@@ -1,4 +1,3 @@
-// Filename: app.js
 define([
   'jquery',
   'underscore',
@@ -36,7 +35,6 @@ define([
 			seshFeedView.addSeshView(sesh);
 		};
 
-	
   }
 
   return {
