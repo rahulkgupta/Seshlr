@@ -27,6 +27,8 @@ define([
 			this.courses = courses;
 			this.userSeshs = userSeshs;
 			this.render();
+			$('#date-input').datepicker()
+			
 		},
 
 		fetchFriends: function(event) {
@@ -70,7 +72,10 @@ define([
 
 		showSeshCreation: function (event) {
 			$('#sesh-form').modal()
-			$('#time-input').datepicker();
+			$('#ui-datepicker-div').css('display','none');
+			$('#date-input').datepicker('setDate', new Date())
+			$('#time-input').val('test')
+			
 		},
 		
 		render: function () {
@@ -85,10 +90,10 @@ define([
 
 		submitSeshCreation: function (event) {
 			var friends = $('#friendtag-container').data('value-hidden')
-			var day = $('#time-input').datepicker('getDate');
+			var day = $('#date-input').datepicker('getDate');
 			var today = new Date();
 			console.log(today)
-			var daystring = $('#time-input').val();
+			var daystring = $('#date-input').val();
 			var hour = $('#hour-pick').val();
 			console.log(hour)
 			var hr = hour.split(':')
