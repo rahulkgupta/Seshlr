@@ -6,7 +6,7 @@ h1.biglogo {
 	height: 130px;
 	text-indent: 1000em;
 	overflow: hidden;
-	background: url('../images/biglogo.png') no-repeat 0 center;
+	background: url('../img/biglogo.png') no-repeat 0 center;
 	z-index: 20;
 	position: relative;
 }
@@ -18,7 +18,7 @@ h1.logo {
 	margin: 10px auto;
 	text-indent: 1000em;
 	overflow: hidden;
-	background: url('../images/logo.png') no-repeat 0 center;
+	background: url('../img/logo.png') no-repeat 0 center;
 }
 .sidebar-container {
 	border: 1px solid #dddddd;
