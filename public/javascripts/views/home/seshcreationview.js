@@ -78,8 +78,11 @@ define([
 			$('#sesh-form').modal()
 			$('#ui-datepicker-div').css('display','none');
 			var date = new Date();
-			$('#date-input').datepicker('setDate', date)
-			this.setTimeInput(date)
+			if ($('#time-input').val() == "") {
+				$('#date-input').datepicker('setDate', date)
+				this.setTimeInput(date)
+			}
+			
 		},
 		
 		setTimeInput: function(date) {
