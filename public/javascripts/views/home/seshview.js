@@ -2,7 +2,7 @@ define([
   'jquery',
   'underscore',
   'backbone',
-	'text!templates/seshfeed.html'
+	'text!/../templates/seshfeed.html'
 ], function($, _, Backbone, seshFeedTemplate){
 		var SeshFeedView = Backbone.View.extend({
 

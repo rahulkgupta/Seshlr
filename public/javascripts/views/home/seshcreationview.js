@@ -3,10 +3,10 @@ define([
 	'jui',
   'underscore',
   'backbone',
-	'bsmodal',
+	'bs',
 	'models/seshcreate',
 	'collections/usercoursescollection',
-	'text!templates/seshcreate.html'
+	'text!/../templates/seshcreate.html'
 ], function($, Jui, _, Backbone, bs, seshCreateModel, userCrss, seshcreationTemplate){
 	var SeshCreationView = Backbone.View.extend ({
 		

@@ -5,7 +5,7 @@ define([
   'models/user',
 	'collections/usercoursescollection',
 	'collections/userseshscollection',
-	'text!templates/sidebar/sidebar.html'
+	'text!/../templates/sidebar/sidebar.html'
 ], function($, _, Backbone, userData, userCrses, userSshs, sidebarTemplate){
 	var sidebarView = Backbone.View.extend({
 		el: $(".sidebar-container"),
