@@ -21,6 +21,8 @@ define([
 			'submit #create-sesh-form' : 'submitSeshCreation',
 			'click #pm-input' : 'togglePM',
 			'click #am-input' : 'toggleAM',
+			'focusin #time-input' : "clearTime",
+			'focusout #time-input' : 'resetTime',
 		},
 
 		initialize: function(courses, userSeshs, user){
@@ -77,8 +79,11 @@ define([
 			$('#ui-datepicker-div').css('display','none');
 			var date = new Date();
 			$('#date-input').datepicker('setDate', date)
-			// var hr = date.getHours() + 1;
-			hr = 1
+			this.setTimeInput(date)
+		},
+		
+		setTimeInput: function(date) {
+			var hr = date.getHours() + 1;
 			if (hr % 24 == 0) {
 				hr = 12;
 				$('#am-input').attr('class','btn first-form active')
@@ -92,9 +97,8 @@ define([
 			}
 			var hrstr = hr + ":00"
 			$('#time-input').val(hrstr)
-
 		},
-		
+
 		render: function () {
 			var data = {
 				_: _,
@@ -103,6 +107,17 @@ define([
 			var compiledTemplate = _.template( seshcreationTemplate, data );
 			$("#session-creation").append(compiledTemplate);
 
+		},
+
+		clearTime: function(event) {
+			$('#time-input').val("")
+		},
+
+		resetTime: function(event) {
+			if ($('#time-input').val() == "") {
+				var date = new Date();
+				this.setTimeInput(date)
+			}
 		},
 
 		togglePM: function (event) {
