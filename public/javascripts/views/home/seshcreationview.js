@@ -18,7 +18,9 @@ define([
 			'click .get-fb' : 'fetchFriends',
 			'keyup #fbfriends-input' : 'addFriend',
 			'click .friendtag' : 'removeFriendTag',
-			'submit #create-sesh-form' : 'submitSeshCreation'
+			'submit #create-sesh-form' : 'submitSeshCreation',
+			'click #pm-input' : 'togglePM',
+			'click #am-input' : 'toggleAM',
 		},
 
 		initialize: function(courses, userSeshs, user){
@@ -73,9 +75,24 @@ define([
 		showSeshCreation: function (event) {
 			$('#sesh-form').modal()
 			$('#ui-datepicker-div').css('display','none');
-			$('#date-input').datepicker('setDate', new Date())
-			$('#time-input').val('test')
-			
+			var date = new Date();
+			$('#date-input').datepicker('setDate', date)
+			// var hr = date.getHours() + 1;
+			hr = 1
+			if (hr % 24 == 0) {
+				hr = 12;
+				$('#am-input').attr('class','btn first-form active')
+			} else if (hr < 12) {
+				$('#am-input').attr('class','btn first-form active')
+			} else if (hr == 12) {
+				$('#pm-input').attr('class','btn active')
+			} else if (hr > 12) {
+				hr = hr - 12
+				$('#pm-input').attr('class','btn active')
+			}
+			var hrstr = hr + ":00"
+			$('#time-input').val(hrstr)
+
 		},
 		
 		render: function () {
@@ -88,20 +105,36 @@ define([
 
 		},
 
+		togglePM: function (event) {
+			$('#am-input').removeClass('active')
+			$('#am-input').attr('class','btn first-form')
+			$('#pm-input').attr('class','btn active')
+		},
+
+		toggleAM: function (event) {
+			$('#pm-input').removeClass('active')
+			$('#pm-input').attr('class','btn')
+			$('#am-input').attr('class','btn first-form active')
+		},
+
 		submitSeshCreation: function (event) {
 			var friends = $('#friendtag-container').data('value-hidden')
 			var day = $('#date-input').datepicker('getDate');
 			var today = new Date();
 			console.log(today)
 			var daystring = $('#date-input').val();
-			var hour = $('#hour-pick').val();
-			console.log(hour)
-			var hr = hour.split(':')
+			var time = $('#time-input').val().split(':');
+			if (!this.hrCheck(time)) {
+				$("#date-form").attr("class", "control-group error")
+				$('#date-error').text('Please provide a proper time.')
+				return
+			}
 			var course = $('#select-course-input').val();
 			var title = $('#title-input').val();
 			var description = $('#description-input').val();
+			this.setTime(day,time)
 			if (title && day && day > today) {
-				day.setHours(hr[0],hr[1])
+				
 				$('#sesh-form').modal("hide")
 				var self = this;
 				this.model.set({time: day, created: today, course: course, title: title, location: location, description: description});
@@ -126,6 +159,32 @@ define([
 				}
 				
 			}
+		},
+
+		hrCheck:function (time) {
+			var hour = parseInt(time[0])
+			var min = parseInt(time[1])
+			console.log('hour: ' + hour + " min: " + min)
+			if (hour != NaN && min != NaN && hour > 0 && hour < 13 && min >= 0 && min < 60) {
+				return true
+			} else {
+				console.log('fails')
+				return false
+			}
+		},
+
+		setTime: function (day, time) {
+			var hour = parseInt(time[0])
+			var min = parseInt(time[1])
+			if ($('#pm-input').attr('class') == 'btn active' && hour < 12) {
+					day.setHours(hour + 12)
+			} else if ($('#am-input').attr('class') == 'btn first-form active' && hour == 12){
+				day.setHours(hour - 12)
+			} else {
+				day.setHours(hour)
+			}
+			day.setMinutes(min)
+			console.log(day.toString())
 		}
 	});
 			
