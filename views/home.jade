@@ -11,9 +11,11 @@ append head
 				span Find a session using the filters below, or  
 				span(id="session-creation")
 					a(class='btn btn-primary', data-toggle="model", href="#sesh-form", id="create-sesh") Create a Session 
-			#calendar
-				h1 Calendar PlaceHolder
-				h1 Calendar PlaceHolder
+			#calendar-container	
+				#calendar-controls
+					a(href='#').calendar-prev <<<
+					a(href='#').calendar-next >>>
+				#calendar
 			.session-container
 				table(class="table table-bordered")
 					thead(class="sesh-filters")

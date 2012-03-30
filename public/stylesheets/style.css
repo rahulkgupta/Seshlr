@@ -11,6 +11,10 @@ h1.biglogo {
 	position: relative;
 }
 
+.hidden {
+	display: none;
+}
+
 /* Sidebar */
 h1.logo {
 	width: 125px;
@@ -105,7 +109,39 @@ ul.sidebar-nav-tabs {
 .sidebar-nav-tabs li a:hover {
 	text-decoration: none;
 }
-
+/* Calendar */
+#calendar {
+	border: 1px solid #ccc;
+	margin: 0; padding: 0;
+	white-space: nowrap;
+	overflow: hidden;
+	width: 698px;
+	height: 100px;
+}
+#calendar ul {
+	margin: 0;
+}
+#calendar ul li {
+	border-right: 1px solid #ccc;
+	display: inline-block;
+	text-align: center;
+	width: 100px;
+	height: 100px;
+	margin-left: -5px;
+}
+#calendar ul li:first-child {
+	margin-left: 0;
+}
+#calendar-controls {
+	display: block;
+	width: 200px;
+	margin: 0 auto;
+}
+#calendar-controls a {
+	width: 100px;
+	text-align: center;
+	display: inline-block;
+}
 /* Sesh Modal */
 button.get-fb {
 	margin-left: 160px;
