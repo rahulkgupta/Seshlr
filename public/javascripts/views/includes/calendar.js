@@ -28,21 +28,22 @@ define([
 				this.date = date;
 				this.day = day;
 				this.current = false;
-			}
-			CalDate.prototype.equals = function(other) {
-				if (this.month == other.month && this.date == other.date && this.day == other.day) {
-					return true
+
+				CalDate.prototype.equals = function(other) {
+					if (this.month == other.month && this.date == other.date && this.day == other.day) {
+						return true
+					}
+					else {
+						return false
+					}
 				}
-				else {
-					return false
+				CalDate.prototype.convertNames = function() {
+					this.month = monthNames[this.month]
+					this.day = dayNames[this.day]
 				}
-			}
-			CalDate.prototype.convertNames = function() {
-				this.month = monthNames[this.month]
-				this.day = dayNames[this.day]
-			}
-			CalDate.prototype.get = function(attr) {
-				return this.attr;
+				CalDate.prototype.get = function(attr) {
+					return this.attr;
+				}
 			}
 
 			var current = new Date();  
@@ -71,12 +72,14 @@ define([
 
 			// We want to support (for now) browsing up to two weeks in either direction from the current date. To cover all cases lets find up to 20 days before and after today.
 			var start_day = modular_day(day, -20)
+
+			// I should come back and replace this with a method in CalDate that lets you find a date given a difference.
 			if (date - 20 > 0) {
 				var start = new CalDate(month, date - 20, start_day)
 			}
 			else {
 				diff = 20 - date
-				var start = new CalDate(month - 1, totalDays[month_index] - diff, start_day)
+				var start = new CalDate(month - 1, totalDays[today.month - 1] - diff, start_day)
 			}
 
 			// This is pretty filthy code but I think it works.
