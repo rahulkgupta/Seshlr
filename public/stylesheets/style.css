@@ -133,14 +133,19 @@ ul.sidebar-nav-tabs {
 	margin-left: 0;
 }
 #calendar-controls {
-	display: block;
 	width: 200px;
 	margin: 0 auto;
 }
 #calendar-controls a {
-	width: 100px;
+	width: 50px;
 	text-align: center;
 	display: inline-block;
+}
+#calendar-controls p {
+	display: inline-block;
+	width: 100px;
+	text-align: center;
+	margin: 0 auto;
 }
 /* Sesh Modal */
 button.get-fb {

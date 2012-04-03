@@ -109,6 +109,10 @@ define([
 			
 			cursor = cursor - today.day;
 			this.days = date_list;
+			this.month = today.month;
+			this.day = today.day;
+			this.monthNames = monthNames;
+			this.totalDays = totalDays;
 			this.render();
 		},
 		
@@ -117,13 +121,12 @@ define([
 				_: _,
 				days: this.days,
 			};
-			console.log(this.days)
 			var compiledTemplate = _.template( calendarTemplate, data );
 			$('#calendar').append(compiledTemplate);
 
 			this.cal_loc = -100 * cursor;
-			console.log(this.cal_loc)
 			$('#calendar ul').css('margin-left', this.cal_loc - 1)
+			$('.calendar-month').html(this.monthNames[this.month])
 		},
 
 		scrollPrev: function(e) {
@@ -131,6 +134,12 @@ define([
 			$('#calendar ul').animate({
 				marginLeft: this.cal_loc - 1,
 			});
+			this.day -= 7;
+			if (this.day <= 0) {
+				this.month -= 1;
+				this.day = parseInt(this.day) + parseInt(this.totalDays[this.month]);
+			}
+			$('.calendar-month').html(this.monthNames[this.month])
 			e.preventDefault();
 		},
 
@@ -139,6 +148,12 @@ define([
 			$('#calendar ul').animate({
 				marginLeft: this.cal_loc - 1,
 			});
+			this.day += 7;
+			if (this.day > this.totalDays[this.month]) {
+				this.day = this.day - this.totalDays[this.month];
+				this.month += 1;
+			}
+			$('.calendar-month').html(this.monthNames[this.month])
 			e.preventDefault();
 		},
 
