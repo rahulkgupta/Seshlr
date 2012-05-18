@@ -2,19 +2,22 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'bs'
-], function($, _, Backbone,bs){
+  'bs',
+  'collections/coursescollection',
+  'views/includes/courseview'
+], function($, _, Backbone,bs, courses, CourseView){
 	var searchView = Backbone.View.extend({
-		el : '#course-selector',
+		el : $('#course-selector'),
 		
 		events: {
 			'keyup #dept-search-input' : 'submitDept',
-			'click #course-submit' : 'submitCourse'
+			'click #course-submit' : 'submitNum'
 		},
 		
 		initialize: function() {
 			$('#course-search').hide();
 			$('#course-submit').hide();
+			courses.bind('reset', this.showCourses, this);
 		},
 		
 		submitDept: function(e) {
@@ -29,7 +32,25 @@ define([
 				});
 			} 
 		},
+
+		submitNum: function(e) {
+			dept = $('#dept-search-input').val();
+			num = $('#course-search-input').val();
+			courses.dept = dept;
+			courses.num = num;
+			courses.fetchCourses(num, dept);
+		},
 		
+		showCourses: function () {
+			courses.each(this.showCourse, this)
+		},
+
+		showCourse: function (course) {
+			console.log(course.get('name'))
+			var courseView = new CourseView (course)
+			$(this.el).append(courseView.render().el);
+		},
+
 		submitCourse: function(e) {
 			dept = $('#dept-search-input').val();
 			num = $('#course-search-input').val();

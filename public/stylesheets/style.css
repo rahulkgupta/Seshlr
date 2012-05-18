@@ -11,14 +11,6 @@ h1.biglogo {
 	position: relative;
 }
 
-body
-{
-	width:600px;
-	height:600px;
-	overflow: :hidden;
-	position: relative;
-}
-
 .hidden {
 	display: none;
 }

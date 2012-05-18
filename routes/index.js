@@ -151,3 +151,33 @@ exports.settings = function (req, res) {
 		res.redirect('/');
 	}
 }
+
+exports.addCourse = function (req, res) {
+	if (req.loggedIn) {
+		mongoose.model('Class')
+		.findById(req.body.id)
+		.run(function(err, course) {
+			console.log(course)
+			mongoose.model('User')
+				.findById(req.user.id)
+				.run(function (err, usr) {
+					if (err) { console.log(err); }
+					else {
+						if (usr.classes.indexOf(course._id) != -1) { // Honestly this can't be ideal.
+							console.log('The user is already enrolled in this class');
+						}
+						else { 
+							console.log(course);
+							console.log(usr);
+							usr.classes.push(course._id);
+							usr.save(function(err) {
+								if (err) { console.log(err); }
+								else {
+							  } 
+							});
+						}
+					}
+			});
+		})
+	}
+}

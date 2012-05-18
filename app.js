@@ -161,7 +161,7 @@ app.get('/sessions', routes.sessions)
 app.get('/sessions/:id',routes.sessionPage)
 app.get('/settings', routes.settings)
 app.get('/test',routes.test)
-
+app.put('/addcourse', routes.addCourse)
 // APIs
 app.get('/apis/user', apis.user)
 app.get('/apis/user/sessions', apis.usersessions)
@@ -174,6 +174,7 @@ app.get('/apis/seshfeed', apis.seshfeed)
 app.get('/apis/seshfeed/:id', apis.seshfeed)
 app.get('/apis/allclasses', apis.allclasses)
 app.get('/apis/notifications', apis.notifications)
+app.get('/apis/courses/:num/:dept', apis.courses)
 
 
 var port = process.env.PORT || 3000;
@@ -300,6 +301,10 @@ everyone.now.searchDept = function (text, callback) {
 everyone.now.submitDept = function (dept, callback) {
 	console.log('Finding course numbers for dept:' + dept);
 	classes.distinct('num', {dept: dept}, callback);
+}
+
+everyone.now.submitNum = function (dept, classNum, callback) {
+	classes.find({dept:dept, num: classNum}, callback);
 }
 
 everyone.now.submitClass = function (department, classNum, callback) {

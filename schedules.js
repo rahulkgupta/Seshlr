@@ -51,7 +51,7 @@ function getClasses(agent) {
 var pattr = new RegExp(' P .* [A-z]')
 
 function addClass(agent) {
-  console.log('adding class' + agent.url)
+ // console.log('adding class' + agent.url)
   var window = jsdom(agent.body).createWindow()
     , $ = require('jquery').create(window)
     var title = $('.coursetitle')
@@ -62,12 +62,11 @@ function addClass(agent) {
       //console.log($(title).html())
       var details = $(title[i]).parent().parent().parent().parent().parent().parent().children('tr')
       //console.log($(details[0]).text())
-      var lec = pattr.exec($(details[0]).text())
-      if (lec)
-        console.log(lec[0])
-      //for (var j = 0; j < details.length; j++) {
-        
-      //}
+      var instance = new sched();
+      instance.dept = dept;
+      instance.num = num;
+      instance.name = $(details[0]).text();
+      instance.save();
     }
 }
 
@@ -79,15 +78,18 @@ console.log('Scraping', urls.length, 'pages from', agent.host);
 
 var first = true;
 agent.addListener('next', function (err, agent) {
-  if (first) {
-    console.log('first')
-    getClasses(agent)
-    first = false;
-  } else {
-    addClass(agent)
+  if (!err) {
+    if (first) {
+      console.log('first')
+      getClasses(agent)
+      first = false;
+    } else {
+      addClass(agent)
+    }
+    //console.log();
+    agent.next();
   }
-  console.log();
-  agent.next();
+ 
 });
 
 agent.addListener('stop', function (err, agent) {
