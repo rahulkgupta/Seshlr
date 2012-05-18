@@ -147,6 +147,25 @@ ul.sidebar-nav-tabs {
 	text-align: center;
 	margin: 0 auto;
 }
+#calendar li.selected {
+	box-shadow: inset 0px 0px 1px 1px #ff9280;
+}
+#calendar li p, #calendar li h4 {
+	color: #555;
+}
+#calendar li.cal-past p, #calendar li.cal-past h4 {
+	color: #999;
+}
+#calendar li.cal-current p, #calendar li.cal-current h4 {
+	color: #000;
+}
+#calendar li.selected p, #calendar li.selected h4 {
+	color: #ff9280;
+}
+.cal-past {
+	background: #EAEAEA;
+	box-shadow: -1px 0px 1px #CCC;
+}
 /* Sesh Modal */
 button.get-fb {
 	margin-left: 160px;

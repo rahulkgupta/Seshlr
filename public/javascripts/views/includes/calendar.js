@@ -10,6 +10,7 @@ define([
 		events: {
 			'click .calendar-prev': 'scrollPrev',
 			'click .calendar-next': 'scrollNext',
+			'click #calendar li': 'addBorder',
 		},
 		
 		initialize: function(courses) {
@@ -87,13 +88,16 @@ define([
 			iter_date = start.date;
 			iter_month = start.month;
 			console.log(iter_date)
+			past = true;
 			for (i=0; i<=88; i++) {
 				if (iter_date <= totalDays[iter_month]) {
 					temp_date = new CalDate(iter_month, iter_date, modular_day(start_day, i))
 					if (temp_date.equals(today)) {
 						cursor = i;
+						past = false;
 						temp_date.current = true;
 					}
+					temp_date.past = past;
 					temp_date.convertNames()
 					date_list.push(temp_date)
 				}
@@ -157,9 +161,9 @@ define([
 			e.preventDefault();
 		},
 
-		test: function() {
-			alert('test');
-		}
+		addBorder: function(e) {
+			$(e.currentTarget).addClass('selected');
+		},
 
 	});
   return searchView;
