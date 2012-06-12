@@ -4,8 +4,8 @@ define([
   'backbone',
   'bs',
   'collections/coursescollection',
-  'views/includes/courseview'
-], function($, _, Backbone,bs, courses, CourseView){
+  'views/includes/coursecontainerview'
+], function($, _, Backbone,bs, courses, CourseContainerView){
 	var searchView = Backbone.View.extend({
 		el : $('#course-selector'),
 		
@@ -38,18 +38,21 @@ define([
 			num = $('#course-search-input').val();
 			courses.dept = dept;
 			courses.num = num;
+         courses.each(this.removeCourse, this);
 			courses.fetchCourses(num, dept);
 		},
-		
+      
+      removeCourse: function (course) {
+         course.clear();
+      },
+
 		showCourses: function () {
-			courses.each(this.showCourse, this)
+         var courseContainerView = new CourseContainerView (courses)
+         $(this.el).append(courseContainerView.render().el)
+			// courses.each(this.showCourse, this)
 		},
 
-		showCourse: function (course) {
-			console.log(course.get('name'))
-			var courseView = new CourseView (course)
-			$(this.el).append(courseView.render().el);
-		},
+		
 
 		submitCourse: function(e) {
 			dept = $('#dept-search-input').val();

@@ -29,7 +29,11 @@ define([
 
 		addCourse: function (event) {
 			this.model.save();
-		}
+		},
+
+      clear: function (event) {
+         this.el.html('');
+      }
 		
 	});
   return CourseView;
