@@ -50,6 +50,8 @@ function getClasses(agent) {
 
 var pattr = new RegExp(' P .* [A-z]')
 
+
+//hacky as hell
 function addClass(agent) {
  // console.log('adding class' + agent.url)
   var window = jsdom(agent.body).createWindow()
@@ -65,7 +67,11 @@ function addClass(agent) {
       var instance = new sched();
       instance.dept = dept;
       instance.num = num;
-      instance.name = $(details[0]).text();
+      var name = $(details[0]).text()
+      var change = name.split("Course:")
+      name = change[1]
+      name = name.substring(1, name.length)
+      instance.name = name
       instance.save();
     }
 }
