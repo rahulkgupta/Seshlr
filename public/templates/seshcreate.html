@@ -11,7 +11,7 @@
 					<div class="controls">
 						<select id="select-course-input">
 							<% _.each(courses, function(course){ %>
-							<option value='<%= course.get("_id") %>'><%= course.get("dept") %> <%= course.get("num") %></option>
+							<option value='<%= course.get("_id") %>'><%= course.get("name") %></option>
 							<% }); %>
 						</select>
 					</div>
