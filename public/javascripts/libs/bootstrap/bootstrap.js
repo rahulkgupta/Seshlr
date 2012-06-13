@@ -38,11 +38,11 @@ define([
         end: (function () {
           var transitionEnd = "TransitionEnd"
           if ( $.browser.webkit ) {
-          	transitionEnd = "webkitTransitionEnd"
+            transitionEnd = "webkitTransitionEnd"
           } else if ( $.browser.mozilla ) {
-          	transitionEnd = "transitionend"
+            transitionEnd = "transitionend"
           } else if ( $.browser.opera ) {
-          	transitionEnd = "oTransitionEnd"
+            transitionEnd = "oTransitionEnd"
           }
           return transitionEnd
         }())
@@ -1192,7 +1192,7 @@ define([
   "use strict"
 
   var Collapse = function ( element, options ) {
-  	this.$element = $(element)
+    this.$element = $(element)
     this.options = $.extend({}, $.fn.collapse.defaults, options)
 
     if (this.options["parent"]) {
@@ -1261,11 +1261,11 @@ define([
       $.support.transition && this.$element.hasClass('collapse') ?
         this.$element.one($.support.transition.end, complete) :
         complete()
-  	}
+    }
 
   , toggle: function () {
       this[this.$element.hasClass('in') ? 'hide' : 'show']()
-  	}
+    }
 
   }
 

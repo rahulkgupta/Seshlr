@@ -1,11 +1,15 @@
+// Author: Thomas Davis <thomasalwyndavis@gmail.com>
+// Filename: main.js
+
+// Require.js allows us to configure shortcut alias
+// Their usage will become more apparent futher along in the tutorial.
 require.config({
   paths: {
-  	jui: 'libs/jquery/datepicker',	
     underscore: 'libs/underscore/underscore-min',
     backbone: 'libs/backbone/backbone-optamd3-min',
 		bs: 'libs/bootstrap/bootstrap',
+		now: '/nowjs/now',
     text: 'libs/require/text',
-    templates: '../templates'
   }
 
 });
@@ -13,14 +17,14 @@ require.config({
 require([
 
   // Load our app module and pass it to our definition function
-  'home',
+  'signup',
   // Some plugins have to be loaded in order due to their non AMD compliance
   // Because these scripts are not "modules" they do not pass any values to the definition function below
-], function(Home){
+], function(Signup){
 	now.ready(function(){
-		Home.initialize();
+		Signup.initialize();
 	});
-
+	
   // The "app" dependency is passed in as "App"
   // Again, the other dependencies passed in are not "AMD" therefore don't pass a parameter to this function
   

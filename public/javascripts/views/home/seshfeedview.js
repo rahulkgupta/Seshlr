@@ -9,11 +9,13 @@ define([
 		el: $("#session-feed"),
 
 		initialize: function (courses,userSeshs,seshFeed) {
+			_.bindAll(this, "render");
 			this.courses = courses
 			this.seshFeed = seshFeed
 			this.userSesh = userSeshs
 			var self = this;
 			this.seshFeed.bind('reset',this.render,this)
+			
 		},
 		render: function () {
 			for (var i = 0; i < this.seshFeed.length; i++) {
@@ -24,7 +26,7 @@ define([
 				} else {
 					sView = new seshView (sesh, true)	
 				}
-				sView.render();
+				$(this.el).append(sView.render().el);
 			}
 		},
 

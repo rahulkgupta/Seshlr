@@ -24,19 +24,24 @@ exports.home = function(req, res){
 				.populate('classes')
 				.run(function (err, usr) {
 					mongoose.model('StudyTime')
-						.find({course: {$in : usr.classes}})
+						.find({course: {$in : usr.classes},time: {$gte :new Date()}})
 						.sort('created', -1)
-						.populate('course',['name','_id'])
+						.populate('course')
 						.run(function (err, studyfeeds) {
 							mongoose.model('StudyTime')
-								.find({users: userId})
+								.find({users: userId, time: {$gte :new Date()}})
 								.populate('classes')
 								.run(function (err, studytimes) {
-									res.expose(studyfeeds,'express.studyfeeds')
-									res.expose(studytimes,'express.userSeshs')
-									res.expose(usr,'express.user')
-									res.expose(usr.classes,'express.courses')
-									res.render('home', { title: 'Welcome'})
+									mongoose.model('Notification')
+										.find({ users: userId })
+										.run(function (err, notifs) {
+											res.expose(notifs, 'express.userNotifs')
+											res.expose(studyfeeds,'express.studyfeeds')
+											res.expose(studytimes,'express.userSeshs')
+											res.expose(usr,'express.user')
+											res.expose(usr.classes,'express.courses')
+											res.render('home', { title: 'Welcome'})
+										});
 								});	
 							
 						});
@@ -51,6 +56,9 @@ exports.home = function(req, res){
   }
 }
 
+exports.test = function(req,res) {
+	res.render('test', { title: 'Welcome'})
+}
 exports.signup = function(req, res) {
 	mongoose.model('Class').distinct('dept', {}, function(err, depts) {
 	typeahead_depts = []
@@ -118,6 +126,7 @@ exports.sessionPage = function (req, res) {
 					.find({users: userId})
 					.run(function(err, studytimes) {
 						console.log(studytimes)
+						res.expose()
 						res.render('sessions/page', { title: sesh.title , sessions: studytimes, session: sesh, userdata: usr, rooturl: '..' });
 					});
 			});
@@ -140,5 +149,35 @@ exports.settings = function (req, res) {
 	}
 	else {
 		res.redirect('/');
+	}
+}
+
+exports.addCourse = function (req, res) {
+	if (req.loggedIn) {
+		mongoose.model('Class')
+		.findById(req.body.id)
+		.run(function(err, course) {
+			console.log(course)
+			mongoose.model('User')
+				.findById(req.user.id)
+				.run(function (err, usr) {
+					if (err) { console.log(err); }
+					else {
+						if (usr.classes.indexOf(course._id) != -1) { // Honestly this can't be ideal.
+							console.log('The user is already enrolled in this class');
+						}
+						else { 
+							console.log(course);
+							console.log(usr);
+							usr.classes.push(course._id);
+							usr.save(function(err) {
+								if (err) { console.log(err); }
+								else {
+							  } 
+							});
+						}
+					}
+			});
+		})
 	}
 }

@@ -1,0 +1,8 @@
+<ul>
+	<% _.each(days, function(day){ %>
+ 	<li <% if (day.past) { %> class="cal-past" <% }; %> <% if (day.current) { %> class="cal-current" <% }; %>>
+		<p class="cal-header"><%= day.day %></p>
+		<h4 ><%= day.date %><h4>
+	</li>
+	<% }); %>
+</ul>

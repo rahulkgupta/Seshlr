@@ -6,9 +6,13 @@ h1.biglogo {
 	height: 130px;
 	text-indent: 1000em;
 	overflow: hidden;
-	background: url('../images/biglogo.png') no-repeat 0 center;
+	background: url('../img/biglogo.png') no-repeat 0 center;
 	z-index: 20;
 	position: relative;
+}
+
+.hidden {
+	display: none;
 }
 
 /* Sidebar */
@@ -18,7 +22,7 @@ h1.logo {
 	margin: 10px auto;
 	text-indent: 1000em;
 	overflow: hidden;
-	background: url('../images/logo.png') no-repeat 0 center;
+	background: url('../img/logo.png') no-repeat 0 center;
 }
 .sidebar-container {
 	border: 1px solid #dddddd;
@@ -53,7 +57,25 @@ h1.logo {
 	text-align: center;
 }
 .sidebar-container h4 {
-	display: block;
+	display: inline-block;
+}
+.notif-count {
+	position: absolute;
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+	margin-top: -3px;
+	background: #ff9280;
+}
+.notif-count p {
+	color: #FFF;
+	font-size: 10px;
+	font-weight: 800;
+	position: absolute;
+	margin-left: 4px;
+	margin-top: -3px;
 }
 #sidebar-tab-content {
 	padding: 10px;
@@ -71,7 +93,7 @@ ul.sidebar-nav-tabs {
 }
 .sidebar-nav-tabs li {
 	height: 20px;
-	padding: 5px 0;
+	padding: 6px 0 4px 0;
 	text-align: center;
 	float: left;
 	width: 50%;
@@ -84,7 +106,66 @@ ul.sidebar-nav-tabs {
 	background: #DDDDDD;
 	box-shadow: inset 0 3px 5px #CECECE;
 }
-
+.sidebar-nav-tabs li a:hover {
+	text-decoration: none;
+}
+/* Calendar */
+#calendar {
+	border: 1px solid #ccc;
+	margin: 0; padding: 0;
+	white-space: nowrap;
+	overflow: hidden;
+	width: 698px;
+	height: 100px;
+}
+#calendar ul {
+	margin: 0;
+}
+#calendar ul li {
+	border-right: 1px solid #ccc;
+	display: inline-block;
+	text-align: center;
+	width: 100px;
+	height: 100px;
+	margin-left: -5px;
+}
+#calendar ul li:first-child {
+	margin-left: 0;
+}
+#calendar-controls {
+	width: 200px;
+	margin: 0 auto;
+}
+#calendar-controls a {
+	width: 50px;
+	text-align: center;
+	display: inline-block;
+}
+#calendar-controls p {
+	display: inline-block;
+	width: 100px;
+	text-align: center;
+	margin: 0 auto;
+}
+#calendar li.selected {
+	box-shadow: inset 0px 0px 1px 1px #ff9280;
+}
+#calendar li p, #calendar li h4 {
+	color: #555;
+}
+#calendar li.cal-past p, #calendar li.cal-past h4 {
+	color: #999;
+}
+#calendar li.cal-current p, #calendar li.cal-current h4 {
+	color: #000;
+}
+#calendar li.selected p, #calendar li.selected h4 {
+	color: #ff9280;
+}
+.cal-past {
+	background: #EAEAEA;
+	box-shadow: -1px 0px 1px #CCC;
+}
 /* Sesh Modal */
 button.get-fb {
 	margin-left: 160px;
@@ -216,7 +297,6 @@ ul#course-list button {
 }
 
 #session-creation {
-	float: left;
 	width:100%;
 }
 #create-session {
@@ -231,11 +311,8 @@ ul#course-list button {
 {
 	display: none;
 }
-#time-input {
-	width: 100px;
-}
+
 #hour-pick {
-	width: 75px;
 	margin-left: 5px;
 }
 #halfday-pick {
@@ -249,4 +326,38 @@ ul#course-list button {
 .ui-datepicker-header { border: 1px solid #ddd; border-bottom: none;}
 .ui-datepicker-calendar { border: 1px solid #ddd;}
 
+#header
+{
+	text-align: center;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
 
+.session-container
+{
+	min-height: 200px;
+}
+
+#sesh-form
+{
+	text-align:left;
+}
+
+.ui-state-active
+{
+	border: 1px solid #D4CCB0;
+	background:#000 ;
+	color:#FFF;
+}
+
+.btn.first-form
+{
+	border-radius:0 0 0 0;
+
+}
+
+.btn.first-form.active
+{
+	border-radius:0 0 0 0;
+
+}

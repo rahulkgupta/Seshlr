@@ -6,13 +6,9 @@ html
 		link(rel='stylesheet', href='/stylesheets/bootstrap.css')
 		link(rel='stylesheet', href='/stylesheets/style.css')
 		script(src = "/nowjs/now.js")
-		script(src = "https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js")
-		script(src = "/javascripts/bootstrap.js")
 		script(type="text/javascript")
 			if (window.location.hash == '#_=_') { // Not sure if this is worth keeping here but it keeps the URL pretty.
 				window.location.hash = '';
 				window.location.href=window.location.href.slice(0, -1);
 			}
-	body
-		.container
-			.row!= body
+	body!= body

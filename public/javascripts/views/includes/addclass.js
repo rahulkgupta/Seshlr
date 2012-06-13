@@ -2,18 +2,22 @@ define([
   'jquery',
   'underscore',
   'backbone',
-], function($, _, Backbone){
+  'bs',
+  'collections/coursescollection',
+  'views/includes/coursecontainerview'
+], function($, _, Backbone,bs, courses, CourseContainerView){
 	var searchView = Backbone.View.extend({
-		el : '#course-selector',
+		el : $('#course-selector'),
 		
 		events: {
 			'keyup #dept-search-input' : 'submitDept',
-			'click #course-submit' : 'submitCourse'
+			'click #course-submit' : 'submitNum'
 		},
 		
 		initialize: function() {
 			$('#course-search').hide();
 			$('#course-submit').hide();
+			courses.bind('reset', this.showCourses, this);
 		},
 		
 		submitDept: function(e) {
@@ -28,7 +32,28 @@ define([
 				});
 			} 
 		},
+
+		submitNum: function(e) {
+			dept = $('#dept-search-input').val();
+			num = $('#course-search-input').val();
+			courses.dept = dept;
+			courses.num = num;
+         courses.each(this.removeCourse, this);
+			courses.fetchCourses(num, dept);
+		},
+      
+      removeCourse: function (course) {
+         course.clear();
+      },
+
+		showCourses: function () {
+         var courseContainerView = new CourseContainerView (courses)
+         $(this.el).append(courseContainerView.render().el)
+			// courses.each(this.showCourse, this)
+		},
+
 		
+
 		submitCourse: function(e) {
 			dept = $('#dept-search-input').val();
 			num = $('#course-search-input').val();

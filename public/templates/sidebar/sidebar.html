@@ -4,36 +4,24 @@
 </div>
 <ul class="sidebar-nav-tabs">
 	<li id="sessions"><a href="#sidenav-sessions"><h4>Sessions</h4></a></li>
-	<li id="notifications"><a href="#sidenav-sessions"><h4>Notifications</h4></a></li>
+	<li id="notifications" class="new_notifs"><a href="#sidenav-sessions"><h4>Notifications</h4><div class="notif-count"><p><%= notif_count %></p></div></a></li>
 </ul>
 <div id="sidebar-tab-content">
 	<div id="sidenav-sessions">
 		<% _.each(courses, function(course){ %>
-			<h5 id='<%= course.id %>'><%= course.get("dept") %> <%= course.get("num") %></h5>
-			<% _.each(seshs, function(sesh){ %>
-				<% if (sesh.get("course") == course.id) { %>
-   				<p><a href="/sessions/<%= sesh.get("_id") %>"><%= sesh.get("title") %></a></p>
-   			<% }; %>
- 			<% }); %>
- 		<% }); %>
+		<h5 id='<%= course.id %>'><%= course.get("dept") %> <%= course.get("num") %></h5>
+		<% _.each(seshs, function(sesh){ %>
+			<% if (sesh.get("course") == course.id) { %>
+			<p><a href="/sessions/<%= sesh.get("_id") %>"><%= sesh.get("title") %></a></p>
+			<% }; %>
+			<% }); %>
+		<% }); %>
 	</div>
 	<div id="sidenav-notifications">
-		<p>This is notification placeholder text.</p>
+		<ul>
+			<% _.each(notifications, function(notif) { %>
+			<li><a href="/sessions/<%= notif.get("ref") %>"><p><%= notif.get("text") %></p>
+			<% }); %>
+		</ul>
 	</div>
 </div>
-
-<!-- h3.username: a(href='#profile-link-here') #{userdata.name}
-		a(href='#{rooturl}/settings'): i.icon-cog.settingsicon
-	ul.sidebar-nav-tabs
-		li#sessions: a(href='#sidenav-sessions'): h4 Sessions
-		li#notifications: a(href='#sidenav-notifications'): h4 Notifications
-			#notif-tab
-	#sidenav-sessions
-		each course in userdata.classes
-			a(href='#{rooturl}/classes/#{course._id}'): h4 #{course.dept} #{course.num}
-			ul.seshlist
-			each session in sessions
-				if session.course.equals(course._id)
-					li: a(href='#{rooturl}/sessions/#{session._id}) #{session.title}
-	#sidenav-notifications
-		p Placeholder -->

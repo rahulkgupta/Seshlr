@@ -19,6 +19,7 @@ var Class = new Schema ({
     dept  : String
   , num   : String
   , name  : String
+  , lec   : String
 });
 
 var sched = mongoose.model('Class',Class); 
@@ -28,6 +29,7 @@ var sched = mongoose.model('Class',Class);
 
 
 function getClasses(agent) {
+  console.log('getting classes')
   var window = jsdom(agent.body).createWindow()
     , $ = require('jquery').create(window)
 
@@ -39,25 +41,55 @@ function getClasses(agent) {
     , classes = $('.b');
     
   for (var i = 0; i < classes.length - 2; i+=3) {
-      var instance = new sched();
-      instance.dept = $(classes[i]).text();
-      instance.num = $(classes[i+1]).text().trim();
-      instance.name = $(classes[i+2]).text();
-      instance.save();
-      //console.log($(classes[i]).text() + '\t' + $(classes[i+1]).text() + '\t' + $(classes[i+2]).text() + '\n');
-      
+      //console.log('/OSOC/osoc?p_term=SP&p_dept=' + $(classes[i]).text() + '&p_course=' + $(classes[i+1]).text().trim());
+      var dept = $(classes[i]).text().replace(/ /g, "%20")
+       agent.addUrl('/OSOC/osoc?p_term=SP&p_dept=' + dept + '&p_course=' + $(classes[i+1]).text().trim())
     }
 
-  }
+}
+
+var pattr = new RegExp(' P .* [A-z]')
+
+function addClass(agent) {
+ // console.log('adding class' + agent.url)
+  var window = jsdom(agent.body).createWindow()
+    , $ = require('jquery').create(window)
+    var title = $('.coursetitle')
+    var dept = $('input[name=p_dept]').val()
+    var num = $('input[name=p_course]').val()
+    var name = $('input[name=p_title]').val()
+    for (var i = 0; i < title.length; i++) {
+      //console.log($(title).html())
+      var details = $(title[i]).parent().parent().parent().parent().parent().parent().children('tr')
+      //console.log($(details[0]).text())
+      var instance = new sched();
+      instance.dept = dept;
+      instance.num = num;
+      instance.name = $(details[0]).text();
+      instance.save();
+    }
+}
+
 
 var urls = ['/OSOC/osoc?p_term=SP&p_list_all=Y'];
+//var urls = ['/OSOC/osoc?p_term=SP&p_dept=VIS STD&p_course=185X']
 var agent = httpAgent.create('osoc.berkeley.edu', urls);
 console.log('Scraping', urls.length, 'pages from', agent.host);
 
+var first = true;
 agent.addListener('next', function (err, agent) {
-  getClasses(agent);
-  console.log();
-  agent.next();
+  if (!err) {
+    if (first) {
+      console.log('first')
+      getClasses(agent)
+      first = false;
+    } else {
+      addClass(agent)
+    }
+    //console.log();
+    agent.next();
+  }
+ 
 });
 
 agent.addListener('stop', function (err, agent) {
@@ -67,4 +99,9 @@ agent.addListener('stop', function (err, agent) {
 
 agent.start();
 
+/*/OSOC/osoc?p_term=SP&p_dept=VIS STD&p_course=185X
+
+adding class/OSOC/osoc?p_term=SP&p_dept=VIS STD&p_course=186A
+
+adding class/OSOC/osoc?p_term=SP&p_dept=VIS STD&p_course=280*/
 

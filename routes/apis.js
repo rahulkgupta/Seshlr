@@ -41,7 +41,7 @@ exports.usersessions = function (req, res) {
 	}
 	mongoose.model('StudyTime')
 	.find({users: userId})
-	.populate('classes')
+	.populate('course')
 	.run(function (err, studytimes) {
 		console.log(studytimes.length)
 		console.log(" ")
@@ -61,8 +61,17 @@ exports.alldepts = function (req, res) {
 	});
 }
 
-exports.seshfeed = function (req, res)
-{
+exports.courses = function (req, res) {
+		var num = req.params.num;
+		var dept = req.params.dept;
+		mongoose.model('Class')
+			.find({num:num, dept:dept})
+			.run (function (err, courses) {
+				res.send(courses)
+			})
+}
+
+exports.seshfeed = function (req, res) {
 	var userId = req.params.id;
 	if (!userId) {
 		var userId = req.user.id; // If the route is being called without an ID, use the logged in user own ID.
@@ -81,4 +90,14 @@ exports.seshfeed = function (req, res)
 				});
 			});
 		
+}
+
+exports.notifications = function(req, res) {
+	// You shouldn't be able to call this API with another users ID.
+	var userId = req.user.id
+	mongoose.model('Notification')
+		.find({users: userId})
+		.run(function (err, notifs) {
+			res.send(notifs);
+		});
 }

@@ -5,14 +5,10 @@
 // Their usage will become more apparent futher along in the tutorial.
 require.config({
   paths: {
-    jquery: 'https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min',
-		jui: 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min',
     underscore: 'libs/underscore/underscore-min',
     backbone: 'libs/backbone/backbone-optamd3-min',
-		bsmodal: 'libs/bootstrap/bootstrap-modal',
-		now: '/nowjs/now',
+    bs: 'libs/bootstrap/bootstrap',
     text: 'libs/require/text',
-    templates: '../templates'
   }
 
 });

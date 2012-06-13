@@ -18,7 +18,7 @@ define([
 		render: function () {
 			var courses = this.courses.models;
 			courses.forEach(function(course) {
-				$('#course-list').append('<li>' + course.get('dept') + ' ' + course.get('num') + '<button data-id="' + course.get('_id') + '" class="delete btn btn-primary">Delete</button></li>');
+				$('#course-list').append('<li>' + course.get('dept') + ' ' + course.get('num') + ' ' + course.get('name') +' <button data-id="' + course.get('_id') + '" class="delete btn btn-primary">Delete</button></li>');
 			});
 		},
 

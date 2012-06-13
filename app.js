@@ -40,9 +40,9 @@ var everyauth = require('everyauth'),
 var user = mongoose.model('User');
 var FBFriend = mongoose.model('FBFriend');
 
-function addUser (source, sourceUser) {
+function addUser (source, sourceUser, sess) {
 	var instance = new user();
-	instance._id = sourceUser.id
+	instance.fbId = sourceUser.id
 	instance.name = sourceUser.name;
 	instance.first_name = sourceUser.first_name;
 	instance.email = sourceUser.email;
@@ -53,7 +53,7 @@ function addUser (source, sourceUser) {
 	else {
 		instance.picture = 'https://graph.facebook.com/' + sourceUser.id + '/picture';
 	}
-	instance.save();
+	instance.save()
 	return instance;
 }
 /* 
@@ -80,9 +80,9 @@ everyauth.facebook
   .findOrCreateUser( function( sess, accessToken, extra, fbUser) {
   	var promise = this.Promise();
   	console.log(fbUser.name + ' is attempting to authorize with the site');
-  	sess.userId = fbUser.id;
+  	sess.userFbId = fbUser.id;
   	sess.access_token = accessToken;
-  	user.findById(fbUser.id, function(err, usr) {
+  	user.findOne({fbId: fbUser.id}, function(err, usr) {
   		/* if (err) { console.log(err) }
   		else {
   			graphURL = 'https://graph.facebook.com/' + fbUser.id + '/friends';
@@ -106,11 +106,13 @@ everyauth.facebook
 		if (usr) {
 			sess.userExists = true;
 			console.log(fbUser.name + ' already exists -- authenticating now');
+			sess.userId = usr._id
 		}
 		else {
 			sess.userExists = false;
 			console.log('Adding new user ' + fbUser.name + ' to the user table');
-			addUser('facebook', fbUser);
+			var newUser = addUser('facebook', fbUser,sess);
+			sess.userId = newUser._id
 		}
 		promise.fulfill(fbUser);
   		// }
@@ -121,7 +123,7 @@ everyauth.facebook
 
 
 everyauth.everymodule.findUserById( function (userId, callback) {
-  user.findById(userId, callback);
+  user.findOne({fbId: userId}, callback);
   // callback has the signature, function (err, user) {...}
 });
 	
@@ -158,7 +160,8 @@ app.get('/signup', routes.signup)
 app.get('/sessions', routes.sessions)
 app.get('/sessions/:id',routes.sessionPage)
 app.get('/settings', routes.settings)
-
+app.get('/test',routes.test)
+app.put('/addcourse', routes.addCourse)
 // APIs
 app.get('/apis/user', apis.user)
 app.get('/apis/user/sessions', apis.usersessions)
@@ -170,7 +173,8 @@ app.get('/apis/user/:id', apis.user)
 app.get('/apis/seshfeed', apis.seshfeed)
 app.get('/apis/seshfeed/:id', apis.seshfeed)
 app.get('/apis/allclasses', apis.allclasses)
-
+app.get('/apis/notifications', apis.notifications)
+app.get('/apis/courses/:num/:dept', apis.courses)
 
 
 var port = process.env.PORT || 3000;
@@ -182,7 +186,7 @@ console.log("Express server listening on port %d in %s mode", app.address().port
 
 var everyone = nowjs.initialize(app, {cookieKey:'pectus', socketio: {'transports': ["xhr-polling"], 'polling duration': "10" }});
 
-
+var notification = mongoose.model('Notification');
 var classes = mongoose.model('Class'); 
 var study = mongoose.model('StudyTime');
 var users = mongoose.model('User');
@@ -257,11 +261,15 @@ everyone.now.addSession = function (sessionId, callback) {
 everyone.now.removeSession = function (sessionid) {
 	console.log(sessionid)
 	var userID = this.user.session.userId;
-	users.findById(userID, function(err, usr) {
+	mongoose.model('StudyTime')
+	.findById(sessionid)
+	.run(function (err, sesh) {
 		if (err) { console.log(err); }
 		else {
-			usr.studytimes.id(sessionid).remove()
-			usr.save(function(err) {
+			console.log(sesh)
+			var usridx = sesh.users.indexOf(userID)
+			if (usridx != -1) sesh.users.splice(usridx,1)
+			sesh.save(function(err) {
 				if (err) {
 					console.log(err);
 				}
@@ -293,6 +301,10 @@ everyone.now.searchDept = function (text, callback) {
 everyone.now.submitDept = function (dept, callback) {
 	console.log('Finding course numbers for dept:' + dept);
 	classes.distinct('num', {dept: dept}, callback);
+}
+
+everyone.now.submitNum = function (dept, classNum, callback) {
+	classes.find({dept:dept, num: classNum}, callback);
 }
 
 everyone.now.submitClass = function (department, classNum, callback) {
@@ -362,20 +374,30 @@ everyone.now.getFBFriends = function (callback) {
 	});
 }
 everyone.now.inviteFBFriends = function(friends, seshid) {
-	console.log('YOOOO')
 	access_token = this.user.session.access_token;
 	url = configdata.site_domain + 'sessions/' + seshid;
-	console.log(url)
+
+	notifs = [] // Generate a list of users to send an internal notification too.
 	friends.forEach(function(friend_id) {
-		graphURL = 'https://graph.facebook.com/' + friend_id + '/feed';
-		http_request.post({url: graphURL, qs: {
-										'access_token' : access_token,
-										'message' : 'Join my session on Seshlr!',
-										'link' : url,
-		}}, function(err, resp, data) {
-			console.log(data);
-		});
+		mongoose.model('User')
+			.find({ fbId: friend_id }, function (err, usr) {
+				if (usr) {
+					notifs.append(friend_id);
+				}
+				else {
+					graphURL = 'https://graph.facebook.com/' + friend_id + '/feed';
+					http_request.post({url: graphURL, qs: {
+													'access_token' : access_token,
+													'message' : 'Join my session on Seshlr!',
+													'link' : url,
+					}}, function(err, resp, data) {
+						console.log(data);
+					});
+				}
+			});
 	});
+
+	everyone.now.createNotification('invited', seshid, notifs); // Send internal notifs.
 }
 
 //SeshFeed filtering functions
@@ -388,7 +410,7 @@ everyone.now.orderByTime = function (callback) {
 		.populate('classes')
 		.run(function (err, usr) {
 			mongoose.model('StudyTime')
-				.find({course: {$in : usr.classes}})
+				.find({course: {$in : usr.classes}, time: {$gte :new Date()}})
 				.sort('time', 1)
 				.populate('course',['name','_id'])
 				.run(function (err, studyfeeds) {
@@ -412,4 +434,57 @@ everyone.now.filterByCourse = function (course, callback) {
 					callback(studyfeeds);
 				});
 			});
+}
+
+// Notifications
+
+everyone.now.createNotification = function (type, item_id, users, content) {
+	// Explicitly handling notifications and their text here -- we can always update how they work here without affecting the front-end
+	// For now, we assume every notification is referencing a session. This will get more complicated later when we have to address other scenarios.
+
+	console.log(users);
+	var user_id = this.user.session.userId;
+	create_notif_db = function (text, type, user_id, item_id) {
+		mongoose.model('StudyTime').findById(item_id, function(err, sesh) {
+			mongoose.model('User').findById(user_id, function(err, usr) {
+				if (type == 'commented')
+					text = usr.name + text + sesh.title + '.'
+				else
+					text = usr.name + text
+
+				// Default to everyone subscribed to the sesh if no specfic users are passed in:
+				if (!users) {
+					users = sesh.users;
+				}
+
+				// Now create the notification.
+				var instance = new notification();
+				instance.users = users;
+				instance.text = text;
+				instance.ref = item_id;
+				instance.save();
+
+				// Distribute the notification.
+				everyone.now.distributeNotification(text, sesh.users)
+			});
+		});
+	}
+
+	// FIXME: There has to be a nicer way to do this then all this stupid type-checking...
+	if (type == 'joined') {
+		notify_text = ' has joined a session you&#39;re attending.'
+		create_notif_db(notify_text, type, user_id, item_id);
+	}
+	else if (type == 'invited') {
+		notify_text = ' invited you to join their session.'
+		create_notif_db(notify_text, type, user_id, item_id);
+	}
+	else if (type == 'commented') {
+		notify_text = ' commented on '
+		create_notif_db(notify_text, type, user_id, item_id);
+	}
+	else if (type == 'starting') {
+		notify_text = ' is starting soon.'  
+		// Not implemented yet.
+	}
 }
