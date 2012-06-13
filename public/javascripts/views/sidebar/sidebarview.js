@@ -17,7 +17,8 @@ define([
 
 		},
 		
-		initialize: function (userNotifs, userData, courses, userSeshs) {
+		initialize: function (userData, userNotifs, courses, userSeshs) {
+			console.log(userData)
 			this.user = userData;
 			this.notifications = userNotifs;
 			this.seshs = userSeshs;
@@ -31,6 +32,7 @@ define([
 			} else {
 				notif_count = 0;
 			}
+			console.log(this.user)
 			var data = {
 				_: _,
 				$: $,
