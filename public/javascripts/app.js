@@ -3,22 +3,29 @@ define([
   'underscore',
   'backbone',
   'home',
-  'settingsmain'
-], function($, _, Backbone, Home, SMain){
+  'settings'
+], function($, _, Backbone, Home, Settings){
   var AppRouter = Backbone.Router.extend({
     routes: {
       // Define some URL routes
-      '/': 'home',
+      '': 'home',
       '/settings': 'settings',
       // Default
-      '*actions': 'home'
-    },
+      '*actions': 'peck'
+
+    }, 
+
+    peck: function() {
+      console.log("hello")
+    }, 
+
     home: function(){
+      console.log("Home")
       Home.initialize();
     },
       
     settings: function(){
-      SMain.initialize();
+      Settings.initialize();
     },
   });
 
