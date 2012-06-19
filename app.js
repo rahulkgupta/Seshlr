@@ -154,12 +154,11 @@ everyauth.helpExpress(app);
 // Routes
 
 app.get('/', routes.index)
-app.get('/home', routes.home)
+app.get('/home/', routes.home)
 app.get('/pande', routes.pande)
 app.get('/signup', routes.signup)
 app.get('/sessions', routes.sessions)
 app.get('/sessions/:id',routes.sessionPage)
-app.get('/settings', routes.settings)
 app.get('/test',routes.test)
 app.put('/addcourse', routes.addCourse)
 // APIs

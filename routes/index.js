@@ -10,7 +10,7 @@ exports.index = function(req, res){
 };
 
 exports.home = function(req, res){
-
+  console.log('home')
   if (req.loggedIn) {
   	if (req.session.userExists) {
   	// if (false) {
@@ -138,6 +138,7 @@ exports.sessionPage = function (req, res) {
 };
 
 exports.settings = function (req, res) {
+   console.log('settings')
 	if (req.loggedIn) {
 		mongoose.model('Class').distinct('dept', {}, function(err, depts) {
 		typeahead_depts = []

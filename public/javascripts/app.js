@@ -9,7 +9,7 @@ define([
     routes: {
       // Define some URL routes
       '': 'home',
-      '/settings': 'settings',
+      'settings': 'settings',
       // Default
       '*actions': 'peck'
 
@@ -25,6 +25,7 @@ define([
     },
       
     settings: function(){
+      console.log('settings')
       Settings.initialize();
     },
   });
