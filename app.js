@@ -178,8 +178,8 @@ app.get('/apis/notifications', apis.notifications)
 app.get('/apis/courses/:num/:dept', apis.courses)
 
 
-var port = process.env.PORT || 3000;
-app.listen(4000);
+var port = process.env.PORT || 4000;
+app.listen(port);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 
 
