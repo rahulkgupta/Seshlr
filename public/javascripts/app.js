@@ -1,40 +1,45 @@
-define([
-  'jquery',
-  'underscore',
-  'backbone',
-  'home',
-  'settings'
-], function($, _, Backbone, Home, Settings){
-  var AppRouter = Backbone.Router.extend({
-    routes: {
-      // Define some URL routes
-      '': 'home',
-      'settings': 'settings',
-      // Default
-      '*actions': 'peck'
+   define([
+   'jquery',
+   'underscore',
+   'backbone',
+   'views/sidebar/sidebarview',
+   ], function($  , _, Backbone, sidebarView) {
+   var AppRouter = Backbone.Router.extend({
 
-    }, 
+	   routes: {																																																																																																												
+	      // Define some URL routes																																																																					
+	   	'home': 'home',
+	      'settings': 'settings',																								
+	      // Default
+	      '*actions': 'peck'
 
-    peck: function() {
-      console.log("hello")
-    }, 
+	   }, 
 
-    home: function(){
-      console.log("Home")
-      Home.initialize();
+      initialize:function () {
+        $('.sidebar-container').html(sidebarView.render().el)
     },
-      
-    settings: function(){
-      console.log('settings')
-      Settings.initialize();
-    },
-  });
 
-  var initialize = function(){
-    var app_router = new AppRouter;
-    Backbone.history.start();
-  };
-  return {
-    initialize: initialize
-  };
+	   peck: function() {
+	      console.log("hello")
+	   }, 
+
+	   home: function(){
+	      console.log("Home")
+	   },																																						
+	      
+	   settings: function(){
+	      console.log('settings')
+
+	   },
+  	});
+
+   var initialize = function(){
+
+    	var app_router = new AppRouter;
+    	Backbone.history.start({pushState: true});
+
+   };
+  	return {
+    	initialize: initialize
+   };
 });

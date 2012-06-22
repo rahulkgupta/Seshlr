@@ -12,6 +12,7 @@ define([
 		
 		initialize: function(courses) {
 			this.courses = courses;
+         console.log(courses)
 			this.render();
 		},
 		

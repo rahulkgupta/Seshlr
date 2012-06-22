@@ -19,7 +19,7 @@ define([
     // Pass in our Router module and call it's initialize function
     Backbone.Model.prototype.idAttribute = "_id";
     var seshFeed = new seshFeedCollection(express.studyfeeds);
-    var user = new userData(express.user)
+    user = []
     var courses = new userCrses(express.courses);
     var userSeshs = new userSshs(express.userSeshs);
     console.log(userSeshs)
@@ -28,7 +28,6 @@ define([
     var calendar = new Calendar;
     // courses.add(express.courses[0])
     // courses.add(express.courses[1])
-    var sidebar = new sidebarView(user, notifs, courses, userSeshs);
     var createSesh = new CreateSesh(courses, userSeshs, user);
     var seshContainerView = new sfView(courses,userSeshs,seshFeed);
     now.distributeSession = function (sesh) {

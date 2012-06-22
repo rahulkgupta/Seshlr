@@ -17,7 +17,7 @@ exports.user = function(req, res) {
 			'picture': usr.picture,
 			'link': usr.link
 		}
-		res.send(rv)
+		res.send(usr)
 	});
 }
 
