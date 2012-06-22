@@ -3,14 +3,27 @@ define([
   'backbone',
   'models/usersesh'
 ], function(_, Backbone, userSeshModel){
-  var userSessionsCollection = Backbone.Collection.extend({
+
+   var userSeshs;
+   var userSessionsCollection = Backbone.Collection.extend({
     
 		model: userSeshModel,
 		
 		url: '/apis/user/sessions'
-	
-
-  });
+   });
  
-  return userSessionsCollection;
+  var initialize = function() {
+      if (userSeshs) {
+         return userSeshs;
+
+      } else {
+         var usrSesh = new userSessionsCollection
+         usrSesh.fetch()
+         userSeshs = usrSesh
+         return userSeshs
+      }
+   }
+  return {
+      initialize: initialize
+  }
 });

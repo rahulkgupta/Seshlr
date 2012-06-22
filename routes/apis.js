@@ -9,30 +9,12 @@ exports.user = function(req, res) {
 	}
 	mongoose.model('User')
 	.findById(userId)
+   .populate('classes')
 	.run(function (err, usr) {
-		var rv = {
-			'id': userId,
-			'access_token': req.session.access_token,
-			'name': usr.name,
-			'picture': usr.picture,
-			'link': usr.link
-		}
 		res.send(usr)
 	});
 }
 
-exports.userclasses = function (req, res) {
-	var userId = req.params.id;
-	if (!userId) {
-		var userId = req.user.id;
-	}
-	mongoose.model('User')
-	.findById(userId)
-	.populate('classes')
-	.run(function (err, usr) {
-		res.send(usr.classes)
-	});	
-}
 
 exports.usersessions = function (req, res) {
 	var userId = req.params.id;
