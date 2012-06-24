@@ -10,14 +10,16 @@ var Class = new Schema ({
   , name  : String
 });
 var User = new Schema ({
-		fbId: {type: Number, unique: true, index: true }
-	,	name: String
-	, first_name: String
-	,	link: String
-	,	picture: String
-	,	refreshToken: String
-	, expiresIn: Number
-	, classes: [{ type: Schema.ObjectId, ref: 'Class' }]
+	fbId: {type: Number, unique: true, index: true },
+    email: String,
+    password: String,
+    name: String,
+    first_name: String,
+    link: String,
+    picture: String,
+    refreshToken: String,
+    expiresIn: Number,
+    classes: [{ type: Schema.ObjectId, ref: 'Class' }]
 });
 
 var StudyTime = new Schema ({

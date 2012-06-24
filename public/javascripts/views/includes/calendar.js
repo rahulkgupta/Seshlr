@@ -117,7 +117,7 @@ define([
 			this.day = today.day;
 			this.monthNames = monthNames;
 			this.totalDays = totalDays;
-			this.render();
+			// this.render();
 		},
 		
 		render: function () {
@@ -131,6 +131,8 @@ define([
 			this.cal_loc = -100 * cursor;
 			$('#calendar ul').css('margin-left', this.cal_loc - 1)
 			$('.calendar-month').html(this.monthNames[this.month])
+
+			return this
 		},
 
 		scrollPrev: function(e) {
