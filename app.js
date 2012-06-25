@@ -73,13 +73,73 @@ everyauth.google
   })
   .redirectPath('/home'); */
 
+everyauth.password
+	.loginWith('email')
+	.getLoginPath('/login')
+	.postLoginPath('/login')
+	.loginView('PLACEHOLDER')
+	.authenticate( function(email, password) {
+		var promise = this.Promise();
+		console.log(email + ' is attempting to authorize with the site (password)');
+		user.findOne({ email: email }, function(err, usr) {
+			// Skipping actual password verification for now.
+			// We should at the very least use one-way encryption, but we should probably add some sort of salting in here too.
+			if (usr) {
+				this.usr.session.userExists = true;
+				console.log(usr.name + ' already exists -- authenticating now');
+				this.usr.session.userId = usr._id
+				promise.fulfill(user)
+			}
+			else {
+				console.log(email + ' is attemping to login with an invalid username.')
+				promise.fulfill([err])
+			}
+			return promise
+		});
+	})
+	.loginSuccessRedirect('/')
+	.getRegisterPath('/register')
+	.postRegisterPath('/register')
+	.registerView('register.jade')
+	.registerLocals({
+		title: 'Register',
+	})
+	.validateRegistration( function(newUser) {
+		// We should add actual validation...
+		return null
+	})
+	.registerUser( function(newUser) {
+		// FIXME: Need to add additional details to this user.
+		email = newUser.email;
+		password = newUser.password
+
+		var promise = this.Promise()
+		var instance = new user();
+		instance.email = email
+		instance.password = password
+		instance.save( function(err, usr) {
+			if (usr) {
+				// this.usr.session.userExists = false;
+				// this.usr.session.userId = usr._id;
+				console.log('Registered new user with email ' + email)
+				promise.fulfill(usr)
+			}
+			else {
+				console.log('Registration failed for user with email ' + email)
+				promise.fulfill([err])
+			}
+		});
+		return promise;
+	})
+	.registerSuccessRedirect('/')
+
 everyauth.facebook
   .appId(configdata.fbappid)
   .appSecret(configdata.fbappsecret)
   .scope('email, publish_stream')
   .findOrCreateUser( function( sess, accessToken, extra, fbUser) {
   	var promise = this.Promise();
-  	console.log(fbUser.name + ' is attempting to authorize with the site');
+  	console.log(fbUser.name + ' is attempting to authorize with the site (facebook)');
   	sess.userFbId = fbUser.id;
   	sess.access_token = accessToken;
   	user.findOne({fbId: fbUser.id}, function(err, usr) {
@@ -123,7 +183,10 @@ everyauth.facebook
 
 
 everyauth.everymodule.findUserById( function (userId, callback) {
-  user.findOne({fbId: userId}, callback);
+	// FIXME: Not sure if there is an elegant $or query I can use here but this works fine for now.
+	// I'm assuming that Mongoose raises the CastError before actually hitting the DB so it's still one round trip.
+	try { user.findOne({fbId: userId}, callback); }
+	catch (err) { user.findById(userId, callback); }
   // callback has the signature, function (err, user) {...}
 });
 	
@@ -178,8 +241,8 @@ app.get('/apis/notifications', apis.notifications)
 app.get('/apis/courses/:num/:dept', apis.courses)
 
 
-var port = process.env.PORT || 3000;
-app.listen(4000);
+var port = process.env.PORT || 4000;
+app.listen(port);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 
 

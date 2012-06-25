@@ -115,7 +115,11 @@ define([
 			this.day = today.day;
 			this.monthNames = monthNames;
 			this.totalDays = totalDays;
+<<<<<<< HEAD
          this.render()
+=======
+			// this.render();
+>>>>>>> origin/rahul
 		},
 		
 		render: function () {
@@ -128,7 +132,12 @@ define([
 			this.cal_loc = -100 * cursor;
 			$('#calendar ul').css('margin-left', this.cal_loc - 1)
 			$('.calendar-month').html(this.monthNames[this.month])
+<<<<<<< HEAD
          
+=======
+
+			return this
+>>>>>>> origin/rahul
 		},
 
 		scrollPrev: function(e) {
