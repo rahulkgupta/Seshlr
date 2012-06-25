@@ -77,7 +77,10 @@ everyauth.password
 	.loginWith('email')
 	.getLoginPath('/login')
 	.postLoginPath('/login')
-	.loginView('PLACEHOLDER')
+	.loginLocals({ 
+		title: 'Login',
+	})
+	.loginView('login.jade')
 	.authenticate( function(email, password) {
 		var promise = this.Promise();
 		console.log(email + ' is attempting to authorize with the site (password)');
@@ -85,17 +88,15 @@ everyauth.password
 			// Skipping actual password verification for now.
 			// We should at the very least use one-way encryption, but we should probably add some sort of salting in here too.
 			if (usr) {
-				this.usr.session.userExists = true;
-				console.log(usr.name + ' already exists -- authenticating now');
-				this.usr.session.userId = usr._id
-				promise.fulfill(user)
+				console.log(email + ' already exists -- authenticating now');
+				promise.fulfill(usr)
 			}
 			else {
 				console.log(email + ' is attemping to login with an invalid username.')
 				promise.fulfill([err])
 			}
-			return promise
 		});
+		return promise
 	})
 	.loginSuccessRedirect('/')
 	.getRegisterPath('/register')
@@ -119,8 +120,6 @@ everyauth.password
 		instance.password = password
 		instance.save( function(err, usr) {
 			if (usr) {
-				// this.usr.session.userExists = false;
-				// this.usr.session.userId = usr._id;
 				console.log('Registered new user with email ' + email)
 				promise.fulfill(usr)
 			}

@@ -12,8 +12,7 @@ exports.index = function(req, res){
 exports.home = function(req, res){
   console.log('home')
   if (req.loggedIn) {
-  	if (req.session.userExists) {
-  	// if (false) {
+  	if (req.user.hasSignedUp) {
   		var userId = req.params.id;
 			if (!userId) {
 				var userId = req.user.id; // If the route is being called without an ID, use the logged in user own ID.
