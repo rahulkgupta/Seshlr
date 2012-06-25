@@ -4,8 +4,7 @@ define([
   'backbone',
   'text!/../templates/calendar.html',
 ], function($, _, Backbone, calendarTemplate){
-	var searchView = Backbone.View.extend({
-		el: '#calendar-container',
+	var calendarView = Backbone.View.extend({
 
 		events: {
 			'click .calendar-prev': 'scrollPrev',
@@ -13,7 +12,7 @@ define([
 			'click #calendar li': 'addBorder',
 		},
 		
-		initialize: function(courses) {
+		initialize: function() {
 			// Just some quickly written functions we need. This shit is all pretty hacky.
 			modular_day = function(day, diff) {
 				day_index = day + diff
@@ -87,7 +86,6 @@ define([
 			n=0;
 			iter_date = start.date;
 			iter_month = start.month;
-			console.log(iter_date)
 			past = true;
 			for (i=0; i<=88; i++) {
 				if (iter_date <= totalDays[iter_month]) {
@@ -117,7 +115,7 @@ define([
 			this.day = today.day;
 			this.monthNames = monthNames;
 			this.totalDays = totalDays;
-			// this.render();
+         this.render()
 		},
 		
 		render: function () {
@@ -126,13 +124,10 @@ define([
 				days: this.days,
 			};
 			var compiledTemplate = _.template( calendarTemplate, data );
-			$('#calendar').append(compiledTemplate);
-
+         $(this.el).html(compiledTemplate) 
 			this.cal_loc = -100 * cursor;
 			$('#calendar ul').css('margin-left', this.cal_loc - 1)
 			$('.calendar-month').html(this.monthNames[this.month])
-
-			return this
 		},
 
 		scrollPrev: function(e) {
@@ -168,5 +163,5 @@ define([
 		},
 
 	});
-  return searchView;
+  return calendarView;
 });

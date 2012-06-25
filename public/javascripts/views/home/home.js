@@ -1,14 +1,11 @@
 define([
-  'jquery',
-  'underscore',
-  'backbone',
-  'libs/handlebars/handlebars'
-  'models/user',
-   'collections/usernotifscollection',
-   'collections/usercoursescollection',
-   'collections/userseshscollection',
-   'text!/templates/sidebar/sidebar.html'
-], function($, _, Backbone, hbar, userData, userNotifs, userCrses, userSeshs, sidebarTemplate){
+      'jquery',
+      'underscore',
+      'backbone',
+      'handlebars',
+      'views/includes/calendar',
+      'text!/templates/home.html'
+], function($, _, Backbone, Handlebars, calendarView, homeTemplate){
    var homeView = Backbone.View.extend({
 
       events: {
@@ -17,7 +14,6 @@ define([
 
 
      initialize: function () {
-         
 
          // this.courses = new userCrses;
          // this.user = userData.fetch()
@@ -29,6 +25,7 @@ define([
          // this.seshs = userSeshs.initialize();
 
          // this.seshs.bind('add', this.addSesh, this)
+         this.render();
       },
 
       render: function () {
@@ -40,28 +37,20 @@ define([
          // }
          // console.log(this.user.get('name'))
 
-         console.log(this.courses)
          var data = {
+            calendar: "test",
             _: _,
             $: $,
-            user: this.user,
-            seshs: this.seshs.models,
-            courses: this.courses.models,
-            notifications: this.notifications.models,
-            notif_count: this.notifications
          };
-         var compiledTemplate = hbar.compile( sidebarTemplate, data );
-         $(this.el).html(compiledTemplate);
+         var compiledTemplate = Handlebars.compile(homeTemplate);
          // $('li#sessions').addClass('selected');
          // $('#sidenav-notifications').hide();
-         return this;
+         $(this.el).html(compiledTemplate) 
+         var calendar = new calendarView ({el: this.$('#calendar-container')})
       },
 
-       settings: function () {
-         console.log("hello")
-         Backbone.history.navigate('settings', true)
-      },
+
    });;
       
-  return new sidebarView;
+  return homeView;
 });

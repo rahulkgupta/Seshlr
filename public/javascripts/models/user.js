@@ -19,7 +19,6 @@ define([
          var usr = new userModel
          usr.fetch()
          user = usr
-         console.log(user)
          return user
       }
    }

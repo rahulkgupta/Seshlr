@@ -39,7 +39,6 @@ define([
 			// }
          // console.log(this.user.get('name'))
 
-         console.log(this.courses)
 			var data = {
 				_: _,
 				$: $,

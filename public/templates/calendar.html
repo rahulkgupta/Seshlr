@@ -1,8 +1,15 @@
-<ul>
-	<% _.each(days, function(day){ %>
- 	<li <% if (day.past) { %> class="cal-past" <% }; %> <% if (day.current) { %> class="cal-current" <% }; %>>
-		<p class="cal-header"><%= day.day %></p>
-		<h4 ><%= day.date %><h4>
-	</li>
-	<% }); %>
-</ul>
+<div id="calendar-controls">
+   <a href="#" class="calendar-prev">&lt;&lt;&lt;</a>
+   <p class="calendar-month"></p>
+   <a href="#" class="calendar-next">&gt;&gt;&gt;</a>
+</div>
+<div id="calendar">
+   <ul>
+   	<% _.each(days, function(day){ %>
+    	<li <% if (day.past) { %> class="cal-past" <% }; %> <% if (day.current) { %> class="cal-current" <% }; %>>
+   		<p class="cal-header"><%= day.day %></p>
+   		<h4 ><%= day.date %><h4>
+   	</li>
+   	<% }); %>
+   </ul>
+</div>
