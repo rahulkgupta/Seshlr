@@ -1,52 +1,11 @@
 append head
-		script!= javascript
-		script(data-main="/javascripts/main", src='/javascripts/libs/require/require-jquery.js')
+      script!= javascript
+      script(data-main="/javascripts/main", src='/javascripts/libs/require/require-jquery.js')
 
 .container
-	.row
-		.span3
-			include includes/sidebar		
-		.span9
-			#header
-				span Find a session using the filters below, or  
-				span(id="session-creation")
-					a(class='btn btn-primary', data-toggle="model", href="#sesh-form", id="create-sesh") Create a Session 
-			#calendar-container	
-				#calendar-controls
-					a(href='#').calendar-prev <<<
-					p.calendar-month
-					a(href='#').calendar-next >>>
-				#calendar
-			.session-container
-				table(class="table table-bordered")
-					thead(class="sesh-filters")
-						tr
-							th(width="30%")
-								span Name
-								a(class="pull-right")
-									i(class="icon-chevron-down")
-							th(width="20%")
-								span(id="courses") Class
-								a(class="pull-right", id="course-filter", href="#")
-									i(class="icon-chevron-down")
-							th(width="15%")
-								span Date
-								a(class="pull-right", id="date-filter", href="#")
-									i(class="icon-chevron-down", id="date-filter-icon")
-							th(width="15%")
-								span Time
-								a(class="pull-right", id="time-filter", href="#")
-									i(class="icon-chevron-down", id="time-filter-icon")
-							th(width="10%")
-								i(class="icon-user")
-								a(class="pull-right", id="user-filter", href="#")
-									i(class="icon-chevron-down", id="user-filter-icon")
-							th(width="10%")
-								i(class="icon-comment")
-								a(class="pull-right", id="comm-filter", href="#")
-									i(class="icon-chevron-down", id="comm-filter-icon")
-					tbody(id="session-feed")
-	hr
-	footer
-		p Pekt Labs
-			
+   .row
+      .span3
+         include includes/sidebar      
+      .span9#main-container
+   footer
+      p Pekt Labs

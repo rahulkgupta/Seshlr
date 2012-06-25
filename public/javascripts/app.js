@@ -3,8 +3,8 @@
    'underscore',
    'backbone',
    'views/sidebar/sidebarview',
-   'views/home/seshcreationview'
-   ], function($  , _, Backbone, sidebarView, SeshCreation) {
+   'views/home/home'
+   ], function($  , _, Backbone, sidebarView, homeView) {
    var AppRouter = Backbone.Router.extend({
 
 	   routes: {																																																																																																												
@@ -25,7 +25,9 @@
 	   }, 
 
 	   home: function(){
-         var seshCreation = new SeshCreation()
+         // var seshCreation = new SeshCreation()
+         var home = new homeView({el: $('#main-container')})
+         
 	      console.log("Home")
 	   },																																						
 	      
