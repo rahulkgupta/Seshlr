@@ -28,7 +28,6 @@
          // var seshCreation = new SeshCreation()
          var home = new homeView({el: $('#main-container')})
          
-	      console.log("Home")
 	   },																																						
 	      
 	   settings: function(){
