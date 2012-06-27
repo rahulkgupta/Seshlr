@@ -1,13 +1,14 @@
 define([
-      'jquery',
-      'underscore',
-      'backbone',
-      'handlebars',
-      'views/includes/calendar',
-      'views/home/seshcreationview',
-      'text!/templates/home.html'
-], function($, _, Backbone, Handlebars, CalendarView, SeshCreation, homeTemplate){
-   var homeView = Backbone.View.extend({
+    'jquery',             
+    'underscore',
+    'backbone',
+    'handlebars',
+    'views/includes/calendar',
+    'views/home/seshcreationview',
+    'views/home/seshcontainerview',
+    'text!/templates/home.html'
+],  function($, _, Backbone, Handlebars, CalendarView, SeshCreation, SeshContainer, homeTemplate){
+    var homeView = Backbone.View.extend({
 
      //  events: {
      //     'click #create-sesh' : 'showSeshCreation',
@@ -18,45 +19,45 @@ define([
      //  console.log("hello")
      // },
 
-     initialize: function () {
+    initialize: function () {
 
-         // this.courses = new userCrses;
-         // this.user = userData.fetch()
-         // var self = this
-         // this.user.bind("change", function () {
-         //    self.courses.reset(self.user.get('classes'))
-         // })
-         // this.notifications = [];
-         // this.seshs = userSeshs.initialize();
+        // this.courses = new userCrses;
+        // this.user = userData.fetch()
+        // var self = this
+        // this.user.bind("change", function () {
+        //    self.courses.reset(self.user.get('classes'))
+        // })
+        // this.notifications = [];
+        // this.seshs = userSeshs.initialize();
 
-         // this.seshs.bind('add', this.addSesh, this)
-         this.render();
+        // this.seshs.bind('add', this.addSesh, this)
+        this.render();
       },
 
-      render: function () {
+    render: function () {
 
-         // if (this.notifications.models) {
-         //    notif_count = this.notifications.models.length;
-         // } else {
-         //    notif_count = 0;
-         // }
-         // console.log(this.user.get('name'))
+        // if (this.notifications.models) {
+        //    notif_count = this.notifications.models.length;
+        // } else {
+        //    notif_count = 0;
+        // }
+        // console.log(this.user.get('name'))
 
-         var data = {
-            calendar: "test",
+        var data = {
             _: _,
             $: $,
-         };
-         var compiledTemplate = Handlebars.compile(homeTemplate);
-         // $('li#sessions').addClass('selected');
-         // $('#sidenav-notifications').hide();
-         $(this.el).html(compiledTemplate) 
-         var calendar = new CalendarView ({el: this.$('#calendar-container')})
-         var seshCreation = new SeshCreation ({el: this.$('#session-creation')})
+        };
+        var compiledTemplate = Handlebars.compile(homeTemplate);
+        // $('li#sessions').addClass('selected');
+        // $('#sidenav-notifications').hide();
+        $(this.el).html(compiledTemplate) 
+        var calendar = new CalendarView ({el: this.$('#calendar-container')})
+        var seshCreation = new SeshCreation ({el: this.$('#session-creation')})
+        var seshContainer = new SeshContainer({el: this.$('.sesh-filters')})
       },
 
 
-   });;
+    });;
       
-  return homeView;
+    return homeView;
 });

@@ -3,11 +3,11 @@ define([
   'underscore',
   'backbone',
   'bs',
-  'collections/coursescollection',
+  'collections/usercoursescollection',
+  'models/user',
   'views/includes/coursecontainerview'
-], function($, _, Backbone,bs, courses, CourseContainerView){
+], function($, _, Backbone,bs, Courses, User, CourseContainerView){
 	var searchView = Backbone.View.extend({
-		el : $('#course-selector'),
 		
 		events: {
 			'keyup #dept-search-input' : 'submitDept',
@@ -15,9 +15,16 @@ define([
 		},
 		
 		initialize: function() {
+            this.courses = new Courses;
+            this.user = User.fetch()
+            var self = this
+            this.user.bind("change", function () {
+                self.courses.reset(self.user.get('classes'))
+            })
+            this.courses.bind('reset', this.showCourses, this);
 			$('#course-search').hide();
 			$('#course-submit').hide();
-			courses.bind('reset', this.showCourses, this);
+			
 		},
 		
 		submitDept: function(e) {
@@ -47,6 +54,7 @@ define([
       },
 
 		showCourses: function () {
+            console.log("pecktor")
          var courseContainerView = new CourseContainerView (courses)
          $(this.el).append(courseContainerView.render().el)
 			// courses.each(this.showCourse, this)

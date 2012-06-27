@@ -1,21 +1,28 @@
 define([
-  'jquery',
-  'underscore',
-  'backbone',
+  	'jquery',
+  	'underscore',
+  	'backbone',
+  	'collections/seshfeedcollection',
+    'collections/usercoursescollection',
+    'models/user',
+    'collections/userseshscollection',
 	'views/home/seshview',
-], function($, _, Backbone, seshView){
+], function($, _, Backbone, SeshFeed, UserCourses, User, UserSeshs, seshView){
 	var SeshFeedView = Backbone.View.extend({
 
-		el: $("#session-feed"),
 
-		initialize: function (courses,userSeshs,seshFeed) {
+		initialize: function () {
 			_.bindAll(this, "render");
-			this.courses = courses
-			this.seshFeed = seshFeed
-			this.userSesh = userSeshs
-			var self = this;
-			this.seshFeed.bind('reset',this.render,this)
-			
+			this.courses = new UserCourses;
+            this.user = User.fetch()
+            var self = this
+            this.user.bind("change", function () {
+                self.courses.reset(self.user.get('classes'))
+            })
+            this.seshFeed = SeshFeed.fetch();
+            this.userSesh = UserSeshs.fetch();
+            this.seshFeed.bind('reset',this.render,this)
+
 		},
 		render: function () {
 			for (var i = 0; i < this.seshFeed.length; i++) {

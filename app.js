@@ -216,7 +216,6 @@ everyauth.helpExpress(app);
 // Routes
 
 app.get('/', routes.index)
-app.get('/', routes.home)
 app.get('/home', routes.home)
 app.get('/settings', routes.settings)
 app.get('/pande', routes.pande)
@@ -238,7 +237,7 @@ app.get('/apis/seshfeed/:id', apis.seshfeed)
 app.get('/apis/allclasses', apis.allclasses)
 app.get('/apis/notifications', apis.notifications)
 app.get('/apis/courses/:num/:dept', apis.courses)
-
+app.get('/apis/depts', apis.alldepts)
 
 var port = process.env.PORT || 4000;
 app.listen(port);

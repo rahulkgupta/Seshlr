@@ -1,13 +1,13 @@
 require.config({
-   paths: {
-  	jui: 'libs/jquery/datepicker',	
-   underscore: 'libs/underscore/underscore-min',
-   backbone: 'libs/backbone/backbone-optamd3-min',
-	bs: 'libs/bootstrap/bootstrap',
-   text: 'libs/require/text',
-   handlebars: 'libs/handlebars/handlebars',
-   templates: '../templates'
-  }
+    paths: {
+        jui: 'libs/jquery/datepicker',	
+        underscore: 'libs/underscore/underscore-min',
+        backbone: 'libs/backbone/backbone-optamd3-min',
+        bs: 'libs/bootstrap/bootstrap',
+        text: 'libs/require/text',
+        handlebars: 'libs/handlebars/handlebars',
+        templates: '../templates'
+    }
 
 });
 
