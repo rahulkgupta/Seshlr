@@ -1,40 +1,45 @@
 define([
-  'jquery',
-  'underscore',
-  'backbone',
-	'text!/../templates/courseview.html'
+    'jquery',
+    'underscore',
+    'backbone',
+    'text!/../templates/courseview.html'
 ], function($, _, Backbone, courseTemplate){
-		var CourseView = Backbone.View.extend({
+        
+    var CourseView = Backbone.View.extend({
 
+        events: {
+            'click #add-course' : 'addCourse',
+        },
 
-		events: {
-			'click #add-course' : 'addCourse',
-		},
+        initialize: function (course) {
+            this.model = course;
+            this.model.bind('clear', this.clear, this)
+        },
 
-		initialize: function (course) {
-			this.model = course;
-		},
+        render: function () {
 
-		render: function () {
+            var data = {
+                    _: _,
+                    course: this.model
+                };
+                var compiledTemplate = _.template( courseTemplate, data );  
+                
+            $(this.el).html(compiledTemplate)
+            return this
+        },
 
-			var data = {
-					_: _,
-					course: this.model
-				};
-				var compiledTemplate = _.template( courseTemplate, data );	
-				
-			this.el.innerHTML = compiledTemplate
-			return this
-		},
+        addCourse: function (event) {
+            console.log(this.model)
+            this.model.save();
+        },
 
-		addCourse: function (event) {
-			this.model.save();
-		},
+        clear: function (event) {
+            console.log('clearing')
+            this.el.html('');
+        }
+        
+    });
+  
+    return CourseView;
 
-      clear: function (event) {
-         this.el.html('');
-      }
-		
-	});
-  return CourseView;
 });

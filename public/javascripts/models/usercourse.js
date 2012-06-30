@@ -2,8 +2,13 @@ define([
   'underscore',
   'backbone',
 ], function( _, Backbone){
-	var userCourse = Backbone.Model.extend({
+
+	var UserCourse = Backbone.Model.extend({
+
+        idAttribute: "_id",
+        
 		url:'addcourse'
 	});
-  return userCourse;
+
+    return UserCourse;
 });
