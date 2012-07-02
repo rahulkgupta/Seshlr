@@ -219,7 +219,9 @@ app.get('/signup', routes.signup)
 app.get('/sessions', routes.sessions)
 app.get('/sessions/:id',routes.sessionPage)
 app.get('/test',routes.test)
+app.post('/addcourse', routes.addCourse)
 app.put('/addcourse', routes.addCourse)
+
 // APIs
 app.get('/apis/user', apis.user)
 app.get('/apis/user/sessions', apis.usersessions)

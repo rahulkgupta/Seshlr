@@ -4,9 +4,10 @@ define([
   'backbone',
   'bs',
   'collections/usercoursescollection',
+  'collections/coursescollection',
   'models/user',
-  'views/includes/coursecontainerview'
-], function($, _, Backbone,bs, Courses, User, CourseContainerView){
+  'views/includes/courseview'
+], function($, _, Backbone,bs, UserCourses, Courses, User, CourseView){
     var searchView = Backbone.View.extend({
         
         events: {
@@ -15,11 +16,12 @@ define([
         },
         
         initialize: function() {
+            this.userCourses = new UserCourses;
             this.courses = new Courses;
             this.user = User.fetch()
             var self = this
             this.user.bind("change", function () {
-                self.courses.reset(self.user.get('classes'))
+                self.userCourses.reset(self.user.get('classes'))
             })
             this.courses.bind('reset', this.showCourses, this);
             $('#course-search').hide();
@@ -41,25 +43,30 @@ define([
         },
 
         submitNum: function(e) {
+            this.courses.reset();
+            this.$('#course-container').html('')
             dept = $('#dept-search-input').val();
             num = $('#course-search-input').val();
-            courses.dept = dept;
-            courses.num = num;
-            courses.each(this.removeCourse, this);
-            courses.fetchCourses(num, dept);
+            this.courses.dept = dept;
+            this.courses.num = num;
+            this.courses.fetchCourses(num, dept);
         },
       
         removeCourse: function (course) {
+            console.log('removing')
             course.clear();
         },
 
         showCourses: function () {
             console.log("pecktor")
-         var courseContainerView = new CourseContainerView (courses)
-         $(this.el).append(courseContainerView.render().el)
+            this.courses.each(this.showCourse, this)
         },
 
-        /*
+        showCourse: function( course) {
+            var courseView = new CourseView(course)
+            this.$('#course-container').append(courseView.render().el)
+        },
+
         submitCourse: function(e) {
             dept = $('#dept-search-input').val();
             num = $('#course-search-input').val();
@@ -81,7 +88,6 @@ define([
                 });
             });
         },
-        */
         
     });
   return searchView;
