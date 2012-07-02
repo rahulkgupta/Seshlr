@@ -19,7 +19,6 @@ define([
 
       render: function () {
          $(this.el).html('')
-         console.log(this.collection)
          this.collection.each(this.showCourse, this)
          return this;
       },

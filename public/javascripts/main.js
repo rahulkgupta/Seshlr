@@ -1,6 +1,6 @@
 require.config({
     paths: {
-        jui: 'libs/jquery/datepicker',	
+        jui: 'libs/jquery/datepicker',  
         underscore: 'libs/underscore/underscore-min',
         backbone: 'libs/backbone/backbone-optamd3-min',
         bs: 'libs/bootstrap/bootstrap',
@@ -18,9 +18,9 @@ require([
   // Some plugins have to be loaded in order due to their non AMD compliance
   // Because these scripts are not "modules" they do not pass any values to the definition function below
 ], function(App){
-	now.ready(function(){
-		App.initialize();
-	});
+    now.ready(function(){
+        App.initialize();
+    });
 
   // The "app" dependency is passed in as "App"
   // Again, the other dependencies passed in are not "AMD" therefore don't pass a parameter to this function

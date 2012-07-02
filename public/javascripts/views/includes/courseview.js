@@ -28,6 +28,7 @@ define([
 		},
 
 		addCourse: function (event) {
+			console.log('test')
 			this.model.save();
 		},
 
