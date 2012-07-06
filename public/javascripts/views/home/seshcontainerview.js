@@ -24,21 +24,18 @@ define([
         },
 
         initialize: function () {
-            this.courses = new Courses;
-            this.user = User.fetch()
-            var self = this
-            this.user.bind("change", function () {
-                self.courses.reset(self.user.get('classes'))
-            })
-            this.dAscending = true
-            this.tAscending = true;
-            this.uAscending = true;
-            this.cAscending = true;
-            this.aIcon = "icon-chevron-up"
-            this.dIcon = "icon-chevron-down"
-            this.seshFeed = seshFeedCollection.fetch();
-            this.userSesh = userSeshCollection.fetch();
-            this.render();
+            // this.courses = new Courses;
+            // this.user = new User
+            // this.courses.reset(this.user.get('classes'))
+            // this.dAscending = true
+            // this.tAscending = true;
+            // this.uAscending = true;
+            // this.cAscending = true;
+            // this.aIcon = "icon-chevron-up"
+            // this.dIcon = "icon-chevron-down"
+            // this.seshFeed = seshFeedCollection.fetch();
+            // this.userSesh = userSeshCollection.fetch();
+            // this.render();
         },
         render: function () {
             var data = {

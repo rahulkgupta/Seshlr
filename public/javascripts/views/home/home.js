@@ -42,7 +42,6 @@ define([
         //    notif_count = 0;
         // }
         // console.log(this.user.get('name'))
-
         var data = {
             _: _,
             $: $,

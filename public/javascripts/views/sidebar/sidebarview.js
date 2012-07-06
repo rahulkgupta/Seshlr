@@ -7,59 +7,71 @@ define([
   'collections/usercoursescollection',
   'collections/userseshscollection',
   'text!/templates/sidebar/sidebar.html'
-], function($, _, Backbone, userData, userNotifs, userCrses, userSeshs, sidebarTemplate){
-  var sidebarView = Backbone.View.extend({
+], function($, _, Backbone, UserModel, userNotifs, userCrses, UserSeshs, sidebarTemplate){
+    var sidebarView = Backbone.View.extend({
 
-    events: {
-         'click #settings' : 'settings'
-    },
+        events: {
+            'click #settings' : 'settings'
+        },
 
 
-     initialize: function () {
-         
-            
-        this.courses = new userCrses;
-        this.user = userData.fetch()
-        var self = this
-        this.user.bind("change", function () {
-            self.courses.reset(self.user.get('classes'))
-        })
-        this.notifications = [];
-        this.seshs = userSeshs.initialize();
-          
-        this.seshs.bind('add', this.addSesh, this)
-      },
+        initialize: function () {
 
-    render: function () {
+            _.bindAll(this);
+            this.courses = new userCrses;
+            this.user = UserModel.initialize()
+            var self = this
+            this.user.on("change", function () {
+                self.courses.reset(self.user.get('classes'))
+                self.render()
+            })
+            this.user.fetchUser()
+            this.notifications = [];
+            this.seshs = UserSeshs.initialize()
+            this.seshs.on('add', this.addSesh, this)
+            this.seshs.on('reset', function () {
+                console.log(self.seshs)
+                self.render()
+            })
+            this.seshs.fetchSeshs()
+        },
 
-      // if (this.notifications.models) {
-      //  notif_count = this.notifications.models.length;
-      // } else {
-      //  notif_count = 0;
-      // }
-         // console.log(this.user.get('name'))
+        render: function () {
+            $(this.el).html('')
+            if (this.notifications.models) {
+                notif_count = this.notifications.models.length;
+            } else {
+                notif_count = 0;
+            }
 
-      var data = {
-        _: _,
-        $: $,
-        user: this.user,
-        seshs: this.seshs.models,
-        courses: this.courses.models,
-        notifications: this.notifications.models,
-        notif_count: this.notifications
-      };
-      var compiledTemplate = _.template( sidebarTemplate, data );
-      $(this.el).html(compiledTemplate);
-      // $('li#sessions').addClass('selected');
-      // $('#sidenav-notifications').hide();
-         return this;
-    },
+            var data = {
+                _: _,
+                $: $,
+                user: this.user,
+                seshs: this.seshs.models,
+                courses: this.courses.models,
+                notifications: this.notifications.models,
+                notif_count: this.notifications
+            };
 
-       settings: function () {
-         console.log("hello")
-         Backbone.history.navigate('settings', true)
-      },
-   });;
+            console.log(data)
+            var compiledTemplate = _.template( sidebarTemplate, data );
+            $(this.el).html(compiledTemplate);
+
+        // this.$('li#sessions').addClass('selected');
+        // this.$('#sidenav-notifications').hide();
+
+        },
+
+        settings: function () {
+            console.log("hello")
+            Backbone.history.navigate('settings', true)
+        },
+
+        addSesh: function () {
+            this.render()
+        }
+    });;
     
-  return new sidebarView;
+  return sidebarView;
 });

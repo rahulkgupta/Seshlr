@@ -17,36 +17,7 @@ exports.home = function(req, res){
             if (!userId) {
                 var userId = req.user.id; // If the route is being called without an ID, use the logged in user own ID.
             }
-            console.log(userId);
-            mongoose.model('User')
-                .findById(userId)
-                .populate('classes')
-                .run(function (err, usr) {
-                    mongoose.model('StudyTime')
-                        .find({course: {$in : usr.classes},time: {$gte :new Date()}})
-                        .sort('created', -1)
-                        .populate('course')
-                        .run(function (err, studyfeeds) {
-                            mongoose.model('StudyTime')
-                                .find({users: userId, time: {$gte :new Date()}})
-                                .populate('classes')
-                                .run(function (err, studytimes) {
-                                    mongoose.model('Notification')
-                                        .find({ users: userId })
-                                        .run(function (err, notifs) {
-                                            res.expose(notifs, 'express.userNotifs')
-                                            res.expose(studyfeeds,'express.studyfeeds')
-                                            res.expose(studytimes,'express.userSeshs')
-                                            res.expose(usr,'express.user')
-                                            res.expose(usr.classes,'express.courses')
-                                            res.render('home', { title: 'Welcome'})
-                                        });
-                                }); 
-                            
-                        });
-                    });
-        
-
+            res.render('home', { title: 'Welcome'})
     } else {
         res.redirect('/signup');
     }

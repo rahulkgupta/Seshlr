@@ -17,7 +17,7 @@ define([
         }, 
 
         initialize:function () {
-            $('.sidebar-container').html(SidebarView.render().el)
+            var sidebar = new SidebarView({el :  $('.sidebar-container')})
         },
 
         peck: function() {
@@ -35,7 +35,7 @@ define([
     });
 
     var initialize = function(){
-
+        var store = []
         var app_router = new AppRouter;
         Backbone.history.start({pushState: true});
     };

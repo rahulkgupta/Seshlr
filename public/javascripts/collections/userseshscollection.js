@@ -5,30 +5,41 @@ define([
 ],  function(_, Backbone, userSeshModel){
 
     var userSeshs;
+
     var UserSessionsCollection = Backbone.Collection.extend({
         
         model: userSeshModel,
 
-        url: '/apis/user/sessions'
+        url: '/apis/user/sessions',
+
+        fetchSeshs: function () {
+            if (this.length == 0) {
+                this.fetch()
+            } else {
+                console.log('triggering')
+                this.trigger('reset')
+            }
+        }
 
     });
-   
-    var fetch = function() {
+
+
+    var initialize = function () {
         if (userSeshs) {
             return userSeshs;
         } else {
-            var usrSesh = new UserSessionsCollection
-            usrSesh.fetch()
-            userSeshs = usrSesh
-            return userSeshs
-        }
+            var usrSshs = new UserSessionsCollection
+            userSeshs = usrSshs
+            return userSeshs;
+        }        
     }
 
-    var initialize = function () {
-        return new UserSessionsCollection;
+    var test = function () {
+        console.log(userSeshs)
     }
+
     return {
-        fetch: fetch,
-        initialize: initialize
+        initialize: initialize,
+        test: test,
     }
 });

@@ -1,33 +1,44 @@
 define([
-  'jquery',
-  'underscore',
-  'backbone',
+    'jquery',
+    'underscore',
+    'backbone',
 ], function($, _, Backbone){
 
-   var user;
+    var user;
 
-   var userModel = Backbone.Model.extend({
-      idAttribute: "_id",
-      urlRoot:'/apis/user',
-   });
+    var courses;
 
-   var fetch = function() {
-      if (user) {
-         return user;
+    var UserModel = Backbone.Model.extend({
+        idAttribute: "_id",
+        urlRoot:'/apis/user',
 
-      } else {
-         var usr = new userModel
-         usr.fetch()
-         user = usr
-         return user
-      }
-   }
+        fetchUser: function () {
+            if (this.isNew()) {
+                this.fetch()
+            } else {
+                this.change()
+            }
+        }
 
-   var initialize = function () {
-      return new userModel;
-   }
-  return {
-      fetch: fetch,
-      initialize: initialize
-  }   
+    });
+
+
+    var initialize = function () {
+        if (user) {
+            return user;
+        } else {
+            var usr = new UserModel
+            user = usr
+            return user;
+        }        
+    }
+
+    var test = function () {
+        console.log(user)
+    }
+
+    return {
+        initialize: initialize,
+        test: test
+    }   
 });
