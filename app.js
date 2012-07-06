@@ -15,6 +15,7 @@ var mongoose = require('mongoose');
 
 var cfg = require('konphyg')(__dirname + '/public/config');
 var configdata = cfg('config');
+var bcrypt = require('bcrypt');
 
 var SessionMongoose = require("session-mongoose");
 var mongooseSessionStore = new SessionMongoose({
@@ -85,16 +86,25 @@ everyauth.password
 		var promise = this.Promise();
 		console.log(email + ' is attempting to authorize with the site (password)');
 		user.findOne({ email: email }, function(err, usr) {
-			// Skipping actual password verification for now.
 			// We should at the very least use one-way encryption, but we should probably add some sort of salting in here too.
-			if (usr) {
-				console.log(email + ' already exists -- authenticating now');
-				promise.fulfill(usr)
-			}
-			else {
+			if (err) {
 				console.log(email + ' is attemping to login with an invalid username.')
 				promise.fulfill([err])
 			}
+			bcrypt.compare(password, usr.password, function(err, succ) {
+				if (err) {
+					console.log(email + ' is attempting to login with an invalid password')
+					promise.fulfill(['Invalid Password.']);
+				}
+				if (succ) {
+					console.log(email + ' - authentication successful.');
+					promise.fulfill(usr);
+				}
+				else {
+					console.log(email + ' is attempting to login with an invalid password')
+					promise.fulfill(['Invalid Password.']);
+				}
+			});
 		});
 		return promise
 	})
@@ -111,13 +121,20 @@ everyauth.password
 	})
 	.registerUser( function(newUser) {
 		// FIXME: Need to add additional details to this user.
-		email = newUser.email;
-		password = newUser.password
-
 		var promise = this.Promise()
+
+		email = newUser.email;
+		password = newUser.password;
+		delete newUser.password;
+
+		// Generate password hash.
+		salt = bcrypt.genSaltSync(10);
+		console.log(salt)
+		hash = bcrypt.hashSync(password, salt)
+
 		var instance = new user();
 		instance.email = email
-		instance.password = password
+		instance.password = hash
 		instance.save( function(err, usr) {
 			if (usr) {
 				console.log('Registered new user with email ' + email)
@@ -142,26 +159,6 @@ everyauth.facebook
   	sess.userFbId = fbUser.id;
   	sess.access_token = accessToken;
   	user.findOne({fbId: fbUser.id}, function(err, usr) {
-  		/* if (err) { console.log(err) }
-  		else {
-  			graphURL = 'https://graph.facebook.com/' + fbUser.id + '/friends';
-  			db_friends = FBFriend.find({ user_id: fbUser.id}, 'friend_id', function (err, dbfriends) {
-  				console.log(db_freinds);
-					http_request.get({url: graphURL, qs: { 'access_token': accessToken }}, function(err, resp, data) {
-						data = JSON.parse(data);
-						var friends = data.data; // Facebook contains the friends in a list called data X.X
-						friends.forEach(function(friend) {
-								if (dbfriend.friend_id != friend.id) {
-									var instance = new FBFriend;
-									instance.friend_id = friend.id;
-									instance.name = friend.name;
-									instance.user_id = fbUser.id;
-									instance.save();
-								}
-							});
-						});
-					});
-				}); */
 		if (usr) {
 			sess.userExists = true;
 			console.log(fbUser.name + ' already exists -- authenticating now');
@@ -174,7 +171,6 @@ everyauth.facebook
 			sess.userId = newUser._id
 		}
 		promise.fulfill(fbUser);
-  		// }
   	});
   	return promise;
   })
@@ -372,6 +368,7 @@ everyone.now.submitNum = function (dept, classNum, callback) {
 }
 
 everyone.now.submitClass = function (department, classNum, callback) {
+	console.log('test')
 	var userID = this.user.session.userId;
 	console.log(userID);
 	classes.findOne({dept: department, num: classNum}, function (err,course) {
