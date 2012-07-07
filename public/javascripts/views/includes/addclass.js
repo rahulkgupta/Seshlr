@@ -18,7 +18,7 @@ define([
         initialize: function() {
             this.userCourses = new UserCourses;
             this.courses = new Courses;
-            this.user = User.fetch()
+            this.user = User.initialize()
             var self = this
             this.user.bind("change", function () {
                 self.userCourses.reset(self.user.get('classes'))

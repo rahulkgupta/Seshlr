@@ -52,7 +52,7 @@ define([
         $(this.el).html(compiledTemplate) 
         var calendar = new CalendarView ({el: this.$('#calendar-container')})
         var seshCreation = new SeshCreation ({el: this.$('#session-creation')})
-        var seshContainer = new SeshContainer({el: this.$('.sesh-filters')})
+        var seshContainer = new SeshContainer({el: this.$('.session-container')})
       },
 
 

@@ -29,10 +29,7 @@ define([
             this.notifications = [];
             this.seshs = UserSeshs.initialize()
             this.seshs.on('add', this.addSesh, this)
-            this.seshs.on('reset', function () {
-                console.log(self.seshs)
-                self.render()
-            })
+            this.seshs.on('reset', this.render, this)
             this.seshs.fetchSeshs()
         },
 

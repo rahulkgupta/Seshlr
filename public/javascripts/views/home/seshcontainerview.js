@@ -7,9 +7,12 @@ define([
     'models/user',
     'collections/userseshscollection',
     'views/home/seshfeedview',
-    'text!/../templates/seshfeed.html',
+    'text!/../templates/seshcontainer.html',
     'text!/../templates/seshfeedfilter.html'
-], function($, _, Backbone, seshFeedCollection, Courses, User, userSeshCollection, seshFeedView, seshFeedTemplate, feedFilterTemplate){
+], function($, _, Backbone, seshFeedCollection, 
+    Courses, User, userSeshCollection, 
+    seshFeedView, containerTemplate, 
+    feedFilterTemplate){
   
     var SeshFeedView = Backbone.View.extend({
 
@@ -24,15 +27,21 @@ define([
         },
 
         initialize: function () {
-            // this.courses = new Courses;
-            // this.user = new User
-            // this.courses.reset(this.user.get('classes'))
-            // this.dAscending = true
-            // this.tAscending = true;
-            // this.uAscending = true;
-            // this.cAscending = true;
-            // this.aIcon = "icon-chevron-up"
-            // this.dIcon = "icon-chevron-down"
+            _.bindAll(this);
+            this.courses = new Courses;
+            this.user = User.initialize()
+            var self = this
+            this.user.on("change", function () {
+                self.courses.reset(self.user.get('classes'))
+                self.render()
+            })
+            this.dAscending = true
+            this.tAscending = true;
+            this.uAscending = true;
+            this.cAscending = true;
+            this.aIcon = "icon-chevron-up"
+            this.dIcon = "icon-chevron-down"
+            this.user.fetchUser()
             // this.seshFeed = seshFeedCollection.fetch();
             // this.userSesh = userSeshCollection.fetch();
             // this.render();
@@ -43,6 +52,8 @@ define([
                 $: $,
                 courses: this.courses.models
             };
+            var compiledTemplate = _.template( containerTemplate, data );
+            $(this.el).html(compiledTemplate);
             this.seshView = new seshFeedView({el: this.$("#session-feed")})
         },
 

@@ -14,14 +14,16 @@ define([
 		initialize: function () {
 			_.bindAll(this, "render");
 			this.courses = new UserCourses;
-            this.user = User.fetch()
+            this.user = User.initialize()
+            this.userSesh = UserSeshs.initialize();
             var self = this
-            this.user.bind("change", function () {
+            this.user.on("change", function () {
                 self.courses.reset(self.user.get('classes'))
             })
+            this.user.fetchUser()
             this.seshFeed = SeshFeed.fetch();
-            this.userSesh = UserSeshs.fetch();
-            this.seshFeed.bind('reset',this.render,this)
+            this.userSesh.fetchSeshs()
+            this.seshFeed.on('reset',this.render,this)
 
 		},
 		render: function () {
