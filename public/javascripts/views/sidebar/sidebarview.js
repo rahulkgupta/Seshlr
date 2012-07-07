@@ -11,7 +11,8 @@ define([
     var sidebarView = Backbone.View.extend({
 
         events: {
-            'click #settings' : 'settings'
+            'click #settings' : 'settings',
+            'click .logo' : 'home'
         },
 
 
@@ -25,7 +26,7 @@ define([
                 self.courses.reset(self.user.get('classes'))
                 self.render()
             })
-            this.user.fetchUser()
+            this.user.fetch()
             this.notifications = [];
             this.seshs = UserSeshs.initialize()
             this.seshs.on('add', this.addSesh, this)
@@ -51,7 +52,6 @@ define([
                 notif_count: this.notifications
             };
 
-            console.log(data)
             var compiledTemplate = _.template( sidebarTemplate, data );
             $(this.el).html(compiledTemplate);
 
@@ -60,8 +60,11 @@ define([
 
         },
 
+        home: function () {
+            Backbone.history.navigate('home', true)
+        },
+
         settings: function () {
-            console.log("hello")
             Backbone.history.navigate('settings', true)
         },
 

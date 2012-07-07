@@ -10,26 +10,29 @@ define([
     
         model: SessionFeedModel,
         
-        url: '/apis/seshfeed'
+        url: '/apis/seshfeed',
+
+        fetchFeed: function () {
+            if (seshFeed.length == 0) {
+                seshFeed.fetch({success: function () {console.log('test'); seshFeed.trigger('bar')}})
+            } else {
+                seshFeed.trigger('reset')
+            }
+        }
     });
 
-    var fetch = function() {
+    var initialize = function () {
         if (seshFeed) {
             return seshFeed;
         } else {
-            var feed = new SeshFeedCollection
-            feed.fetch()
-            seshFeed = feed
-            return seshFeed
-        }
-   }
-
-    var initialize = function () {
-        return new SeshFeedCollection;
+            var sshFeed = new SeshFeedCollection
+            seshFeed = sshFeed
+            return seshFeed;
+        }        
     }
+    
  
     return {
-        fetch: fetch,
         initialize: initialize
     }
 });

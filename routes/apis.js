@@ -1,11 +1,9 @@
 var mongoose = require('mongoose');
 
 exports.user = function(req, res) {
-	console.log('getting a user');
 	var userId = req.params.id;
 	if (!userId) {
 		var userId = req.user.id; // If the route is being called without an ID, use the logged in user own ID.
-		console.log(userId);
 	}
 	mongoose.model('User')
 	.findById(userId)
@@ -25,8 +23,6 @@ exports.usersessions = function (req, res) {
 	.find({users: userId})
 	.populate('course')
 	.run(function (err, studytimes) {
-		console.log(studytimes.length)
-		console.log(" ")
 		res.send(studytimes)
 	});	
 }

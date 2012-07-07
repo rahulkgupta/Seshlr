@@ -13,11 +13,10 @@ define([
         url: '/apis/user/sessions',
 
         fetchSeshs: function () {
-            if (this.length == 0) {
-                this.fetch()
+            if (userSeshs.length == 0) {
+                userSeshs.fetch()
             } else {
-                console.log('triggering')
-                this.trigger('reset')
+                userSeshs.trigger('reset')
             }
         }
 

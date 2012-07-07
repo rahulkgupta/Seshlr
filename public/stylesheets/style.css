@@ -24,7 +24,7 @@ h1.logo {
 	overflow: hidden;
 	background: url('../img/logo.png') no-repeat 0 center;
 }
-.sidebar-container {
+.sidebar-info {
 	border: 1px solid #dddddd;
 	border-radius: 5px;
 	background: #eaeaea;

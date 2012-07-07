@@ -36,13 +36,14 @@ define([
             this.seshs = UserSeshs.initialize()
             var self = this
             this.user.on("change", function () {
+                console.log(self.user)
                 self.courses.reset(self.user.get('classes'))
                 self.render()
             })
-            this.seshs.on('reset', function () {
-                console.log(self.seshs)
-                self.render()
-            })
+            // this.seshs.on('reset', function () {
+            //     console.log(self.seshs)
+            //     self.render()
+            // })
             this.seshs.fetchSeshs()
             this.model = new SeshCreateModel;
             this.user.fetchUser()

@@ -13,10 +13,12 @@ define([
         urlRoot:'/apis/user',
 
         fetchUser: function () {
-            if (this.isNew()) {
-                this.fetch()
+            if (user.isNew()) {
+                user.fetch({success: function () {
+                    console.log('successfully fetched')
+                }})
             } else {
-                this.change()
+                user.trigger('change')
             }
         }
 

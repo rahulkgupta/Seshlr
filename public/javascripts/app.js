@@ -21,11 +21,9 @@ define([
         },
 
         peck: function() {
-            console.log("hello")
         }, 
 
         home: function(){
-            console.log('home')
             var home = new HomeView({el: $('#main-container')})
         },                                                                                                                                                       
           

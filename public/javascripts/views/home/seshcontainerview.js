@@ -6,15 +6,15 @@ define([
     'collections/usercoursescollection',
     'models/user',
     'collections/userseshscollection',
-    'views/home/seshfeedview',
+    'views/home/seshview',
     'text!/../templates/seshcontainer.html',
     'text!/../templates/seshfeedfilter.html'
 ], function($, _, Backbone, seshFeedCollection, 
     Courses, User, userSeshCollection, 
-    seshFeedView, containerTemplate, 
+    seshView, containerTemplate, 
     feedFilterTemplate){
   
-    var SeshFeedView = Backbone.View.extend({
+    var SeshContainerView = Backbone.View.extend({
 
         events: {
             'click #order-time' : 'orderByTime',
@@ -27,14 +27,17 @@ define([
         },
 
         initialize: function () {
-            _.bindAll(this);
             this.courses = new Courses;
             this.user = User.initialize()
+            this.seshFeed = seshFeedCollection.initialize()
+            this.userSeshs = userSeshCollection.initialize()
             var self = this
             this.user.on("change", function () {
                 self.courses.reset(self.user.get('classes'))
-                self.render()
+                // self.render()
             })
+
+            this.seshFeed.on('reset', this.render, this)
             this.dAscending = true
             this.tAscending = true;
             this.uAscending = true;
@@ -42,8 +45,10 @@ define([
             this.aIcon = "icon-chevron-up"
             this.dIcon = "icon-chevron-down"
             this.user.fetchUser()
-            // this.seshFeed = seshFeedCollection.fetch();
-            // this.userSesh = userSeshCollection.fetch();
+            this.seshFeed.fetchFeed();
+            this.userSeshs.fetchSeshs();
+
+
             // this.render();
         },
         render: function () {
@@ -52,9 +57,21 @@ define([
                 $: $,
                 courses: this.courses.models
             };
+            console.log(this.seshFeed.length)
             var compiledTemplate = _.template( containerTemplate, data );
             $(this.el).html(compiledTemplate);
-            this.seshView = new seshFeedView({el: this.$("#session-feed")})
+            // this.seshView = new seshFeedView({el: this.$("#session-feed")})
+            for (var i = 0; i < this.seshFeed.length; i++) {
+                sesh = this.seshFeed.at(i);
+                var sView;
+                if (!this.userSeshs.get(sesh.id)) {
+                    sView = new seshView (sesh, false)  
+                } else {
+                    sView = new seshView (sesh, true)   
+                }
+                console.log("test")
+                this.$("#session-feed").append(sView.render().el);
+            }
         },
 
         addSession: function (event) {
@@ -192,5 +209,5 @@ define([
         },
     });
 
-    return SeshFeedView;
+    return SeshContainerView;
 });
