@@ -14,9 +14,7 @@ define([
 
         fetchUser: function () {
             if (user.isNew()) {
-                user.fetch({success: function () {
-                    console.log('successfully fetched')
-                }})
+                user.fetch()
             } else {
                 user.trigger('change')
             }

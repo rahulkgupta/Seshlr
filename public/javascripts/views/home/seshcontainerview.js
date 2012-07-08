@@ -69,7 +69,6 @@ define([
                 } else {
                     sView = new seshView (sesh, true)   
                 }
-                console.log("test")
                 this.$("#session-feed").append(sView.render().el);
             }
         },
@@ -121,35 +120,38 @@ define([
 
         filterByCourse: function() {
             var course = $('#course-filter-input').val();
-            console.log(this.seshFeed);
+            oldFeed = _.clone(this.seshFeed)
+            console.log(course);
             if (course == 0) {
-                this.seshView.update(this.seshFeed.models)
+                this.seshFeed.reset(this.seshFeed.models)
             } else {
                 var models = _.filter(this.seshFeed.models, function(model) {
                     return model.get('course')._id == course
                 })
-                this.seshView.update(models);
+                this.seshFeed.reset(models)
             }
-            this.seshFeed = new seshFeedCollection(express.studyfeeds)
+            this.seshFeed = oldFeed
             $('#courses').html("Class")
         },
 
         orderDates: function() {
             var models;
             if (this.dAscending) {
-            models = _.sortBy(this.seshFeed.models, function (model) {
-                var date = new Date(model.get('time'))
-                return (date.getDate() + date.getMonth()*100 + date.getFullYear()*1000)
-            })
-            $('#date-filter-icon').attr('class',this.aIcon)
+                models = _.sortBy(this.seshFeed.models, function (model) {
+                    var date = new Date(model.get('time'))
+                    return (date.getDate() + date.getMonth()*100 + date.getFullYear()*1000)
+                })
+                this.seshFeed.reset(models)
+                $('#date-filter-icon').attr('class',this.aIcon)
             } else {
                 models = _.sortBy(this.seshFeed.models, function (model) {
-                var date = new Date(model.get('time'))
-                return -(date.getDate() + date.getMonth()*100 + date.getFullYear()*1000)
-            })
+                    var date = new Date(model.get('time'))
+                    return -(date.getDate() + date.getMonth()*100 + date.getFullYear()*1000)
+                })
+                this.seshFeed.reset(models)
                 $('#date-filter-icon').attr('class',this.dIcon)
             }
-            this.seshView.update(models)
+            
             this.dAscending = !this.dAscending;
         },
 
@@ -157,18 +159,20 @@ define([
             var models;
             if (this.tAscending) {
                 models = _.sortBy(this.seshFeed.models, function (model) {
-                var date = new Date(model.get('time'))
-                return date.getTime()
-            })
-            $('#time-filter-icon').attr('class',this.aIcon)
+                    var date = new Date(model.get('time'))
+                    return date.getTime()
+                })
+                this.seshFeed.reset(models)
+                $('#time-filter-icon').attr('class',this.aIcon)
             } else {
                 models = _.sortBy(this.seshFeed.models, function (model) {
                     var date = new Date(model.get('time'))
                     return -(date.getTime())
                 })
+                this.seshFeed.reset(models)
                 $('#time-filter-icon').attr('class',this.dIcon)
             }
-            this.seshView.update(models)
+            
             this.tAscending = !this.tAscending;
         },
 
@@ -178,15 +182,17 @@ define([
             models = _.sortBy(this.seshFeed.models, function (model) {
                 return model.get('users').length
             })
-            $('#user-filter-icon').attr('class',this.aIcon)
+            this.seshFeed.reset(models)
+            this.$('#user-filter-icon').attr('class',this.aIcon)
             } else {
                 models = _.sortBy(this.seshFeed.models, function (model) {
                     var date = new Date(model.get('time'))
                     return -(model.get('users').length)
                 })
-                $('#user-filter-icon').attr('class',this.dIcon)
+                this.seshFeed.reset(models)
+                this.$('#user-filter-icon').attr('class',this.dIcon)
             }
-            this.seshView.update(models)
+            
             this.uAscending = !this.uAscending;
         },
 
@@ -196,15 +202,16 @@ define([
                 models = _.sortBy(this.seshFeed.models, function (model) {
                     return model.get('comments').length
                 })
+                this.seshFeed.reset(models)
                 $('#comm-filter-icon').attr('class',this.aIcon)
             } else {
                 models = _.sortBy(this.seshFeed.models, function (model) {
                     var date = new Date(model.get('time'))
                     return -(model.get('comments').length)
                 })
+                this.seshFeed.reset(models)
                 $('#comm-filter-icon').attr('class',this.dIcon)
             }
-            this.seshView.update(models)
             this.cAscending = !this.cAscending;
         },
     });

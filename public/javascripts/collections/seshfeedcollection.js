@@ -14,7 +14,7 @@ define([
 
         fetchFeed: function () {
             if (seshFeed.length == 0) {
-                seshFeed.fetch({success: function () {console.log('test'); seshFeed.trigger('bar')}})
+                seshFeed.fetch()
             } else {
                 seshFeed.trigger('reset')
             }

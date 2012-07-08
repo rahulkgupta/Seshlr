@@ -17,7 +17,7 @@ exports.home = function(req, res){
             if (!userId) {
                 var userId = req.user.id; // If the route is being called without an ID, use the logged in user own ID.
             }
-            res.render('home', { title: 'Welcome'})
+            res.render('home', { title: 'Seshlr'})
     } else {
         res.redirect('/signup');
     }
@@ -108,14 +108,13 @@ exports.sessionPage = function (req, res) {
 };
 
 exports.settings = function (req, res) {
-   console.log('settings')
     if (req.loggedIn) {
         mongoose.model('Class').distinct('dept', {}, function(err, depts) {
         typeahead_depts = []
         depts.forEach(function(dept) {
             typeahead_depts.push('"' + dept + '"');
         });
-            res.render('settings', { title: 'Settings', depts: typeahead_depts});
+            res.render('settings', { title: 'Seshlr', depts: typeahead_depts});
         });
     }
     else {
