@@ -7,7 +7,7 @@ define([
 
         idAttribute: "_id",
         
-		url:'addcourse'
+		url:'/apis/course/'
 	});
 
     return UserCourse;

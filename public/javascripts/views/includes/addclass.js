@@ -12,17 +12,17 @@ define([
         
         events: {
             'keyup #dept-search-input' : 'submitDept',
-            'click #course-submit' : 'submitNum'
+            'keyup #course-search-input' : 'submitNum',
         },
         
         initialize: function() {
             this.userCourses = new UserCourses;
             this.courses = new Courses;
-            this.user = User.initialize()
+            //this.user = User.fetch();
             var self = this
-            this.user.bind("change", function () {
+            /*this.user.bind("change", function () {
                 self.userCourses.reset(self.user.get('classes'))
-            })
+            })*/
             this.courses.bind('reset', this.showCourses, this);
             $('#course-search').hide();
             $('#course-submit').hide();
@@ -34,7 +34,6 @@ define([
                 var dept = $("#dept-search-input").val();
                 now.submitDept(dept, function (err, nums) {
                     $('#course-search').show();
-                    $('#course-submit').show();
                     var course_input = $('#course-search-input').typeahead();
                     course_input.data('typeahead').source = nums;
                     $("#course-search-input").focus();
@@ -43,13 +42,18 @@ define([
         },
 
         submitNum: function(e) {
-            this.courses.reset();
-            this.$('#course-container').html('')
-            dept = $('#dept-search-input').val();
-            num = $('#course-search-input').val();
-            this.courses.dept = dept;
-            this.courses.num = num;
-            this.courses.fetchCourses(num, dept);
+            if (e.keyCode == 13) {
+                this.courses.reset();
+                this.$('#course-container').html('')
+                dept = $('#dept-search-input').val();
+                num = $('#course-search-input').val();
+                this.courses.dept = dept;
+                this.courses.num = num;
+                this.courses.fetchCourses(num,  dept, {
+                    error: function(model, response) { console.log('Add Course Error') },
+                    success: function(model, response) { alert('success') },
+                });
+            }
         },
       
         removeCourse: function (course) {

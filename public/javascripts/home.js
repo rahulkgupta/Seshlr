@@ -7,7 +7,7 @@ define([
    'collections/usernotifscollection',
    'collections/usercoursescollection',
    'collections/userseshscollection',
-   'text!/templates/sidebar/sidebar.html'
+   'text!/templates/sidebar/sidebar.html',
 ], function($, _, Backbone, hbar, userData, userNotifs, userCrses, userSeshs, sidebarTemplate){
    var homeView = Backbone.View.extend({
 

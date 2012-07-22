@@ -31,7 +31,7 @@ function($, _, Backbone, BS, Handlebars,
             };
 
             var depts = this.dept.get('depts')
-
+            
             var compiledTemplate = Handlebars.compile(SettingsTemplate);
             // var html = compiledTemplate(data)
             $(this.el).html(compiledTemplate) 

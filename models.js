@@ -20,7 +20,7 @@ var User = new Schema ({
     refreshToken: String,
     expiresIn: Number,
     classes: [{ type: Schema.ObjectId, ref: 'Class' }],
-    hasSignedUp: { type: Boolean, default: true },
+    hasSignedUp: { type: Boolean, default: false },
 });
 
 var StudyTime = new Schema ({

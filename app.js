@@ -176,13 +176,13 @@ everyauth.facebook
   })
   .redirectPath('/home');
 
-
+//everyauth.password.userPkey('_id');
 everyauth.everymodule.findUserById( function (userId, callback) {
 	// FIXME: Not sure if there is an elegant $or query I can use here but this works fine for now.
 	// I'm assuming that Mongoose raises the CastError before actually hitting the DB so it's still one round trip.
 	try { user.findOne({fbId: userId}, callback); }
 	catch (err) { user.findById(userId, callback); }
-  // callback has the signature, function (err, user) {...}
+    // callback has the signature, function (err, user) {...}
 });
 	
 // App Config
@@ -219,17 +219,19 @@ app.get('/signup', routes.signup)
 app.get('/sessions', routes.sessions)
 app.get('/sessions/:id',routes.sessionPage)
 app.get('/test',routes.test)
-app.post('/addcourse', routes.addCourse)
-app.put('/addcourse', routes.addCourse)
 
 // APIs
+// FIXME: I'd like to break up each of these into their own file if possible (i.e. apis.user.fetch & apis.user.save live in user.js?)
 app.get('/apis/user', apis.user)
+app.put('/apis/user/:id', apis.updateUser)
 app.get('/apis/user/sessions', apis.usersessions)
 app.get('/apis/user/sessions/:id', apis.usersessions)
 app.get('/apis/user/classes', apis.userclasses)
 app.get('/apis/user/classes/:id', apis.userclasses)
 app.get('/apis/user/sidebar', apis.sidebar)
 app.get('/apis/user/:id', apis.user)
+app.post('/apis/course/', apis.addCourse)
+app.put('/apis/course/', apis.addCourse)
 app.get('/apis/seshfeed', apis.seshfeed)
 app.get('/apis/seshfeed/:id', apis.seshfeed)
 app.get('/apis/allclasses', apis.allclasses)
