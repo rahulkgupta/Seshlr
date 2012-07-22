@@ -36,7 +36,6 @@ define([
             this.seshs = UserSeshs.initialize()
             var self = this
             this.user.on("change", function () {
-                console.log(self.user)
                 self.courses.reset(self.user.get('classes'))
                 self.render()
             })
@@ -54,19 +53,19 @@ define([
             // Bootstrap button stuff broken, this is good for now.
             $('.get-fb').addClass('disabled');
             $('.get-fb').html('One moment please...');
-            now.getFBFriends(function(data) {
-                typeahead_list = []
-                data.forEach(function(friend) {
-                    typeahead_list.push([friend.id, friend.name]);
-                });
-                fb_input = $('#fbfriends-input').typeahead();
-                fb_input.data('typeahead').source = typeahead_list;
-                fb_input.data('typeahead').ishidden = true;
-                $('.get-fb').hide();
-                $('.fb-group').removeClass('hidden');
-                $('#fbfriends-input').focus();
-                $('#friendtag-container').data('value-hidden', []);
-            });
+            // now.getFBFriends(function(data) {
+            //     typeahead_list = []
+            //     data.forEach(function(friend) {
+            //         typeahead_list.push([friend.id, friend.name]);
+            //     });
+            //     fb_input = $('#fbfriends-input').typeahead();
+            //     fb_input.data('typeahead').source = typeahead_list;
+            //     fb_input.data('typeahead').ishidden = true;
+            //     $('.get-fb').hide();
+            //     $('.fb-group').removeClass('hidden');
+            //     $('#fbfriends-input').focus();
+            //     $('#friendtag-container').data('value-hidden', []);
+            // });
         },
 
         removeFriendTag: function(event) {
@@ -90,7 +89,7 @@ define([
 
         showSeshCreation: function (event) {
             this.$('#sesh-form').modal()
-            this.$('#ui-datepicker-div').css('display','none');
+            $('#ui-datepicker-div').css('display','none');
             var date = new Date();
             if (this.$('#time-input').val() == "") {
                 this.$('#date-input').datepicker('setDate', date)
@@ -171,13 +170,18 @@ define([
                 this.$('#sesh-form').modal("hide")
                 var self = this;
                 this.model.set({time: day, created: today, course: course, title: title, location: location, description: description});
-                now.createSession(this.model, function(sesh) {
-                    self.seshs.add(sesh);
-                    console.log(sesh.id)
-                    if (friends) now.inviteFBFriends(friends, sesh._id); // Post invites on FB.
-                    // now.createNotification('invited', sesh._id, [646595530]) // Generate notification for invited users.
-                    // location.href='/sessions/' + sesh._id
-                });
+                this.model.save(null,{
+                    success: function (models, resp) {
+                        resp.course = self.courses.get(resp.course).attributes
+                        console.log(resp)
+                        console.log(models)
+                        console.log(resp)
+                        self.seshs.add(resp)
+                    },
+                    error: function (models, resp) {
+                        console.log("error")
+                    }
+                })
             } else {
                 this.$("#title-form").attr("class", "control-group")
                 this.$("#date-form").attr("class", "control-group")

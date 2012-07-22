@@ -238,6 +238,7 @@ app.get('/apis/allclasses', apis.allclasses)
 app.get('/apis/notifications', apis.notifications)
 app.get('/apis/courses/:num/:dept', apis.courses)
 app.get('/apis/depts', apis.alldepts)
+app.post('/apis/createSesh', apis.createsesh)
 
 var port = process.env.PORT || 4000;
 app.listen(port);

@@ -38,6 +38,10 @@ define([
             })
 
             this.seshFeed.on('reset', this.render, this)
+            this.userSeshs.on('add', function (sesh) {
+                self.seshFeed.add(sesh, {at: 0})
+                self.render()
+            }, this)
             this.dAscending = true
             this.tAscending = true;
             this.uAscending = true;
@@ -52,6 +56,7 @@ define([
             // this.render();
         },
         render: function () {
+            console.log('rendering')
             var data = {
                 _: _,
                 $: $,

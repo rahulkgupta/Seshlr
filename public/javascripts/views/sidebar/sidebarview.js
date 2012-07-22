@@ -29,14 +29,13 @@ define([
             this.user.fetch()
             this.notifications = [];
             this.seshs = UserSeshs.initialize()
-            this.seshs.on('add', this.addSesh, this)
+            this.seshs.on('add', this.render, this)
             this.seshs.on('reset', this.render, this)
             this.seshs.fetchSeshs()
         },
 
         render: function () {
-            $(this.el).html('')
-            if (this.notifications.models) {
+                if (this.notifications.models) {
                 notif_count = this.notifications.models.length;
             } else {
                 notif_count = 0;
@@ -54,7 +53,7 @@ define([
 
             var compiledTemplate = _.template( sidebarTemplate, data );
             $(this.el).html(compiledTemplate);
-
+            return this
         // this.$('li#sessions').addClass('selected');
         // this.$('#sidenav-notifications').hide();
 
