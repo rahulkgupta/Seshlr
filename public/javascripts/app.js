@@ -4,14 +4,16 @@ define([
     'backbone',
     'views/sidebar/sidebarview',
     'views/home/home',
-    'views/settings/settings'
-    ], function($  , _, Backbone, SidebarView, HomeView, SettingsView) {
+    'views/settings/settings',
+    'views/signup/signup',
+    ], function($  , _, Backbone, SidebarView, HomeView, SettingsView, SignupView) {
     var AppRouter = Backbone.Router.extend({
 
         routes: {                                                                                                                                                                                                                                                                                                                                                                                                                                                
             // Define some URL routes                                                                                                                                                                                                                                                                                 
             'home': 'home',
-            'settings': 'settings',                                                                                               
+            'settings': 'settings',
+            'signup': 'signup',                                                                                               
             // Default
             '*actions': 'peck'
         }, 
@@ -29,6 +31,10 @@ define([
           
         settings: function(){
             var settings = new SettingsView ({el: $('#main-container')})
+        },
+
+        signup: function(){
+            var signup = new SignupView({el: $('.row')})
         },
     });
 

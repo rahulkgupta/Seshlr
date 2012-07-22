@@ -12,7 +12,7 @@ exports.index = function(req, res){
 exports.home = function(req, res){
   console.log('home')
   if (req.loggedIn) {
-    if (req.user.hasSignedUp) {
+    if (req.user.hasSignedUp || req.session.userExists) {
         var userId = req.params.id;
             if (!userId) {
                 var userId = req.user.id; // If the route is being called without an ID, use the logged in user own ID.
@@ -30,13 +30,21 @@ exports.test = function(req,res) {
     res.render('test', { title: 'Welcome'})
 }
 exports.signup = function(req, res) {
-    mongoose.model('Class').distinct('dept', {}, function(err, depts) {
-    typeahead_depts = []
-    depts.forEach(function(dept) {
-        typeahead_depts.push('"' + dept + '"');
-    });
-        res.render('signup', { title: 'Get started with Seshlr', depts: typeahead_depts});
-    });
+    if (req.loggedIn) {
+        if (!req.user.hasSignedUp) {
+            mongoose.model('Class').distinct('dept', {}, function(err, depts) {
+            typeahead_depts = []
+            depts.forEach(function(dept) {
+                typeahead_depts.push('"' + dept + '"');
+            });
+                res.render('signup', { title: 'Get started with Seshlr', depts: typeahead_depts});
+            });
+        } else {
+            res.redirect('/home');
+        }
+    } else {
+        res.redirect('/');
+    }
 }
 /*******************
     Don't need any of this stuff anymore since we're pulling all the data using the APIs and Backbone.
@@ -119,36 +127,5 @@ exports.settings = function (req, res) {
     }
     else {
         res.redirect('/');
-    }
-}
-
-exports.addCourse = function (req, res) {
-    console.log(req)
-    if (req.loggedIn) {
-        mongoose.model('Class')
-        .findById(req.body.id)
-        .run(function(err, course) {
-            console.log(course)
-            mongoose.model('User')
-                .findById(req.user.id)
-                .run(function (err, usr) {
-                    if (err) { console.log(err); }
-                    else {
-                        if (usr.classes.indexOf(course._id) != -1) { // Honestly this can't be ideal.
-                            console.log('The user is already enrolled in this class');
-                        }
-                        else { 
-                            console.log(course);
-                            console.log(usr);
-                            usr.classes.push(course._id);
-                            usr.save(function(err) {
-                                if (err) { console.log(err); }
-                                else {
-                              } 
-                            });
-                        }
-                    }
-            });
-        })
     }
 }

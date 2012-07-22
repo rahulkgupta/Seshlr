@@ -9,10 +9,10 @@ define([
 		
 		url: '/apis/courses',
 
-    fetchCourses: function (num, dept) {
+    fetchCourses: function (num, dept, options) {
       this.url = '/apis/courses'
       this.url += "/" + num + '/' + dept
-      this.fetch()
+      this.fetch(options)
     }
 
   });

@@ -1,5 +1,5 @@
 append head
-        script(data-main="/javascripts/signupmain", src='/javascripts/libs/require/require-jquery.js')
+        script(data-main="/javascripts/main", src='/javascripts/libs/require/require-jquery.js')
 
 .container
    .row
@@ -14,7 +14,7 @@ append head
                             h5 1
                             p Add your courses
             #signup-content 
-                .span9
+                .span9#main-container
                     #alert-container
                         .alert.hide.sign-up-alert
                     #course-selector
@@ -27,3 +27,5 @@ append head
                                 input(type='text', id='course-search-input')
                             
                         a#course-submit.btn.btn-primary(href='#') Add Course
+    footer
+      p Pekt Labs
