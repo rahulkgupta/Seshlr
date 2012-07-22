@@ -53,6 +53,7 @@ function($, _, Backbone, BS, Handlebars,
 
         signup: function() {
             self = this;
+            console.log(this.user)
             this.user.set({hasSignedUp : true})
             this.user.save(null, {
                 success: function(model, response) {

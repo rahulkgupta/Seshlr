@@ -2,8 +2,9 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'models/user',
     'text!/../templates/courseview.html'
-], function($, _, Backbone, courseTemplate){
+], function($, _, Backbone, User, courseTemplate){
         
     var CourseView = Backbone.View.extend({
 
@@ -30,7 +31,10 @@ define([
 
         addCourse: function (event) {
             console.log(this.model)
-            this.model.save();
+            this.user = User.initialize()
+            this.user.fetch()
+            this.user.get('classes').push(this.model)
+            this.user.save()
         },
 
         clear: function (event) {
