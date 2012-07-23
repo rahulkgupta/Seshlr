@@ -24,7 +24,6 @@ define([
             this.seshs = UserSeshs.initialize()
             var self = this
             this.user.on("change", function () {
-                console.log(self.user)
                 self.courses.reset(self.user.get('classes'))
                 self.seshs.reset(self.user.get('seshs'))
                 self.render()

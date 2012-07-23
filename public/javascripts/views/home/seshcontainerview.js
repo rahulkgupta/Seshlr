@@ -54,13 +54,11 @@ define([
             // this.render();
         },
         render: function () {
-            console.log('rendering')
             var data = {
                 _: _,
                 $: $,
                 courses: this.courses.models
             };
-            console.log(this.seshFeed.length)
             var compiledTemplate = _.template( containerTemplate, data );
             $(this.el).html(compiledTemplate);
             // this.seshView = new seshFeedView({el: this.$("#session-feed")})

@@ -3,46 +3,46 @@ var ObjectID = mongoose.Types.ObjectId;
 
 
 function isEmpty(obj) { 
-	return Object.keys(obj).length === 0;
+    return Object.keys(obj).length === 0;
 }
 function updateObj(old, update, refs) {
-	for (prop in update) {
-		if (prop != '_id') {
-			if (update[prop] instanceof Array) {
-				if (!prop in refs) {
-					for (var i=0; i<=update[prop].length - 1; i++) {
-						if (old[prop[i]]) {
-							old[prop][i] = updateObj(old[prop][i], update[prop][i])
-						}
-						else {
-							old[prop][i] = update[prop][i]
-							console.log(old[prop][i])
-						}
-					}
-				}
-				else {
-					old[prop] = []
-					for (var i=0; i<=update[prop].length - 1; i++) {
-						obj_id = update[prop][i]._id;
-						old[prop].push(ObjectID(obj_id));
-					}
-				}
-			}
-			else if (update[prop] instanceof Object) {
+    for (prop in update) {
+        if (prop != '_id') {
+            if (update[prop] instanceof Array) {
+                if (!prop in refs) {
+                    for (var i=0; i<=update[prop].length - 1; i++) {
+                        if (old[prop[i]]) {
+                            old[prop][i] = updateObj(old[prop][i], update[prop][i])
+                        }
+                        else {
+                            old[prop][i] = update[prop][i]
+                            console.log(old[prop][i])
+                        }
+                    }
+                }
+                else {
+                    old[prop] = []
+                    for (var i=0; i<=update[prop].length - 1; i++) {
+                        obj_id = update[prop][i]._id;
+                        old[prop].push(ObjectID(obj_id));
+                    }
+                }
+            }
+            else if (update[prop] instanceof Object) {
                 console.log(update[prop])
-				if (!prop in refs) {
-					old[prop] = updateObj(old[prop], update[prop])
-				}
-				else {
-					obj_id = update[prop]._id;
-					old[prop] = new ObjectID(obj_id)
-				}
-			}
-			else {
-				old[prop] = update[prop];
-			}
-		}
-	}
+                if (!prop in refs) {
+                    old[prop] = updateObj(old[prop], update[prop])
+                }
+                else {
+                    obj_id = update[prop]._id;
+                    old[prop] = new ObjectID(obj_id)
+                }
+            }
+            else {
+                old[prop] = update[prop];
+            }
+        }
+    }
 }
 
 /***************************
@@ -134,17 +134,17 @@ exports.notifications = function(req, res) {
 ***************************/
 
 exports.updateUser = function(req,res) {
-	var userId = req.user.id;
-	var user = req.body;
-	mongoose.model('User').findById(userId, function(err, usr) {
-		if (err) { res.json({'error': err}, 200) }
-		updateObj(usr, user, ['classes', 'seshs']);
-		usr.save(function(err) {
-			console.log('ERROR: ' + err);
-			console.log(usr);
-		});
-		res.json({'error': null}, 200);
-	});
+    var userId = req.user.id;
+    var user = req.body;
+    mongoose.model('User').findById(userId, function(err, usr) {
+        if (err) { res.json({'error': err}, 200) }
+        updateObj(usr, user, ['classes', 'seshs']);
+        usr.save(function(err) {
+            console.log('ERROR: ' + err);
+            console.log(usr);
+        });
+        res.json({'error': null}, 200);
+    });
 }
 
 exports.addCourse = function (req, res) {
@@ -165,12 +165,12 @@ exports.addCourse = function (req, res) {
                             usr.classes.push(course._id);
                             usr.save(function(err) {
                                 if (err) { 
-                                	console.log(err);
-                                	res.send({'error': 'Could not add class. Try again...'});
+                                    console.log(err);
+                                    res.send({'error': 'Could not add class. Try again...'});
                                 }
                                 else {
-                                	console.log('Added class: ' + usr.classes)
-                                	res.send({'error' : null});
+                                    console.log('Added class: ' + usr.classes)
+                                    res.send({'error' : null});
                               } 
                             });
                         }

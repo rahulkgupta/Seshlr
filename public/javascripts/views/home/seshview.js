@@ -74,26 +74,24 @@ define([
 
 
         addSession: function (event) {
-            console.log(this.model.get('users'))
-            console.log(this.user.id)
-            this.model.set('users', _.union([this.user.id], this.model.get('users')), {silent:true})
-            console.log(this.model.get('users'))
+            console.log(this.user)
+            this.model.set('users', 
+                _.union([this.user.id], this.model.get('users')), 
+                {silent:true})
             this.model.save()
-            this.user.set('seshs', _.union([resp], self.user.get('seshs')), {silent:true})
+            this.seshs.add(this.model, {silent:true})
+            console.log(this.seshs)
+            this.user.set('seshs', this.seshs.toJSON())
+            console.log(this.user)
             this.user.save()
         },
 
         removeSession: function (event) {
-            console.log('removing')
-            console.log(this.seshs.models)
             this.seshs.remove(this.model)
-            console.log(this.seshs.models)
             this.user.set('seshs', this.seshs.toJSON())
-            console.log(this.user.get('seshs'))
             this.user.save()
             this.model.set('users', 
                 _.without(this.model.get('users'), this.user.id))
-            console.log(this.model.get('users'))
             this.model.save()
         }
     });
