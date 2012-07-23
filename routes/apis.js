@@ -9,9 +9,8 @@ function updateObj(old, update, refs) {
 	for (prop in update) {
 		if (prop != '_id') {
 			if (update[prop] instanceof Array) {
-				for (var i=0; i<=update[prop].length - 1; i++) {
-					console.log(i)
-					if (!prop in refs) {
+				if (!prop in refs) {
+					for (var i=0; i<=update[prop].length - 1; i++) {
 						if (old[prop[i]]) {
 							old[prop][i] = updateObj(old[prop][i], update[prop][i])
 						}
@@ -20,7 +19,10 @@ function updateObj(old, update, refs) {
 							console.log(old[prop][i])
 						}
 					}
-					else {
+				}
+				else {
+					old[prop] = []
+					for (var i=0; i<=update[prop].length - 1; i++) {
 						obj_id = update[prop][i]._id;
 						old[prop].push(ObjectID(obj_id));
 					}
