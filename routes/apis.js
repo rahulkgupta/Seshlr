@@ -138,7 +138,7 @@ exports.updateUser = function(req,res) {
 	var user = req.body;
 	mongoose.model('User').findById(userId, function(err, usr) {
 		if (err) { res.json({'error': err}, 200) }
-		updateObj(usr, user, ['classes']);
+		updateObj(usr, user, ['classes', 'seshs']);
 		usr.save(function(err) {
 			console.log('ERROR: ' + err);
 			console.log(usr);
