@@ -17,7 +17,6 @@ define([
     var SeshContainerView = Backbone.View.extend({
 
         events: {
-            'click #order-time' : 'orderByTime',
             'click #course-filter' : 'toggleCourseFilter',
             'click #course-filter-input' : 'filterByCourse',
             'click #date-filter' : "orderDates",
@@ -34,7 +33,7 @@ define([
             var self = this
             this.user.on("change", function () {
                 self.courses.reset(self.user.get('classes'))
-                // self.render()
+                self.userSeshs.reset(self.user.get('seshs'))
             })
 
             this.seshFeed.on('reset', this.render, this)
@@ -50,7 +49,6 @@ define([
             this.dIcon = "icon-chevron-down"
             this.user.fetchUser()
             this.seshFeed.fetchFeed();
-            this.userSeshs.fetchSeshs();
 
 
             // this.render();
@@ -78,11 +76,7 @@ define([
             }
         },
 
-        addSession: function (event) {
-            now.addSession(this.model.id, function(sessiondata) { // Callback with data from the DB.
-                //add the session to your current sessions
-            });
-        },
+
 
         addSeshView: function (sesh) {
             this.seshFeed.add(sesh);
@@ -94,24 +88,9 @@ define([
             $(this.el).prepend(seshItem.preRender())
         },
 
-        orderByTime: function () {
-            var self = this
-            now.orderByTime(function (seshs) {
-                self.seshView.update(seshs);
-            })
-        },
+
 
         toggleCourseFilter: function () {
-            // var course = $('#course-filter-input').val();
-            // var self = this
-            // console.log(course)
-            // now.filterByCourse(course, function (seshs) {
-            //  console.log("filtering")
-            //  console.log('seshs')
-
-            //  self.seshView.update(seshs);
-            //  console.log(self.userSesh)
-            // })
             var data = {
                 _: _,
                 $: $,

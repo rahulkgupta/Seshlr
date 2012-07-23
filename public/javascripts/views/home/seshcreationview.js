@@ -6,7 +6,7 @@ define([
     'bs',
 
     'models/user',
-    'models/seshcreate',
+    'models/sesh',
 
     'collections/usercoursescollection',
     'collections/userseshscollection',
@@ -37,13 +37,13 @@ define([
             var self = this
             this.user.on("change", function () {
                 self.courses.reset(self.user.get('classes'))
+                self.seshs.reset(self.user.get('seshs'))
                 self.render()
             })
             // this.seshs.on('reset', function () {
             //     console.log(self.seshs)
             //     self.render()
             // })
-            this.seshs.fetchSeshs()
             this.model = new SeshCreateModel;
             this.user.fetchUser()
         },
@@ -172,10 +172,9 @@ define([
                 this.model.set({time: day, created: today, course: course, title: title, location: location, description: description});
                 this.model.save(null,{
                     success: function (models, resp) {
-                        resp.course = self.courses.get(resp.course).attributes
+                        // resp.course = self.courses.get(resp.course).attributes
                         console.log(resp)
-                        console.log(models)
-                        console.log(resp)
+                        self.user.set('seshs', _.union([resp], self.user.get('seshs')), {silent:true})
                         self.seshs.add(resp)
                     },
                     error: function (models, resp) {

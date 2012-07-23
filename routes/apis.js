@@ -27,6 +27,7 @@ function updateObj(old, update, refs) {
 				}
 			}
 			else if (update[prop] instanceof Object) {
+                console.log(update[prop])
 				if (!prop in refs) {
 					old[prop] = updateObj(old[prop], update[prop])
 				}
@@ -52,24 +53,25 @@ exports.user = function(req, res) {
     }
     mongoose.model('User')
     .findById(userId)
-   .populate('classes')
+    .populate('classes')
+    .populate('seshs')
     .run(function (err, usr) {
         res.send(usr)
     });
 }
 
-exports.usersessions = function (req, res) {
-    var userId = req.params.id;
-    if (!userId) {
-        var userId = req.user.id;
-    }
-    mongoose.model('StudyTime')
-    .find({users: userId, time: {$gte: new Date()}})
-    .populate('course')
-    .run(function (err, studytimes) {
-        res.send(studytimes)
-    }); 
-}
+// exports.usersessions = function (req, res) {
+//     var userId = req.params.id;
+//     if (!userId) {
+//         var userId = req.user.id;
+//     }
+//     mongoose.model('StudyTime')
+//     .find({users: userId, time: {$gte: new Date()}})
+//     .populate('course')
+//     .run(function (err, studytimes) {
+//         res.send(studytimes)
+//     }); 
+// }
 
 exports.allclasses = function (req, res) {
     mongoose.model('Class').find({}, function(err, courses) {
@@ -194,9 +196,36 @@ exports.createsesh = function (req, res) {
     sesh.save(function (err) {
         if (err) console.log(err);
         else {
-            sesh = sesh.toJSON()
-            res.json(sesh,200)
+            mongoose.model('User')
+            .findById(userId, function(err, usr) {
+                usr.seshs.push(sesh.id)
+                usr.save(function (err) {
+                    if (err) console.log(err)
+                    else {
+                        sesh = sesh.toJSON()
+                        res.json(sesh,200)
+                    }
+                })
+            })
         }
     });
 
+}
+
+
+exports.updatesesh = function (req, res) {
+    var newsesh = req.body
+    mongoose.model('StudyTime')
+    .findById(req.params.id)
+    .run(function (err, sesh) {
+        if (err) { res.json({'error': err}, 200) }
+        sesh.users = newsesh.users
+        sesh.save(function(err) {
+            if (err) console.log(err)
+            else {
+                console.log(sesh)
+                res.json(sesh,200)
+            }
+        });
+    });
 }
