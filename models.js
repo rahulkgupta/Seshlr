@@ -21,6 +21,7 @@ var User = new Schema ({
     expiresIn: Number,
     classes: [{ type: Schema.ObjectId, ref: 'Class' }],
     hasSignedUp: { type: Boolean, default: false },
+    seshs : [{type: Schema.ObjectId, ref: 'StudyTime'}]
 });
 
 var StudyTime = new Schema ({

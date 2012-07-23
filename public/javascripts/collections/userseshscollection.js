@@ -1,16 +1,14 @@
 define([
     'underscore',
     'backbone',
-    'models/usersesh'
-],  function(_, Backbone, userSeshModel){
+    'models/sesh'
+],  function(_, Backbone, Sesh){
 
     var userSeshs;
 
     var UserSessionsCollection = Backbone.Collection.extend({
         
-        model: userSeshModel,
-
-        url: '/apis/user/sessions',
+        model: Sesh,
 
         fetchSeshs: function () {
             if (userSeshs.length == 0) {

@@ -12,21 +12,9 @@ define([
 
 
 		initialize: function () {
-			// _.bindAll(this, "render");
-			// this.courses = new UserCourses;
-   //          this.user = User.initialize()
-   //          this.userSesh = UserSeshs.initialize();
-   //          var self = this
-   //          this.user.on("change", function () {
-   //              console.log('changed!')
-   //              self.courses.reset(self.user.get('classes'))
-   //          })
-   //          this.user.fetchUser()
-   //          this.seshFeed = SeshFeed.fetch();
-   //          this.userSesh.fetchSeshs()
-   //          this.seshFeed.on('reset',this.render,this)
 
 		},
+        
 		render: function () {
 			for (var i = 0; i < this.seshFeed.length; i++) {
 				sesh = this.seshFeed.at(i);
@@ -45,11 +33,6 @@ define([
 			this.seshFeed.reset(seshs)
 		},
 
-		addSession: function (event) {
-			now.addSession(this.model.id, function(sessiondata) { // Callback with data from the DB.
-				//add the session to your current sessions
-			});
-		},
 
 		addSeshView: function (sesh) {
 			this.seshFeed.add(sesh);

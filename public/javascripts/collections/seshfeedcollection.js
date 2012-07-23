@@ -1,14 +1,14 @@
 define([
     'underscore',
     'backbone',
-    'models/seshfeed'
-], function(_, Backbone, SessionFeedModel){
+    'models/sesh'
+], function(_, Backbone, Sesh){
 
     var seshFeed;
 
     var SeshFeedCollection = Backbone.Collection.extend({
     
-        model: SessionFeedModel,
+        model: Sesh,
         
         url: '/apis/seshfeed',
 

@@ -21,21 +21,21 @@ define([
             _.bindAll(this);
             this.courses = new userCrses;
             this.user = UserModel.initialize()
+            this.seshs = UserSeshs.initialize()
             var self = this
             this.user.on("change", function () {
+                console.log(self.user)
                 self.courses.reset(self.user.get('classes'))
+                self.seshs.reset(self.user.get('seshs'))
                 self.render()
             })
             this.user.fetch()
             this.notifications = [];
-            this.seshs = UserSeshs.initialize()
-            this.seshs.on('add', this.render, this)
-            this.seshs.on('reset', this.render, this)
-            this.seshs.fetchSeshs()
+            // this.seshs.on('add', this.render, this)
         },
 
         render: function () {
-                if (this.notifications.models) {
+            if (this.notifications.models) {
                 notif_count = this.notifications.models.length;
             } else {
                 notif_count = 0;
