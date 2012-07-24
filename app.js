@@ -1,7 +1,6 @@
 // Core Modules
 
 var express = require('express')
-	, expose = require('./express-expose.js')
   , routes = require('./routes')
   , apis = require('./routes/apis.js')
 

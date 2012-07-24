@@ -1,12 +1,12 @@
 define([
-  'jquery',
-  'underscore',
-  'backbone',
-  'models/user',
+    'jquery',
+    'underscore',
+    'backbone',
+    'models/user',
     'collections/usernotifscollection',
-  'collections/usercoursescollection',
-  'collections/userseshscollection',
-  'text!/templates/sidebar/sidebar.html'
+    'collections/usercoursescollection',
+    'collections/userseshscollection',
+    'text!/templates/sidebar/sidebar.html'
 ], function($, _, Backbone, UserModel, userNotifs, userCrses, UserSeshs, sidebarTemplate){
     var sidebarView = Backbone.View.extend({
 
@@ -28,18 +28,12 @@ define([
                 self.seshs.reset(self.user.get('seshs'))
                 self.render()
             })
-            this.user.fetch()
+            this.user.fetchUser()
             this.notifications = [];
             // this.seshs.on('add', this.render, this)
         },
 
         render: function () {
-            if (this.notifications.models) {
-                notif_count = this.notifications.models.length;
-            } else {
-                notif_count = 0;
-            }
-
             var data = {
                 _: _,
                 $: $,

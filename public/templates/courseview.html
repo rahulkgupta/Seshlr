@@ -2,5 +2,9 @@
 	<span>
 		<%= course.get('name') %>
 	</span>
+	<% if (added) { %> 
+	<a class="btn btn-small">Added!</a>
+	<% } else { %>
 	<a id="add-course" class="btn btn-small">Add</a>
+	<% } %>
 </div>	
