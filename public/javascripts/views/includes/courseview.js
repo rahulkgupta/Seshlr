@@ -15,6 +15,8 @@ define([
         initialize: function (course) {
             this.model = course;
             this.model.bind('clear', this.clear, this)
+            this.user = User.initialize()
+            this.user.fetchUser()
         },
 
         render: function () {
@@ -30,10 +32,9 @@ define([
         },
 
         addCourse: function (event) {
-            console.log(this.model)
-            this.user = User.initialize()
-            this.user.fetch()
-            this.user.get('classes').push(this.model)
+            cls = this.user.get('classes')
+            cls.push(this.model)
+            this.user.set({classes: cls})
             this.user.save()
         },
 

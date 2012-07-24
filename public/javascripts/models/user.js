@@ -22,7 +22,6 @@ define([
 
     });
 
-
     var initialize = function () {
         if (user) {
             return user;

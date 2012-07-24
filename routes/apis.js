@@ -1,9 +1,8 @@
 var mongoose = require('mongoose');
-var ObjectID = mongoose.Types.ObjectId;
 
 
-function isEmpty(obj) { 
-    return Object.keys(obj).length === 0;
+Array.prototype.diff = function(a) {
+    return this.filter(function(i) {return (a.indexOf(i) < 0);});
 }
 function updateObj(old, update, refs) {
     for (prop in update) {
@@ -21,21 +20,46 @@ function updateObj(old, update, refs) {
                     }
                 }
                 else {
-                    old[prop] = []
-                    for (var i=0; i<=update[prop].length - 1; i++) {
-                        obj_id = update[prop][i]._id;
-                        old[prop].push(ObjectID(obj_id));
-                    }
+                	// NOTE: It's not possible to both add and remove items from a list at the same time.
+                	// So we need to determine if we're adding or removing and then act accordingly.
+                	temp = []
+                	for (i=0; i<update[prop].length; i++) {
+                		temp.push(update[prop][i]._id)
+                	}
+                	old[prop] = temp
+                	/* if (update[prop].length > old[prop].length) {
+                		// Annoying but we need to convert this to just a list of ids to match DB.
+                		for (i=0; i<update[prop].length; i++) {
+                			update[prop][i] = update[prop][i]._id
+                		}
+                		diff = update[prop].diff(old[prop])
+                		console.log(diff)
+                		for (var i=0; i<diff.length; i++) {
+                			old[prop].push(diff[i])
+                		}
+                	}
+                	else if (update[prop].length < old[prop].length) {
+                		// Annoying but we need to convert this to just a list of ids to match DB.
+                		for (i=0; i<update[prop].length; i++) {
+                			update[prop][i] = update[prop][i]._id
+                		}
+                		diff = old[prop].diff(update[prop])
+                		console.log(diff)
+                		for (var i=0; i<diff.length; i++) {
+                			idx = old[prop].indexOf(diff[i])
+                			if (idx >= 0) {
+                				old[prop].pop(idx)
+                			}
+                		}
+                	}*/
                 }
             }
             else if (update[prop] instanceof Object) {
-                console.log(update[prop])
                 if (!prop in refs) {
                     old[prop] = updateObj(old[prop], update[prop])
                 }
                 else {
-                    obj_id = update[prop]._id;
-                    old[prop] = new ObjectID(obj_id)
+                    old[prop] = update[prop]._id;
                 }
             }
             else {
@@ -136,8 +160,8 @@ exports.notifications = function(req, res) {
 exports.updateUser = function(req,res) {
     var userId = req.user.id;
     var user = req.body;
+    console.log(user)
     mongoose.model('User').findById(userId, function(err, usr) {
-        if (err) { res.json({'error': err}, 200) }
         updateObj(usr, user, ['classes', 'seshs']);
         usr.save(function(err) {
             console.log('ERROR: ' + err);
@@ -158,7 +182,7 @@ exports.addCourse = function (req, res) {
                 .run(function (err, usr) {
                     if (err) { console.log(err); }
                     else {
-                        if (usr.classes.indexOf(course._id) != -1) { // Honestly this can't be ideal.
+                        if (usr.classes.indexOf(course._id) != -1) {
                             console.log('The user is already enrolled in this class');
                         }
                         else {
