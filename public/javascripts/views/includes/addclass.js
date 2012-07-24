@@ -16,13 +16,17 @@ define([
         },
         
         initialize: function() {
+            this.user = User.initialize()
+            var self = this
+
             this.userCourses = new UserCourses;
             this.courses = new Courses;
-            //this.user = User.fetch();
             var self = this
-            /*this.user.bind("change", function () {
+            this.user.on("change", function () {
                 self.userCourses.reset(self.user.get('classes'))
-            })*/
+                console.log('change')
+            })
+            this.user.fetchUser()
             this.courses.bind('reset', this.showCourses, this);
             $('#course-search').hide();
             $('#course-submit').hide();
@@ -51,47 +55,35 @@ define([
                 this.courses.num = num;
                 this.courses.fetchCourses(num,  dept, {
                     error: function(model, response) { console.log('Add Course Error') },
-                    success: function(model, response) { alert('success') },
+                    success: function(model, response) { },
                 });
             }
         },
       
         removeCourse: function (course) {
-            console.log('removing')
             course.clear();
         },
 
         showCourses: function () {
-            console.log("pecktor")
+            this.userCourses.each(function (course) {
+                this.courses.remove(course.id)
+            }, this)
             this.courses.each(this.showCourse, this)
         },
 
         showCourse: function( course) {
-            var courseView = new CourseView(course)
-            this.$('#course-container').append(courseView.render().el)
+
+            // i/userCourses.get(course.id)) {
+            // } else {
+               var courseView = new CourseView(
+                {
+                    model: course
+                })
+                this.$('#course-container').append(courseView.render().el) 
+            // }
+            
         },
 
-        submitCourse: function(e) {
-            dept = $('#dept-search-input').val();
-            num = $('#course-search-input').val();
-            now.submitClass(dept, num, function(course, err) {
-                if (err) {
-                    $('.alert').html(err);
-                    $('.alert').addClass('alert-error');
-                }
-                else {
-                    $('.alert').html(course.dept + ' ' + course.num + ' has been added!');
-                    $('.alert').addClass('alert-success');
-                }       
-                $('.alert').show().delay(3000);
-                $('.alert').fadeOut(function() {
-                    $('#course-selector').css('margin-top', '54px');
-                    $('#course-selector').animate({marginTop: 0}, 500);
-                $('.alert').removeClass('alert-error');
-                $('.alert').removeClass('alert-primary');
-                });
-            });
-        },
         
     });
   return searchView;

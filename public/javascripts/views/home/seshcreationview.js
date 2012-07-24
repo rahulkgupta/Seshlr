@@ -172,6 +172,7 @@ define([
                 this.model.set({time: day, created: today, course: course, title: title, location: location, description: description});
                 this.model.save(null,{
                     success: function (models, resp) {
+                        self.model = new SeshCreateModel
                         // resp.course = self.courses.get(resp.course).attributes
                         console.log(resp)
                         self.user.set('seshs', _.union([resp], self.user.get('seshs')), {silent:true})

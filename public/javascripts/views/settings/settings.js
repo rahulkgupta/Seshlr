@@ -23,7 +23,6 @@ function($, _, Backbone, BS, Handlebars,
 
         render: function () {
 
-            console.log(this.dept.get('depts'))
             var data = {
                 depts: this.dept.get('depts'),
                 _: _,

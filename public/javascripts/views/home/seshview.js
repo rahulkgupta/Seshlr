@@ -5,10 +5,10 @@ define([
 
     'models/user',
     'collections/userseshscollection',
-
+    'collections/seshfeedcollection',
 
     'text!/../templates/seshfeed.html'
-], function($, _, Backbone, User, UserSeshs, seshFeedTemplate){
+], function($, _, Backbone, User, UserSeshs, SeshFeedCollection, seshFeedTemplate){
         var SeshFeedView = Backbone.View.extend({
 
         tagName:'tr',
@@ -22,6 +22,7 @@ define([
             this.added = added;
             this.user = User.initialize()
             this.seshs = UserSeshs.initialize()
+            this.seshFeed = SeshFeedCollection.initialize()
             var self = this
 
             this.user.on("change", function () {
@@ -84,6 +85,7 @@ define([
             this.user.set('seshs', this.seshs.toJSON())
             console.log(this.user)
             this.user.save()
+            this.seshFeed.trigger('reset')
         },
 
         removeSession: function (event) {
@@ -93,6 +95,8 @@ define([
             this.model.set('users', 
                 _.without(this.model.get('users'), this.user.id))
             this.model.save()
+            this.seshFeed.trigger('reset')
+
         }
     });
   return SeshFeedView;
