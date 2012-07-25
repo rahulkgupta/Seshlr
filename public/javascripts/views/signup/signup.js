@@ -5,7 +5,6 @@ define([
     'bs',
     'handlebars',
     'views/includes/addclass',
-    'views/includes/removeclass',
     'views/sidebar/sidebarview',
     'models/dept',
     'models/user',
@@ -13,7 +12,7 @@ define([
     'text!/templates/base.html',
 ],  
 function($, _, Backbone, BS, Handlebars, 
-         AddClass, RemoveClass, SidebarView, Dept, 
+         AddClass, SidebarView, Dept, 
          User, SettingsTemplate, BaseTemplate)
 {
     var SignupView = Backbone.View.extend({

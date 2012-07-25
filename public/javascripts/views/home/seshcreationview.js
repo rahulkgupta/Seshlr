@@ -32,7 +32,7 @@ define([
         },
 
         initialize: function(){
-            this.courses = new Courses;
+            this.courses = Courses.initialize();
             this.user = User.initialize()
             this.seshs = UserSeshs.initialize()
             var self = this

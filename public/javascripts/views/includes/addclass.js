@@ -1,12 +1,12 @@
 define([
-  'jquery',
-  'underscore',
-  'backbone',
-  'bs',
-  'collections/usercoursescollection',
-  'collections/coursescollection',
-  'models/user',
-  'views/includes/courseview'
+    'jquery',
+    'underscore',
+    'backbone',
+    'bs',
+    'collections/usercoursescollection',
+    'collections/coursescollection',
+    'models/user',
+    'views/includes/courseview'
 ], function($, _, Backbone,bs, UserCourses, Courses, User, CourseView){
     var searchView = Backbone.View.extend({
         
@@ -19,7 +19,7 @@ define([
             this.user = User.initialize()
             var self = this
 
-            this.userCourses = new UserCourses;
+            this.userCourses = UserCourses.initialize();
             this.courses = new Courses;
             var self = this
             this.user.on("change", function () {

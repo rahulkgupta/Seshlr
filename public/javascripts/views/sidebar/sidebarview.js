@@ -7,7 +7,7 @@ define([
     'collections/usercoursescollection',
     'collections/userseshscollection',
     'text!/templates/sidebar/sidebar.html'
-], function($, _, Backbone, UserModel, userNotifs, userCrses, UserSeshs, sidebarTemplate){
+], function($, _, Backbone, UserModel, userNotifs, Courses, UserSeshs, sidebarTemplate){
     var sidebarView = Backbone.View.extend({
 
         events: {
@@ -19,11 +19,12 @@ define([
         initialize: function () {
 
             _.bindAll(this);
-            this.courses = new userCrses;
+            this.courses = Courses.initialize();
             this.user = UserModel.initialize()
             this.seshs = UserSeshs.initialize()
             var self = this
             this.user.on("change", function () {
+                console.log('change')
                 self.courses.reset(self.user.get('classes'))
                 self.seshs.reset(self.user.get('seshs'))
                 self.render()
