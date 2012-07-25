@@ -40,13 +40,14 @@ var everyauth = require('everyauth'),
 var user = mongoose.model('User');
 var FBFriend = mongoose.model('FBFriend');
 
-function addUser (source, sourceUser, sess) {
+function addUser (source, sourceUser, access_token, sess) {
 	var instance = new user();
 	instance.fbId = sourceUser.id
 	instance.name = sourceUser.name;
 	instance.first_name = sourceUser.first_name;
 	instance.email = sourceUser.email;
 	instance.link = sourceUser.link;
+	instance.access_token = access_token;
 	if (source == 'google') {
 		instance.picture = sourceUser.link;
 	}
@@ -159,15 +160,11 @@ everyauth.facebook
   	sess.access_token = accessToken;
   	user.findOne({fbId: fbUser.id}, function(err, usr) {
 		if (usr) {
-			sess.userExists = true;
 			console.log(fbUser.name + ' already exists -- authenticating now');
-			sess.userId = usr._id
 		}
 		else {
-			sess.userExists = false;
 			console.log('Adding new user ' + fbUser.name + ' to the user table');
-			var newUser = addUser('facebook', fbUser,sess);
-			sess.userId = newUser._id
+			var newUser = addUser('facebook', fbUser, accessToken, sess);
 		}
 		promise.fulfill(fbUser);
   	});
