@@ -19,7 +19,7 @@ define([
             this.user = User.initialize()
             var self = this
 
-            this.userCourses = new UserCourses;
+            this.userCourses = UserCourses.initialize();
             this.courses = new Courses;
             var self = this
             this.user.on("change", function () {

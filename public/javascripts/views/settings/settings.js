@@ -33,22 +33,22 @@ function($, _, Backbone, BS, Handlebars,
             this.user = User.initialize()
             var self = this
 
-            this.userCourses = new UserCourses;
+            this.userCourses = UserCourses.initialize()
             this.courses = new Courses;
-            this.courses.on('reset', this.render ,this)
             var self = this
             this.user.on("change", function () {
+                console.log(self.user.get('classes'))
                 self.userCourses.reset(self.user.get('classes'))
-                console.log('change')
+                self.renderUserCourses()
             })
             this.user.fetchUser()
-            this.courses.bind('reset', this.showCourses, this);
+            this.courses.on('reset', this.showCourses, this);
             $('#course-search').hide();
             $('#course-submit').hide();
           },
 
         render: function () {
-
+            console.log('rendering')
             var data = {
                 depts: this.dept.get('depts'),
                 _: _,
@@ -61,8 +61,13 @@ function($, _, Backbone, BS, Handlebars,
             // var html = compiledTemplate(data)
             $(this.el).html(compiledTemplate) 
             $('#dept-search-input').typeahead().data('typeahead').source = depts
-            this.userCourses.forEach(this.renderUserCourse, this)
+            this.renderUserCourses()
 
+        },
+
+        renderUserCourses: function () {
+            this.$('#user-courses').html('')
+            this.userCourses.forEach(this.renderUserCourse, this)
         },
 
         submitDept: function(e) {
@@ -79,10 +84,10 @@ function($, _, Backbone, BS, Handlebars,
 
         submitNum: function(e) {
             if (e.keyCode == 13) {
-                this.courses.reset();
                 this.$('#course-container').html('')
                 dept = $('#dept-search-input').val();
                 num = $('#course-search-input').val();
+                // console.log(dept, num)
                 this.courses.dept = dept;
                 this.courses.num = num;
                 this.courses.fetchCourses(num,  dept, {
@@ -93,6 +98,7 @@ function($, _, Backbone, BS, Handlebars,
         },
 
         showCourses: function () {
+            console.log('showing courses')
             this.userCourses.each(function (course) {
                 this.courses.remove(course.id)
             }, this)

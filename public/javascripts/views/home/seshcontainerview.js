@@ -26,7 +26,7 @@ define([
         },
 
         initialize: function () {
-            this.courses = new Courses;
+            this.courses = Courses.initialize();
             this.user = User.initialize()
             this.seshFeed = seshFeedCollection.initialize()
             this.userSeshs = userSeshCollection.initialize()

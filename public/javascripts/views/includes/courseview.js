@@ -16,12 +16,9 @@ define([
         initialize: function () {
             this.user = User.initialize()
             
-            this.courses = new Courses
-            var self = this
-            this.user.on("change", function () {
-                self.courses.reset(self.user.get('classes'))
-            })
-            this.user.fetchUser()
+            this.courses = Courses.initialize()
+            this.courses.reset(this.user.get('classes'), {silent: true})
+
             this.model.bind('added', this.renderAdded, this)
             this.render()
         },
@@ -46,17 +43,18 @@ define([
                     added: true
                 };
                 var compiledTemplate = _.template( courseTemplate, data );  
-            this.el.innerHTML = compiledTemplate
+            this.el.innerHTML = ""
             return this
         },
 
         addCourse: function (event) {
+            console.log(this.courses)
             this.courses.add(this.model, {silent: true})
+            console.log(this.courses)
             this.user.set('classes', this.courses.toJSON(), {silent: true})
             var self = this
             this.user.save(null, {
             success: function (model, resp) {
-                self.user.trigger('change')
                 self.model.trigger('added')
             }
             })

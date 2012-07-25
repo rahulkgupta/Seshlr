@@ -16,13 +16,9 @@ define([
         initialize: function () {
             this.user = User.initialize()
             
-            this.courses = new Courses
-            var self = this
-            this.user.on("change", function () {
-                self.courses.reset(self.user.get('classes'), {silent: true})
-            })
+            this.courses = Courses.initialize()
+            this.courses.reset(this.user.get('classes'), {silent: true})
             this.model.on('remove', this.remove, this)
-            this.user.fetchUser()
             this.render()
         },
 
@@ -56,7 +52,7 @@ define([
 
         remove: function () {
             this.el.innerHTML = ""
-            this.remove()
+            // this.remove()
         }
         
     });
