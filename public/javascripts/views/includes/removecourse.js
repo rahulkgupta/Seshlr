@@ -56,6 +56,7 @@ define([
 
         remove: function () {
             this.el.innerHTML = ""
+            this.remove()
         }
         
     });
