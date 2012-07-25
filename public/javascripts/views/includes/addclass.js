@@ -1,12 +1,12 @@
 define([
-  'jquery',
-  'underscore',
-  'backbone',
-  'bs',
-  'collections/usercoursescollection',
-  'collections/coursescollection',
-  'models/user',
-  'views/includes/courseview'
+    'jquery',
+    'underscore',
+    'backbone',
+    'bs',
+    'collections/usercoursescollection',
+    'collections/coursescollection',
+    'models/user',
+    'views/includes/courseview'
 ], function($, _, Backbone,bs, UserCourses, Courses, User, CourseView){
     var searchView = Backbone.View.extend({
         

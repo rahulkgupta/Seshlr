@@ -4,21 +4,47 @@ define([
     'backbone',
     'bs',
     'handlebars',
-    'views/includes/addclass',
-    'views/includes/removeclass',
+
+    'collections/usercoursescollection',
+    'collections/coursescollection',
+    'models/user',
     'models/dept',
+
+    'views/includes/courseview',
+    'views/includes/removecourse',
+
     'text!/templates/settings.html'
 ],  
 function($, _, Backbone, BS, Handlebars, 
-         AddClass, RemoveClass, Dept,
+         UserCourses, Courses, User, Dept,
+         CourseView, RemoveCourse,
          SettingsTemplate)
 {
     var SettingsView = Backbone.View.extend({
 
+        events: {
+            'keyup #dept-search-input' : 'submitDept',
+            'keyup #course-search-input' : 'submitNum',
+        },
         initialize: function () {
             this.dept = new Dept
             this.dept.bind("change",this.render, this)
             this.dept.fetch()
+            this.user = User.initialize()
+            var self = this
+
+            this.userCourses = new UserCourses;
+            this.courses = new Courses;
+            this.courses.on('reset', this.render ,this)
+            var self = this
+            this.user.on("change", function () {
+                self.userCourses.reset(self.user.get('classes'))
+                console.log('change')
+            })
+            this.user.fetchUser()
+            this.courses.bind('reset', this.showCourses, this);
+            $('#course-search').hide();
+            $('#course-submit').hide();
           },
 
         render: function () {
@@ -35,10 +61,64 @@ function($, _, Backbone, BS, Handlebars,
             // var html = compiledTemplate(data)
             $(this.el).html(compiledTemplate) 
             $('#dept-search-input').typeahead().data('typeahead').source = depts
+            this.userCourses.forEach(this.renderUserCourse, this)
 
-            var addClass = new AddClass ({el: this.$('#course-selector')})
         },
 
+        submitDept: function(e) {
+            if (e.keyCode == 13) {
+                var dept = $("#dept-search-input").val();
+                now.submitDept(dept, function (err, nums) {
+                    $('#course-search').show();
+                    var course_input = $('#course-search-input').typeahead();
+                    course_input.data('typeahead').source = nums;
+                    $("#course-search-input").focus();
+                });
+            } 
+        },
+
+        submitNum: function(e) {
+            if (e.keyCode == 13) {
+                this.courses.reset();
+                this.$('#course-container').html('')
+                dept = $('#dept-search-input').val();
+                num = $('#course-search-input').val();
+                this.courses.dept = dept;
+                this.courses.num = num;
+                this.courses.fetchCourses(num,  dept, {
+                    error: function(model, response) { console.log('Add Course Error') },
+                    success: function(model, response) { },
+                });
+            }
+        },
+
+        showCourses: function () {
+            this.userCourses.each(function (course) {
+                this.courses.remove(course.id)
+            }, this)
+            this.courses.each(this.showCourse, this)
+        },
+
+        showCourse: function( course) {
+
+            // i/userCourses.get(course.id)) {
+            // } else {
+               var courseView = new CourseView(
+                {
+                    model: course
+                })
+                this.$('#course-container').append(courseView.render().el) 
+            // }
+            
+        },
+
+        renderUserCourse: function (course) {
+            console.log("hello")
+            var removeCourse = new RemoveCourse({
+                model: course
+            })
+            this.$('#user-courses').append(removeCourse.render().el)
+        }
 
     });
       
