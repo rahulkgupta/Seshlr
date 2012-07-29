@@ -27,7 +27,7 @@ define([
                 console.log('change')
             })
             this.user.fetchUser()
-            this.courses.bind('reset', this.showCourses, this);
+            // this.courses.bind('reset', this.showCourses, this);
             $('#course-search').hide();
             $('#course-submit').hide();
             
@@ -36,27 +36,52 @@ define([
         submitDept: function(e) {
             if (e.keyCode == 13) {
                 var dept = $("#dept-search-input").val();
-                now.submitDept(dept, function (err, nums) {
+                this.courses.fetch({
+                    data: {dept: dept},
+                    error: function(model, response) {
+                        console.log(response);
+                    },
+                    success: function(model, response) {
+                        console.log(response);
+
+                    },
+                    processData: true,
+                })
+                this.courses.on('reset', function() {
+                    nums = []
+                    this.courses.each(function(course) {
+                        nums.push(course._id);
+                    });
                     $('#course-search').show();
                     var course_input = $('#course-search-input').typeahead();
                     course_input.data('typeahead').source = nums;
                     $("#course-search-input").focus();
-                });
+                }, this)
             } 
         },
 
         submitNum: function(e) {
             if (e.keyCode == 13) {
-                this.courses.reset();
+                this.courses.reset({silent: true});
                 this.$('#course-container').html('')
                 dept = $('#dept-search-input').val();
                 num = $('#course-search-input').val();
                 this.courses.dept = dept;
                 this.courses.num = num;
-                this.courses.fetchCourses(num,  dept, {
-                    error: function(model, response) { console.log('Add Course Error') },
-                    success: function(model, response) { },
-                });
+                this.courses.fetch({
+                    data: {dept: dept, num: num},
+                    error: function(model, response) {
+                        console.log(response);
+                    },
+                    success: function(model, response) {
+                        console.log(response);
+
+                    },
+                    processData: true,
+                })
+                this.courses.on('reset', function() {
+                    this.showCourses(); // This is bad - all the event listeners for courses are doing shit.
+                }, this)
             }
         },
       

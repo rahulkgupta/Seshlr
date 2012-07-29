@@ -41,14 +41,14 @@ define([
                 user: this.user,
                 seshs: this.seshs.models,
                 courses: this.courses.models,
-                notifications: this.notifications.models,
-                notif_count: this.notifications
+                notifications: [], // FIXME: Add actual notifications
+                notif_count: 0, // FIXME: Add notif count
             };
 
             var compiledTemplate = _.template( sidebarTemplate, data );
             $(this.el).html(compiledTemplate);
+            this.$('li#sessions').addClass('selected');
             return this
-        // this.$('li#sessions').addClass('selected');
         // this.$('#sidenav-notifications').hide();
 
         },

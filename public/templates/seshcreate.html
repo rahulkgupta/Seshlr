@@ -42,6 +42,7 @@
 						<textarea type="textarea" id="description-input" rows="3"/>
 					</div>
 				</div>
+				<% if (user.access_token) { %>
 				<div id ="friendtag-container"></div>
 				<button class="btn btn-primary get-fb" data-loading-text="One moment please..">Invite your friends</button>
 				<div class="control-group fb-group hidden">
@@ -50,6 +51,7 @@
 						<input type="text" class="input-xlarge" id="fbfriends-input">
 					</div>
 				</div>
+				<% }; %>
 				
 			</fieldset>
 		</form>

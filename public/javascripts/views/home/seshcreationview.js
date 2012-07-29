@@ -130,7 +130,8 @@ define([
         render: function () {
             var data = {
                 _: _,
-                courses: this.courses.models
+                user: this.user,
+                courses: this.courses.models,
             };
             var compiledTemplate = _.template( seshcreationTemplate, data );
             $(this.el).html(compiledTemplate)

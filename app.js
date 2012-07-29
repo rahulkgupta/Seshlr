@@ -81,6 +81,12 @@ everyauth.password
 		title: 'Login',
 	})
 	.loginView('login.jade')
+	.extractExtraRegistrationParams( function (req) {
+		return {
+			first_name: req.body.first_name,
+			last_name: req.body.last_name,
+		}
+	})
 	.authenticate( function(email, password) {
 		var promise = this.Promise();
 		console.log(email + ' is attempting to authorize with the site (password)');
@@ -115,14 +121,17 @@ everyauth.password
 		title: 'Register',
 	})
 	.validateRegistration( function(newUser) {
-		// We should add actual validation...
-		return null
+		if (!(newUser.email && newUser.password && newUser.first_name && newUser.last_name)) {
+			return 'Please fill out all the required information.'
+		}
+		else {
+			return null
+		}
 	})
 	.registerUser( function(newUser) {
 		// FIXME: Need to add additional details to this user.
 		var promise = this.Promise()
-
-		email = newUser.email;
+		console.log(newUser)
 		password = newUser.password;
 		delete newUser.password;
 
@@ -132,15 +141,17 @@ everyauth.password
 		hash = bcrypt.hashSync(password, salt)
 
 		var instance = new user();
-		instance.email = email
+		instance.email = newUser.email
+		instance.first_name = newUser.first_name
+		instance.name = newUser.first_name + ' ' + newUser.last_name
 		instance.password = hash
 		instance.save( function(err, usr) {
 			if (usr) {
-				console.log('Registered new user with email ' + email)
+				console.log('Registered new user with email ' + newUser.email)
 				promise.fulfill(usr)
 			}
 			else {
-				console.log('Registration failed for user with email ' + email)
+				console.log('Registration failed for user with email ' + newUser.email)
 				promise.fulfill([err])
 			}
 		});
@@ -209,32 +220,20 @@ everyauth.helpExpress(app);
 app.get('/', routes.index)
 app.get('/home', routes.home)
 app.get('/settings', routes.settings)
-app.get('/pande', routes.pande)
 app.get('/signup', routes.signup)
 app.get('/sessions', routes.sessions)
 app.get('/sessions/:id',routes.sessionPage)
-app.get('/test',routes.test)
 
 // APIs
-// FIXME: I'd like to break up each of these into their own file if possible (i.e. apis.user.fetch & apis.user.save live in user.js?)
-app.get('/apis/user', apis.user)
-app.put('/apis/user/:id', apis.updateUser)
-app.get('/apis/user/sessions', apis.usersessions)
-app.get('/apis/user/sessions/:id', apis.usersessions)
-app.get('/apis/user/classes', apis.userclasses)
-app.get('/apis/user/classes/:id', apis.userclasses)
-app.get('/apis/user/sidebar', apis.sidebar)
-app.get('/apis/user/:id', apis.user)
-app.post('/apis/course/', apis.addCourse)
-app.put('/apis/course/', apis.addCourse)
-app.get('/apis/seshfeed', apis.seshfeed)
-app.get('/apis/seshfeed/:id', apis.seshfeed)
-app.get('/apis/allclasses', apis.allclasses)
-app.get('/apis/notifications', apis.notifications)
-app.get('/apis/courses/:num/:dept', apis.courses)
-app.get('/apis/depts', apis.alldepts)
-app.post('/apis/sesh', apis.createsesh)
-app.put('/apis/sesh/:id', apis.updatesesh)
+app.get('/apis/user', apis.user.fetch)
+app.get('/apis/user/:id', apis.user.fetch)
+app.put('/apis/user/:id', apis.user.save)
+app.put('/apis/course/', apis.course.create)
+app.get('/apis/seshfeed', apis.sesh.all)
+app.get('/apis/seshfeed/:id', apis.sesh.all)
+app.get('/apis/courses/', apis.courses)
+app.post('/apis/sesh', apis.sesh.create)
+app.put('/apis/sesh/:id', apis.sesh.save)
 
 var port = process.env.PORT || 4000;
 app.listen(port);

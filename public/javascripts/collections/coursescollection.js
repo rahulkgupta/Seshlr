@@ -7,13 +7,15 @@ define([
     
         model: course,
         
-        url: '/apis/courses',
+        url: '/apis/courses/',
 
+        /*
         fetchCourses: function (num, dept, options) {
             this.url = '/apis/courses'
             this.url += "/" + num + '/' + dept
             this.fetch(options)
         }
+        */
 
     });
  
