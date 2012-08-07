@@ -231,7 +231,7 @@ app.put('/apis/user/:id', apis.user.save)
 app.put('/apis/course/', apis.course.create)
 app.get('/apis/seshfeed', apis.sesh.all)
 app.get('/apis/seshfeed/:id', apis.sesh.all)
-app.get('/apis/courses/', apis.courses)
+app.get('/apis/courses/', apis.course.fetch)
 app.post('/apis/sesh', apis.sesh.create)
 app.put('/apis/sesh/:id', apis.sesh.save)
 

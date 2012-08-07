@@ -6,13 +6,13 @@ define([
     'handlebars',
     'views/includes/addclass',
     'views/sidebar/sidebarview',
-    'models/dept',
+    'collections/coursescollection',
     'models/user',
     'text!/templates/signup.html',
     'text!/templates/base.html',
 ],  
 function($, _, Backbone, BS, Handlebars, 
-         AddClass, SidebarView, Dept, 
+         AddClass, SidebarView, Courses, 
          User, SettingsTemplate, BaseTemplate)
 {
     var SignupView = Backbone.View.extend({
@@ -22,30 +22,32 @@ function($, _, Backbone, BS, Handlebars,
         },
 
         initialize: function () {
-            console.log('test')
-            this.dept = new Dept
-            this.dept.bind("change",this.render, this)
-            this.dept.fetch()
+            //this.dept = new Dept
+            //this.dept.bind("change",this.render, this)
+            //this.dept.fetch()
+            this.courses = new Courses
+            this.courses.bind("reset", this.render, this)
+            this.courses.fetch({
+                data: {depts_only: true}
+            })
             this.user = User.initialize()
             this.user.fetch()
           },
 
         render: function () {
-
-            console.log(this.dept.get('depts'))
+            depts = []
+            this.courses.forEach(function(course) {
+                depts.push(course.get('name'))
+            });
             var data = {
-                depts: this.dept.get('depts'),
+                depts: depts,
                 _: _,
                 $: $,
             };
-
-            var depts = this.dept.get('depts')
-
+            console.log(depts)
             var compiledTemplate = Handlebars.compile(SettingsTemplate);
             $(this.el).html(compiledTemplate)
-            console.log($(this.el))
-            $('#dept-search-input').typeahead().data('typeahead').source = depts
-
+            $('#dept-search-input').typeahead().data('typeahead').source = depts;
             var addClass = new AddClass ({el: this.$('#course-selector')})
         },
 

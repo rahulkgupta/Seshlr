@@ -27,7 +27,6 @@ define([
                 console.log('change')
             })
             this.user.fetchUser()
-            // this.courses.bind('reset', this.showCourses, this);
             $('#course-search').hide();
             $('#course-submit').hide();
             
@@ -48,10 +47,7 @@ define([
                     processData: true,
                 })
                 this.courses.on('reset', function() {
-                    nums = []
-                    this.courses.each(function(course) {
-                        nums.push(course._id);
-                    });
+                    nums = _.uniq(_.toArray(this.courses.pluck('num'))) // Probably not most efficient.
                     $('#course-search').show();
                     var course_input = $('#course-search-input').typeahead();
                     course_input.data('typeahead').source = nums;
@@ -97,7 +93,6 @@ define([
         },
 
         showCourse: function( course) {
-
             // i/userCourses.get(course.id)) {
             // } else {
                var courseView = new CourseView(
