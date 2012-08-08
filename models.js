@@ -17,8 +17,7 @@ var User = new Schema ({
     first_name: String,
     link: String,
     picture: String,
-    refreshToken: String,
-    expiresIn: Number,
+    access_token: String,
     classes: [{ type: Schema.ObjectId, ref: 'Class' }],
     hasSignedUp: { type: Boolean, default: false },
     seshs : [{type: Schema.ObjectId, ref: 'StudyTime'}]

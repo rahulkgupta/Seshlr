@@ -1,15 +1,30 @@
 define([
-  'underscore',
-  'backbone',
-  'models/usercourse'
+    'underscore',
+    'backbone',
+    'models/usercourse'
 ], function(_, Backbone, userCourse){
-  var UserClassesCollection = Backbone.Collection.extend({
+    var courses
+  
+    var UserClassesCollection = Backbone.Collection.extend({
     
-		model: userCourse,
-		
-		url: '/apis/user/classes',
-		
-  });
+        model: userCourse,
+        
+        url: '/apis/user/classes',
+        
+    });
+
+    var initialize = function () {
+        if (courses) {
+            return courses;
+        } else {
+            var crss = new UserClassesCollection
+            courses = crss
+            return courses;
+        }        
+    }
+
+    return {
+        initialize: initialize
+    }
  
-  return UserClassesCollection;
 });

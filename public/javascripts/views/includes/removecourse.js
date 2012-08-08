@@ -4,13 +4,13 @@ define([
     'backbone',
     'models/user',
     'collections/usercoursescollection',
-    'text!/../templates/courseview.html'
+    'text!/../templates/removecourse.html'
 ], function($, _, Backbone, User, Courses, courseTemplate){
         
     var CourseView = Backbone.View.extend({
 
         events: {
-            'click #add-course' : 'addCourse',
+            'click #remove-course' : 'removeCourse',
         },
 
         initialize: function () {
@@ -18,8 +18,7 @@ define([
             
             this.courses = Courses.initialize()
             this.courses.reset(this.user.get('classes'), {silent: true})
-
-            this.model.bind('added', this.renderAdded, this)
+            this.model.on('remove', this.remove, this)
             this.render()
         },
 
@@ -28,49 +27,32 @@ define([
             var data = {
                     _: _,
                     course: this.model,
-                    added: false
                 };
                 var compiledTemplate = _.template( courseTemplate, data );  
             this.el.innerHTML = compiledTemplate
             return this
         },
 
-        renderAdded: function () {
 
-            var data = {
-                    _: _,
-                    course: this.model,
-                    added: true
-                };
-                var compiledTemplate = _.template( courseTemplate, data );  
-            this.el.innerHTML = ""
-            return this
-        },
-
-        addCourse: function (event) {
-            console.log(this.courses)
-            this.courses.add(this.model, {silent: true})
-            console.log(this.courses)
+        removeCourse: function (event) {
+            this.courses.remove(this.model, {silent: true})
             this.user.set('classes', this.courses.toJSON(), {silent: true})
             var self = this
             this.user.save(null, {
-<<<<<<< HEAD
-                success: function (model, resp) {
-                    self.user.trigger('change')
-                    self.model.trigger('added')
-                }
-            })  
-
-=======
             success: function (model, resp) {
-                self.model.trigger('added')
+                self.user.trigger('change')
+                self.model.trigger('remove')
             }
             })
->>>>>>> origin/rahul
         },
 
         clear: function (event) {
             this.$el.html('');
+        },
+
+        remove: function () {
+            this.el.innerHTML = ""
+            // this.remove()
         }
         
     });

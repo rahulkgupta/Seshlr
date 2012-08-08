@@ -10,10 +10,11 @@ define([
 
     'collections/usercoursescollection',
     'collections/userseshscollection',
+    'collections/fbfriendscollection',
 
     'text!/../templates/seshcreate.html',
     
-], function($, Jui, _, Backbone, bs, User, SeshCreateModel, Courses, UserSeshs, seshcreationTemplate){
+], function($, Jui, _, Backbone, bs, User, SeshCreateModel, Courses, UserSeshs, FBFriends, seshcreationTemplate){
     var SeshCreationView = Backbone.View.extend ({
         
     
@@ -31,7 +32,7 @@ define([
         },
 
         initialize: function(){
-            this.courses = new Courses;
+            this.courses = Courses.initialize();
             this.user = User.initialize()
             this.seshs = UserSeshs.initialize()
             var self = this
@@ -53,19 +54,30 @@ define([
             // Bootstrap button stuff broken, this is good for now.
             $('.get-fb').addClass('disabled');
             $('.get-fb').html('One moment please...');
-            // now.getFBFriends(function(data) {
-            //     typeahead_list = []
-            //     data.forEach(function(friend) {
-            //         typeahead_list.push([friend.id, friend.name]);
-            //     });
-            //     fb_input = $('#fbfriends-input').typeahead();
-            //     fb_input.data('typeahead').source = typeahead_list;
-            //     fb_input.data('typeahead').ishidden = true;
-            //     $('.get-fb').hide();
-            //     $('.fb-group').removeClass('hidden');
-            //     $('#fbfriends-input').focus();
-            //     $('#friendtag-container').data('value-hidden', []);
-            // });
+            this.fbfriends = new FBFriends;
+            this.fbfriends.fetch({
+                data: {access_token: this.user.get('access_token')}, 
+                success: function (model, response) {
+                    console.log(response);
+                },
+                error: function(model, response) {
+                    console.log(response);
+                },
+                processData: true,
+            })
+            this.fbfriends.on('reset', function() {
+                typeahead_list = []
+                this.fbfriends.each(function(friend) {
+                    typeahead_list.push([friend.get('id'), friend.get('name')]);
+                });
+                fb_input = $('#fbfriends-input').typeahead();
+                fb_input.data('typeahead').source = typeahead_list;
+                fb_input.data('typeahead').ishidden = true;
+                $('.get-fb').hide();
+                $('.fb-group').removeClass('hidden');
+                $('#fbfriends-input').focus();
+                $('#friendtag-container').data('value-hidden', []);
+            }, this);
         },
 
         removeFriendTag: function(event) {
@@ -118,7 +130,8 @@ define([
         render: function () {
             var data = {
                 _: _,
-                courses: this.courses.models
+                user: this.user,
+                courses: this.courses.models,
             };
             var compiledTemplate = _.template( seshcreationTemplate, data );
             $(this.el).html(compiledTemplate)
