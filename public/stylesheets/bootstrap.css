@@ -135,7 +135,7 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 13px;
   line-height: 18px;
-  color: #2f0505;
+  color: #333333;
   background-color: #ffffff;
 }
 a {
@@ -1200,21 +1200,21 @@ legend + .control-group {
 }
 table {
   max-width: 100%;
-  /*border-collapse: collapse;*/
+  border-collapse: collapse;
   border-spacing: 0;
   background-color: transparent;
 }
 .table {
   width: 100%;
-  margin-bottom: 18px;
-}
+/*  margin-bottom: 18px;
+*/}
 .table th,
 .table td {
   padding: 8px;
   line-height: 18px;
   text-align: left;
   vertical-align: top;
-  border-top: 1px solid #542D1C;
+  border-top: 1px solid #dddddd;
 }
 .table th {
   font-weight: bold;
@@ -1229,25 +1229,24 @@ table {
   border-top: 0;
 }
 .table tbody + tbody {
-  border-top: 2px solid #85224F;
+  border-top: 2px solid #dddddd;
 }
 .table-condensed th,
 .table-condensed td {
   padding: 4px 5px;
 }
 .table-bordered {
-  background: #FACC9D;
-  border: 1px solid #85224F;
+  border: 1px solid #dddddd;
   border-left: 0;
-/*  border-collapse: separate;
-*//*  *border-collapse: collapsed;
-*//*  -webkit-border-radius: 4px;
+  border-collapse: separate;
+  *border-collapse: collapsed;
+  -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
-  border-radius: 4px;*/
+  border-radius: 4px;
 }
 .table-bordered th,
 .table-bordered td {
-  border-left: 1px solid #85224F;
+  border-left: 1px solid #dddddd;
 }
 .table-bordered thead:first-child tr:first-child th,
 .table-bordered tbody:first-child tr:first-child th,
@@ -1284,7 +1283,7 @@ table {
 }
 .table tbody tr:hover td,
 .table tbody tr:hover th {
-  background-color: #a44d3c;
+  background-color: #f5f5f5;
 }
 table .span1 {
   float: none;

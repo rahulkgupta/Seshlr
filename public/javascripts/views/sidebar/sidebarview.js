@@ -6,8 +6,11 @@ define([
     'collections/usernotifscollection',
     'collections/usercoursescollection',
     'collections/userseshscollection',
+    'views/sidebar/sidebarcreateview',
     'text!/templates/sidebar/sidebar.html'
-], function($, _, Backbone, UserModel, userNotifs, Courses, UserSeshs, sidebarTemplate){
+], function($, _, Backbone, UserModel, 
+    userNotifs, Courses, UserSeshs, 
+    SidebarCreateView, sidebarTemplate){
     var sidebarView = Backbone.View.extend({
 
         events: {
@@ -24,7 +27,6 @@ define([
             this.seshs = UserSeshs.initialize()
             var self = this
             this.user.on("change", function () {
-                console.log('change')
                 self.courses.reset(self.user.get('classes'))
                 self.seshs.reset(self.user.get('seshs'))
                 self.render()
@@ -47,6 +49,7 @@ define([
 
             var compiledTemplate = _.template( sidebarTemplate, data );
             $(this.el).html(compiledTemplate);
+            var sideCreate = new SidebarCreateView({el: this.$("#sesh-create")})
             this.$('li#sessions').addClass('selected');
             return this
         // this.$('#sidenav-notifications').hide();

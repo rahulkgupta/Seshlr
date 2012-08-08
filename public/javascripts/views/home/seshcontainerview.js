@@ -6,13 +6,15 @@ define([
     'collections/usercoursescollection',
     'models/user',
     'collections/userseshscollection',
+    'views/home/seshfeedcreationview',
     'views/home/seshview',
     'text!/../templates/seshcontainer.html',
+    'text!/../templates/seshfeedcreate.html',
     'text!/../templates/seshfeedfilter.html'
 ], function($, _, Backbone, seshFeedCollection, 
     Courses, User, userSeshCollection, 
-    seshView, containerTemplate, 
-    feedFilterTemplate){
+    SeshFeedCreation, seshView, containerTemplate, 
+    seshFeedCreateTemplate, feedFilterTemplate){
   
     var SeshContainerView = Backbone.View.extend({
 
@@ -62,16 +64,22 @@ define([
             var compiledTemplate = _.template( containerTemplate, data );
             $(this.el).html(compiledTemplate);
             // this.seshView = new seshFeedView({el: this.$("#session-feed")})
-            for (var i = 0; i < this.seshFeed.length; i++) {
-                sesh = this.seshFeed.at(i);
-                var sView;
-                if (!this.userSeshs.get(sesh.id)) {
-                    sView = new seshView (sesh, false)  
-                } else {
-                    sView = new seshView (sesh, true)   
+            if (this.seshFeed.length == 0) {
+                console.log('hello')
+                var seshFeedCreation = new SeshFeedCreation ({el: this.$("#sesh-create-feed")})
+            } else {
+                for (var i = 0; i < this.seshFeed.length; i++) {
+                    sesh = this.seshFeed.at(i);
+                    var sView;
+                    if (!this.userSeshs.get(sesh.id)) {
+                        sView = new seshView (sesh, false)  
+                    } else {
+                        sView = new seshView (sesh, true)   
+                    }
+                    this.$("#session-feed").append(sView.render().el);
                 }
-                this.$("#session-feed").append(sView.render().el);
             }
+                
         },
 
 
