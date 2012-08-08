@@ -1,17 +1,19 @@
+<tr  
+	<% if (added) { %> class="sesh-added"
+	<%  } else { %> class="sesh-notadded" <% }; %>>
 
-<tr class="sesh">
-		<td  width="30%" >
-			<% if (added) {%>
-				<a id="remove-session" class="btn btn-small">-</a>
+		<td  class="name-row" >
+ 			<% if (added) {%>
+				<a id="remove-session" class="btn btn-small">Remove</a>
 			<% } else { %>
-				<a class="btn btn-primary btn-small" id="add-session">+</a>
+				<a class="btn btn-primary btn-small" id="add-session">Add</a>
 			<% }; %>
-			<a href='/sessions/<%=sesh.id%>' ><%= sesh.get("title") %></a>
+		<%= sesh.get("title") %>
 		</td>
-		<td width="20%" ><%= sesh.get('course').name%>
+		<td class="course-row" ><%= sesh.get('course').name%>
 		</td>
-		<td width="15%" ><%= date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear().toString().substr(2)%></td>
-		<td width="15%"  ><%= time %></td> <!--not sure if they're should be a + 1 w/ hours -->
-		<td width="10%" ><%= sesh.get('users').length %></td>
-		<td width="10%"><%= sesh.get('comments').length %></td>
+		<td class="date-row" ><%= date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear().toString().substr(2)%></td>
+		<td class="time-row"  ><%= time %></td> <!--not sure if they're should be a + 1 w/ hours -->
+		<td class="user-row" ><%= sesh.get('users').length %></td>
+		<td class="comment-row"><%= sesh.get('comments').length %></td>
 </tr>
