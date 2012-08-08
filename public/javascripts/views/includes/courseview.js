@@ -56,10 +56,10 @@ define([
             this.user.set('classes', this.courses.toJSON(), {silent: true})
             var self = this
             this.user.save(null, {
-            success: function (model, resp) {
-                self.user.trigger('change')
-                self.model.trigger('added')
-            }
+                success: function (model, resp) {
+                    self.user.trigger('change')
+                    self.model.trigger('added')
+                }
             })  
 
         },

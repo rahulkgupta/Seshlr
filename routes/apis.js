@@ -50,6 +50,7 @@ function updateObj(old, update, refs) {
 ***************************/
 exports.user = function(req, res) {
     var userId = req.params.id;
+    var now = new Date()
     if (!userId) {
         var userId = req.user.id; // If the route is being called without an ID, use the logged in user own ID.
     }
@@ -59,6 +60,17 @@ exports.user = function(req, res) {
     .populate('seshs')
     .run(function (err, usr) {
         res.send(usr)
+        console.log(now)
+        for (var i = usr.seshs.length - 1; i >= 0; i--) {
+            if (usr.seshs[i].time.getTime() < now.getTime()) {
+                if (usr.seshs.length == 1) {
+                    usr.seshs = []
+                } else {
+                    usr.seshs.splice(i,i) 
+                }                
+                usr.save()
+            } 
+        };
     });
 }
 
