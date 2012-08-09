@@ -11,10 +11,10 @@ define([
         model: Sesh,
 
         fetchSeshs: function () {
-            if (userSeshs.length == 0) {
-                userSeshs.fetch()
+            if (this.length == 0) {
+                this.fetch()
             } else {
-                userSeshs.trigger('reset')
+                this.trigger('reset')
             }
         }
 

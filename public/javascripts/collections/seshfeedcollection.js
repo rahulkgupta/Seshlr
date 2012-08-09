@@ -12,11 +12,11 @@ define([
         
         url: '/apis/seshfeed',
 
-        fetchFeed: function () {
-            if (seshFeed.length == 0) {
-                seshFeed.fetch()
+        fetchFeed: function (force ) {
+            if (this.length == 0) {
+                this.fetch()
             } else {
-                seshFeed.trigger('reset')
+                this.trigger('reset')
             }
         }
     });

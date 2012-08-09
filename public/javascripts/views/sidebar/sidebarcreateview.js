@@ -187,6 +187,7 @@ define([
                         self.model = new SeshCreateModel
                         resp.course = self.courses.get(resp.course).attributes
                         self.user.set('seshs', _.union([resp], self.user.get('seshs')), {silent:true})
+                        console.log(self.seshs.url)
                         self.seshs.add(resp)
                     },
                     error: function (models, resp) {

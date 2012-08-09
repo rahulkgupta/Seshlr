@@ -60,7 +60,10 @@ define([
         },
 
         filterSeshs: function (sesh) {
-            return this.id == sesh.get("course") || this.id == sesh.get('course')._id
+            if (sesh.get('course')._id) {
+                return this.id == sesh.get("course") || this.id == sesh.get('course')._id
+            }
+            return this.id == sesh.get("course")
         },
 
         renderCourse: function (model) {

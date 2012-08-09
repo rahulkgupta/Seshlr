@@ -40,8 +40,7 @@ define([
 
             this.seshFeed.on('reset', this.render, this)
             this.userSeshs.on('add', function (sesh) {
-                self.seshFeed.add(sesh, {at: 0})
-                self.render()
+                self.seshFeed.fetch()
             }, this)
             this.dAscending = true
             this.tAscending = true;
@@ -50,7 +49,7 @@ define([
             this.aIcon = "icon-chevron-up"
             this.dIcon = "icon-chevron-down"
             this.user.fetchUser()
-            this.seshFeed.fetchFeed();
+            this.seshFeed.fetch();
 
 
             // this.render();

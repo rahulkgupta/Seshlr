@@ -76,17 +76,14 @@ define([
 
 
         addSession: function (event) {
-            console.log(this.user)
             this.model.set('users', 
                 _.union([this.user.id], this.model.get('users')), 
                 {silent:true})
             this.model.save()
             this.seshs.add(this.model, {silent:true})
-            console.log(this.seshs)
             this.user.set('seshs', this.seshs.toJSON())
-            console.log(this.user)
             this.user.save()
-            this.seshFeed.trigger('reset')
+            this.seshFeed.fetch()
         },
 
         removeSession: function (event) {
@@ -96,7 +93,7 @@ define([
             this.model.set('users', 
                 _.without(this.model.get('users'), this.user.id))
             this.model.save()
-            this.seshFeed.trigger('reset')
+            this.seshFeed.fetch()
 
         }
     });
