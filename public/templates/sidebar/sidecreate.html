@@ -1,0 +1,63 @@
+<a class="btn btn-primary" data-toggle-"model" id="side-create-sesh">Create a Session</a>
+<div class="modal hide fade" id="side-sesh-form">
+	<div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3>Create a Sesh</h3>		
+  </div>
+	<div class="modal-body">
+		<form class="form-horizontal">
+			<fieldset>
+				 <div class="control-group">
+					<label class="control-label" for="select-course-input">Select a Course</label>
+					<div class="controls">
+						<select id="side-select-course-input">
+							<% _.each(courses, function(course){ %>
+							<option value='<%= course.get("_id") %>'><%= course.get("name") %></option>
+							<% }); %>
+						</select>
+					</div>
+				</div>
+				<div class="control-group" id='date-form'>
+					<label class="control-label " for="date-input">Select a Date & Time</label>
+					<div class="controls">
+						<input id="side-date-input" class="input-small"></input>
+						<div class="input-append">
+								<input class="input-mini" type="text" id="side-time-input">
+								<input class="btn first-form" id="side-am-input" type="button" value="AM"/>
+								<input class="btn" id="side-pm-input"type="button" value="PM"/>
+						</div>
+						<p class="help-block" id='date-error'></p>
+					</div>
+				</div>
+				<div class="control-group" id="side-title-form">
+					<label class="control-label" for="title-input">Enter a Title</label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="side-title-input">
+						<p class="help-block" id='title-error'></p>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="description-input">Give a Description</label>
+					<div class="controls">
+						<textarea type="textarea" id="side-description-input" rows="3"/>
+					</div>
+				</div>
+				<% if (user.access_token) { %>
+				<div id ="friendtag-container"></div>
+				<button class="btn btn-primary get-fb" data-loading-text="One moment please..">Invite your friends</button>
+				<div class="control-group fb-group hidden">
+					<label class="control-label" for="description-input">Choose Friends</label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="side-fbfriends-input">
+					</div>
+				</div>
+				<% }; %>
+				
+			</fieldset>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button data-dismiss="modal" class="btn">Cancel</button>
+		<button type="submit" class="btn btn-primary" id="side-submit-sesh" >Submit</button>					
+	</div>
+</div>
