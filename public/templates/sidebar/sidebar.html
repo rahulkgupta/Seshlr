@@ -18,15 +18,15 @@
    <div id="sesh-create"/>
    <div id="sidebar-tab-content">
       <div id="sidenav-sessions">
-         <% _.each(courses, function(course){ %>
+      <!--    <% _.each(courses, function(course){ %>
             <h5 id='<%= course.id %>'><%= course.get("name") %></h5>
             <% _.each(seshs, function(sesh){ %>
-               <% if (sesh.get("course") == course.id) { %>
-                  <p><%= sesh.get("title") %></a></p>
+               <% if (sesh.get("course") == course.id) {  %>
+                  <p><%= sesh.get("title") %></p>
                <% }; %>
             <% }); %>
-         <% }); %>
-      </div>
+         <% }); %>-->
+      </div> 
       <div id="sidenav-notifications">
          <ul>
             <% _.each(notifications, function(notif) { %>

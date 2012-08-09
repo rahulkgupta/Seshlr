@@ -7,10 +7,12 @@ define([
     'collections/usercoursescollection',
     'collections/userseshscollection',
     'views/sidebar/sidebarcreateview',
+    'views/sidebar/courseview',
     'text!/templates/sidebar/sidebar.html'
 ], function($, _, Backbone, UserModel, 
     userNotifs, Courses, UserSeshs, 
-    SidebarCreateView, sidebarTemplate){
+    SidebarCreateView, courseView,
+    sidebarTemplate){
     var sidebarView = Backbone.View.extend({
 
         events: {
@@ -21,7 +23,7 @@ define([
 
         initialize: function () {
 
-            _.bindAll(this);
+            _.bindAll(this, "render", "renderCourse");
             this.courses = Courses.initialize();
             this.user = UserModel.initialize()
             this.seshs = UserSeshs.initialize()
@@ -50,11 +52,25 @@ define([
             var compiledTemplate = _.template( sidebarTemplate, data );
             $(this.el).html(compiledTemplate);
             var sideCreate = new SidebarCreateView({el: this.$("#sesh-create")})
+            this.courses.each(this.renderCourse)
             this.$('li#sessions').addClass('selected');
             return this
         // this.$('#sidenav-notifications').hide();
 
         },
+
+        filterSeshs: function (sesh) {
+            return this.id == sesh.get("course") || this.id == sesh.get('course')._id
+        },
+
+        renderCourse: function (model) {
+            collection = this.seshs.select(this.filterSeshs, model)
+            var course = new courseView({model: model,
+                                            collection: collection});
+            course.render();
+            $('#sidenav-sessions').append(course.el);
+        },
+
 
         home: function () {
             Backbone.history.navigate('home', true)

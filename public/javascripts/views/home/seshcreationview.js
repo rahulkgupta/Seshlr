@@ -186,9 +186,9 @@ define([
                 this.model.save(null,{
                     success: function (models, resp) {
                         self.model = new SeshCreateModel
-                        // resp.course = self.courses.get(resp.course).attributes
-                        console.log(resp)
+                        resp.course = self.courses.get(resp.course).attributes
                         self.user.set('seshs', _.union([resp], self.user.get('seshs')), {silent:true})
+                        self.user.trigger('change')
                         self.seshs.add(resp)
                     },
                     error: function (models, resp) {

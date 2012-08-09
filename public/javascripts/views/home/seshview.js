@@ -48,7 +48,6 @@ define([
                                 $(this.el).attr("class", "sesh-notadded")
                 var compiledTemplate = _.template( seshFeedTemplate, data );
                 this.el.innerHTML = compiledTemplate
-                console.log(this)
                 return this
         },
         
