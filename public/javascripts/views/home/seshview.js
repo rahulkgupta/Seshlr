@@ -11,7 +11,7 @@ define([
 ], function($, _, Backbone, User, UserSeshs, SeshFeedCollection, seshFeedTemplate){
         var SeshFeedView = Backbone.View.extend({
 
-        tagName:'tr',
+        tagName:'div',
 
         events: {
             'click #add-session' : 'addSession',

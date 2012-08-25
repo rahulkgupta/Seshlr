@@ -50,7 +50,6 @@ define([
         // $('li#sessions').addClass('selected');
         // $('#sidenav-notifications').hide();
         $(this.el).html(compiledTemplate) 
-        var calendar = new CalendarView ({el: this.$('#calendar-container')})
         var seshCreation = new SeshCreation ({el: this.$('#session-creation')})
         var seshContainer = new SeshContainer({el: this.$('.session-container')})
       },

@@ -3,10 +3,12 @@ define([
     'underscore',
     'backbone',
     'views/sidebar/sidebarview',
+    'views/topbar/topbarview',
     'views/home/home',
     'views/settings/settings',
     'views/signup/signup',
-    ], function($  , _, Backbone, SidebarView, HomeView, SettingsView, SignupView) {
+    ], function($  , _, Backbone, SidebarView, TopBarView, 
+        HomeView, SettingsView, SignupView) {
     var AppRouter = Backbone.Router.extend({
 
         routes: {                                                                                                                                                                                                                                                                                                                                                                                                                                                
@@ -20,6 +22,7 @@ define([
 
         initialize:function () {
             var sidebar = new SidebarView({el :  $('.sidebar-container')})
+            var topbar = new TopBarView({el: $('.navbar-inner')})
         },
 
         peck: function() {

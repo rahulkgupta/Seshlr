@@ -22,6 +22,7 @@ footer {
 
 /* Sidebar */
 h1.logo {
+	cursor: pointer;
 	width: 125px;
 	height: 60px;
 	margin: 10px auto;
@@ -44,6 +45,7 @@ h1.logo {
 }
 .settingsicon {
 	margin-top: 6px;
+	cursor: pointer;
 }
 .settingsicon:hover {
 	-moz-transform: rotate(15deg);
@@ -170,6 +172,16 @@ ul.sidebar-nav-tabs {
 .cal-past {
 	background: #E9E9F1;
 	box-shadow: -1px 0px 1px #CCC;
+}
+
+.cal-current
+{
+	cursor: pointer;
+}
+
+.cal-future
+{
+	cursor: pointer;
 }
 /* Sesh Modal */
 button.get-fb {
@@ -392,3 +404,16 @@ ul#course-list button {
 	border-right: 0px;
 	border-left: 0px;
 }
+
+body
+{
+	padding-top: 40px;
+	position: relative;
+}
+
+
+.brand
+{
+	cursor: pointer;
+}
+

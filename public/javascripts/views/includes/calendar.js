@@ -159,7 +159,10 @@ define([
         },
 
         addBorder: function(e) {
-            $(e.currentTarget).addClass('selected');
+                $('#calendar li').removeClass('selected')
+            $(e.currentTarget).toggleClass('selected');
+            console.log(e.currentTarget.getAttribute('data-day'))
+
         },
 
     });

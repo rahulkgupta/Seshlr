@@ -10,12 +10,12 @@ exports.all = function (req, res) {
     mongoose.model('User')
         .findById(userId)
         .populate('classes')
-        .run(function (err, usr) {
+        .exec(function (err, usr) {
             mongoose.model('StudyTime')
                 .find({course: {$in : usr.classes}, time: {$gte: new Date()}})
-                .sort('created', -1)
-                .populate('course',['name','_id'])
-                .run(function (err, studyfeeds) {
+                .sort('-created')
+                .populate('course')
+                .exec(function (err, studyfeeds) {
                     res.send(studyfeeds);
                 });
             });
@@ -26,7 +26,7 @@ exports.save = function (req, res) {
     var newsesh = req.body
     mongoose.model('StudyTime')
     .findById(req.params.id)
-    .run(function (err, sesh) {
+    .exec(function (err, sesh) {
         if (err) { res.json({'error': err}, 200) }
         sesh.users = newsesh.users
         sesh.save(function(err) {

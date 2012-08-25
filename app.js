@@ -21,7 +21,7 @@ var mongooseSessionStore = new SessionMongoose({
     interval: 120000 // expiration check worker run interval in millisec (default: 60000)
 });
 
-var app = module.exports = express.createServer();
+var app = module.exports = express();
 
 
 // DB Config
@@ -213,7 +213,7 @@ app.configure(function(){
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
 });
-everyauth.helpExpress(app);
+
 
 // Routes
 
@@ -237,7 +237,7 @@ app.put('/apis/sesh/:id', apis.sesh.save)
 
 var port = process.env.PORT || 4000;
 app.listen(port);
-console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+// console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 
 
 //nowjs methods

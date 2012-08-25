@@ -6,7 +6,7 @@
 <div id="calendar">
    <ul>
    	<% _.each(days, function(day){ %>
-    	<li 
+    	<li data-day = <%= day.date %>
          <% if (day.past) { %> class="cal-past" <% }; %> 
          <% if (day.current) { %> class="cal-current"
          <% } else { %> class="cal-future" <% }; %>>

@@ -11,7 +11,7 @@ exports.fetch = function(req, res) {
     .findById(userId)
     .populate('classes')
     .populate('seshs')
-    .run(function (err, usr) {
+    .exec(function (err, usr) {
         res.send(usr)
         for (var i = usr.seshs.length - 1; i >= 0; i--) {
             if (usr.seshs[i].time.getTime() < now.getTime()) {

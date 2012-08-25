@@ -22,7 +22,7 @@ exports.fetch = function (req, res) {
         }
         mongoose.model('Class')
             .find(data)
-            .run (function (err, courses) {
+            .exec (function (err, courses) {
                 res.send(courses)
             })
     }
