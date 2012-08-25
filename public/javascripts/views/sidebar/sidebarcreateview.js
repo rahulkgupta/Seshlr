@@ -99,6 +99,7 @@ define([
         },
 
         showSeshCreation: function (event) {
+            mixpanel.track("Showing Sesh Creation")
             this.$('#side-sesh-form').modal()
             $('#ui-datepicker-div').css('display','none');
             var date = new Date();
@@ -162,6 +163,7 @@ define([
         },
 
         submitSeshCreation: function (event) {
+            mixpanel.track("Attempting Sesh Creation")
             var friends = this.$('#side-friendtag-container').data('value-hidden')
             var day = this.$('#side-date-input').datepicker('getDate');
             var today = new Date();
@@ -184,6 +186,7 @@ define([
                 this.model.set({time: day, created: today, course: course, title: title, location: location, description: description});
                 this.model.save(null,{
                     success: function (models, resp) {
+                        mixpanel.track("Finished Sesh Creation")
                         self.model = new SeshCreateModel
                         resp.course = self.courses.get(resp.course).attributes
                         self.user.set('seshs', _.union([resp], self.user.get('seshs')), {silent:true})

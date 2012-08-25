@@ -52,7 +52,7 @@ define([
             var compiledTemplate = _.template( sidebarTemplate, data );
             $(this.el).html(compiledTemplate);
             var sideCreate = new SidebarCreateView({el: this.$("#sesh-create")})
-            this.courses.each(this.renderCourse)
+            // this.courses.each(this.renderCourse)
             this.$('li#sessions').addClass('selected');
             return this
         // this.$('#sidenav-notifications').hide();

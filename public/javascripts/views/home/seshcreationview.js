@@ -163,6 +163,7 @@ define([
         },
 
         submitSeshCreation: function (event) {
+            mixpanel.track("Attempting Sesh Creation")
             var friends = this.$('#friendtag-container').data('value-hidden')
             var day = this.$('#date-input').datepicker('getDate');
             var today = new Date();
@@ -179,17 +180,18 @@ define([
             var description = this.$('#description-input').val();
             this.setTime(day,time)
             if (title && day && day > today) {
-                
                 this.$('#sesh-form').modal("hide")
                 var self = this;
                 this.model.set({time: day, created: today, course: course, title: title, location: location, description: description});
                 this.model.save(null,{
                     success: function (models, resp) {
                         self.model = new SeshCreateModel
+                        mixpanel.track("Created Sesh")
                         resp.course = self.courses.get(resp.course).attributes
                         self.user.set('seshs', _.union([resp], self.user.get('seshs')), {silent:true})
                         self.user.trigger('change')
                         self.seshs.add(resp)
+
                     },
                     error: function (models, resp) {
                         console.log("error")

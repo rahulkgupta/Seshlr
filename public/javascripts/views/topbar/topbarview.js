@@ -41,10 +41,12 @@ define([
         },
 
         home: function () {
+            mixpanel.track("Home")
             Backbone.history.navigate('home', true)
         },
-        
+
         settings: function () {
+            mixpanel.track("Settings")
             Backbone.history.navigate('settings', true)
         }
 
