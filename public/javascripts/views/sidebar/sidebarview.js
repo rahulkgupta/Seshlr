@@ -8,10 +8,11 @@ define([
     'collections/userseshscollection',
     'views/sidebar/sidebarcreateview',
     'views/sidebar/courseview',
+    'views/includes/calendar',
     'text!/templates/sidebar/sidebar.html'
 ], function($, _, Backbone, UserModel, 
     userNotifs, Courses, UserSeshs, 
-    SidebarCreateView, courseView,
+    SidebarCreateView, courseView, CalendarView,
     sidebarTemplate){
     var sidebarView = Backbone.View.extend({
 
@@ -52,8 +53,9 @@ define([
             var compiledTemplate = _.template( sidebarTemplate, data );
             $(this.el).html(compiledTemplate);
             var sideCreate = new SidebarCreateView({el: this.$("#sesh-create")})
-            // this.courses.each(this.renderCourse)
+            this.courses.each(this.renderCourse)
             this.$('li#sessions').addClass('selected');
+            var calendar = new CalendarView( {el: $("#calendar")})
             return this
         // this.$('#sidenav-notifications').hide();
 
@@ -71,7 +73,7 @@ define([
             var course = new courseView({model: model,
                                             collection: collection});
             course.render();
-            $('#sidenav-sessions').append(course.el);
+            $('#courses').append(course.el);
         },
 
 

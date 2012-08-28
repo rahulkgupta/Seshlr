@@ -3,6 +3,7 @@ require.config({
         jui: 'libs/jquery/datepicker',  
         underscore: 'libs/underscore/underscore-min',
         backbone: 'libs/backbone/backbone-optamd3-min',
+        kalendae: 'libs/kalendae/kalendae',
         bs: 'libs/bootstrap/bootstrap',
         text: 'libs/require/text',
         handlebars: 'libs/handlebars/handlebars',

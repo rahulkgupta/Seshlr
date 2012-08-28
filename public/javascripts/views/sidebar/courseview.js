@@ -22,7 +22,7 @@ define([
 
             var compiledTemplate = _.template( Template, data );
             $(this.el).html(compiledTemplate);
-            _.each(this.collection, this.renderSesh, this)
+            // _.each(this.collection, this.renderSesh, this)
         },
 
         renderSesh: function (model) {

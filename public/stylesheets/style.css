@@ -30,11 +30,11 @@ h1.logo {
 	overflow: hidden;
 	background: url('../img/logo.png') no-repeat 0 center;
 }
-.sidebar-info {
+/*.sidebar-info {
 	border: 1px solid #dddddd;
 	border-radius: 5px;
 	background: #E9E9F1;
-}
+}*/
 @-webkit-keyframes rotatecog {
   from {
     -webkit-transform: rotate(0deg);
@@ -58,6 +58,11 @@ h1.logo {
 .sidebar-header {
 	display: block;
 	height: 30px;
+}
+
+.sidebar-info
+{
+	padding-top: 30px;	
 }
 .sidebar-container h3 {
 	padding-left: 13px;
@@ -116,13 +121,7 @@ ul.sidebar-nav-tabs {
 	text-decoration: none;
 }
 /* Calendar */
-#calendar {
-	border: 1px solid #ccc;
-	margin: 0; padding: 0;
-	white-space: nowrap;
-	overflow: hidden;
-	height: 100px;
-}
+
 #calendar ul {
 	margin: 0;
 }
@@ -405,6 +404,18 @@ ul#course-list button {
 	border-left: 0px;
 }
 
+#user-sesh-button
+{
+	padding: 4px 0px 4px;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+  width:100%;
+  border-top: 1px solid #F4F4F4;
+	border-bottom: 1px solid #F4F4F4;
+	border-right: 0px;
+	border-left: 0px;
+}
 body
 {
 	padding-top: 40px;
@@ -414,6 +425,37 @@ body
 
 .brand
 {
-	cursor: pointer;
+	cursor: p;
 }
+
+
+.sesh
+{
+	padding: 15px;
+	width: 200px
+	float:left;
+}
+
+.sesh-date
+{
+	float:left;
+}
+
+#remove-session
+{
+	float:right;
+}
+
+.comment-row
+{
+	float:left;
+}
+
+
+
+
+
+
+
+
 

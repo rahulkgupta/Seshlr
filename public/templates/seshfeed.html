@@ -1,6 +1,4 @@
-<div  
-	<% if (added) { %> class="sesh-added"
-	<%  } else { %> class="sesh-notadded" <% }; %>>
+<div class="sesh">
 	<h1  class="name-row" >
 		<%= sesh.get("title") %>
 	</h1>
@@ -11,14 +9,17 @@
 	<div class="time-row"  ><%= time %></div> <!--not sure if they're should be a + 1 w/ hours -->
 	<div class="user-row" ><%= sesh.get('users').length %> Users</div>
 	<div class="comment-row"><%= sesh.get('comments').length %> Comments</div>
-	<% if (added) {%>
-		<a id="remove-session" class="btn btn-small">Leave</a>
-	<% } else { %>
-		<a class="btn btn-primary btn-small" id="add-session">Join</a>
-	<% }; %>
+	<div>
+		<% if (added) {%>
+			<a id="remove-session" class="btn btn-small">Leave</a>
+		<% } else { %>
+			<a class="btn btn-primary btn-small" id="add-session">Join</a>
+		<% }; %>
+	</div>
+	<div class="sesh-date">
+		<div class="sesh-day-name"><%= date.getDay() %></div>
+		<div class="sesh-day-num"><%= date.getDate()%></div>
+	</div>
 </div>
-<div class="sesh-date">
-	<div class="sesh-day-name"><%= date.getDay() %></div>
-	<div class="sesh-day-num"><%= date.getDate()%></div>
-</div>
+
 
