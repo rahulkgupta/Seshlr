@@ -18,8 +18,10 @@ var Schema = mongoose.Schema
 var Class = new Schema ({
     dept  : String
   , num   : String
+  , type  : String
+  , subnum: String
   , name  : String
-  , lec   : String
+  , ccn   : {type: Number, unique: true, index: true}
 });
 
 var sched = mongoose.model('Class',Class); 
@@ -43,7 +45,7 @@ function getClasses(agent) {
   for (var i = 0; i < classes.length - 2; i+=3) {
       //console.log('/OSOC/osoc?p_term=SP&p_dept=' + $(classes[i]).text() + '&p_course=' + $(classes[i+1]).text().trim());
       var dept = $(classes[i]).text().replace(/ /g, "%20")
-       agent.addUrl('/OSOC/osoc?p_term=SP&p_dept=' + dept + '&p_course=' + $(classes[i+1]).text().trim())
+       agent.addUrl('/OSOC/osoc?p_term=FL&p_dept=' + dept + '&p_course=' + $(classes[i+1]).text().trim())
     }
 
 }
@@ -59,19 +61,25 @@ function addClass(agent) {
     var title = $('.coursetitle')
     var dept = $('input[name=p_dept]').val()
     var num = $('input[name=p_course]').val()
+    // console.log(num)
     var name = $('input[name=p_title]').val()
     for (var i = 0; i < title.length; i++) {
       //console.log($(title).html())
       var details = $(title[i]).parent().parent().parent().parent().parent().parent().children('tr')
-      //console.log($(details[0]).text())
+      var header  = $(details[0]).children().next().next().text()
+      var ccn = $(details[4]).children().next().text()
+      var type = header.substring(header .length-4, header.length)
+      var pieces = header.split(" ")
+      // console.log(pieces[2])
+      var subnum = pieces[pieces.length-3]
+      // console.log(header)
       var instance = new sched();
       instance.dept = dept;
       instance.num = num;
-      var name = $(details[0]).text()
-      var change = name.split("Course:")
-      name = change[1]
-      name = name.substring(1, name.length)
-      instance.name = name
+      instance.type = type
+      instance.subnum = subnum
+      if (ccn != "SEE DEPT " && ccn != "SEE NOTE ") instance.ccn = ccn
+      instance.name = header
       instance.save();
     }
 }

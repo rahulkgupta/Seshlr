@@ -7,10 +7,13 @@ var Schema = mongoose.Schema;
 var Class = new Schema ({
     dept  : String
   , num   : String
+  , type  : String
+  , subnum : Number
   , name  : String
+  , ccn   : {type: Number, unique: true, index: true}
 });
 var User = new Schema ({
-	fbId: {type: Number, unique: true, index: true },
+    fbId: {type: Number, unique: true, index: true },
     email: String,
     password: String,
     name: String,
@@ -24,32 +27,32 @@ var User = new Schema ({
 });
 
 var StudyTime = new Schema ({
-		time 	: Date
-	,	loc 	: {
-					x : Number
-				,	y : Number
-		}
-	, course: { type: Schema.ObjectId, ref: 'Class' }
-	, description : String
-	, title	:	String
-	, comments: [SessionComment]
-	, users: [{ type: Schema.ObjectId, ref: 'User' }]
-	, created : Date
-	
+        time    : Date
+    ,   loc     : {
+                    x : Number
+                ,   y : Number
+        }
+    , course: { type: Schema.ObjectId, ref: 'Class' }
+    , description : String
+    , title :   String
+    , comments: [SessionComment]
+    , users: [{ type: Schema.ObjectId, ref: 'User' }]
+    , created : Date
+    
 });
 
 
 
 var FBFriend  = new Schema ({
-		friend_id: Number
-	,	user_id: Number  
-	, name: String
+        friend_id: Number
+    ,   user_id: Number  
+    , name: String
 });
 
 var SessionComment = new Schema ({
-		created: Date
-	, author: { type: Schema.ObjectId, ref: 'User' }
-	, text: String
+        created: Date
+    , author: { type: Schema.ObjectId, ref: 'User' }
+    , text: String
 });
 
 var Notification = new Schema ({
