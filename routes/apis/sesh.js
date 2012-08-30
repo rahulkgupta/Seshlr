@@ -43,7 +43,7 @@ exports.createSesh = function (req, res) {
     sesh.save(function (err) {
         if (err) console.log(err);
         else {
-            User.findById(userId, function(err, usr) {
+            User.findById(req.user.id, function(err, usr) {
                 usr.seshs.push(sesh.id)
                 usr.save(function (err) {
                     if (err) console.log(err)

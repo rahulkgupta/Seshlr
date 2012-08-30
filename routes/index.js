@@ -111,13 +111,12 @@ exports.sessionPage = function (req, res) {
             .findById(userId)
             .populate('classes')
             .run(function(err, usr) {
-                mongoose.model('StudyTime')
-                    .find({users: userId})
-                    .run(function(err, studytimes) {
-                        console.log(studytimes)
-                        res.expose()
-                        res.render('sessions/page', { title: sesh.title , sessions: studytimes, session: sesh, userdata: usr, rooturl: '..' });
-                    });
+                Sesh.find({users: userId})
+                .run(function(err, studytimes) {
+                    console.log(studytimes)
+                    res.expose()
+                    res.render('sessions/page', { title: sesh.title , sessions: studytimes, session: sesh, userdata: usr, rooturl: '..' });
+                });
             });
         });
     }

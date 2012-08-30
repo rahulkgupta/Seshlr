@@ -26,7 +26,7 @@ GLOBAL.User = db.model('User', mongoose.Schema ({
     access_token: String,
     classes: [{ type: ObjectId, ref: 'Class' }],
     hasSignedUp: { type: Boolean, default: false },
-    seshs : [{type: ObjectId, ref: 'StudyTime'}]
+    seshs : [{type: ObjectId, ref: 'Sesh'}]
 }));
 
 GLOBAL.SessionComment = db.model('SessionComment', mongoose.Schema ({
