@@ -14,8 +14,8 @@ define([
         tagName:'div',
 
         events: {
-            'click #add-session' : 'addSession',
-            'click #remove-session' : 'removeSession'
+            'click .add-session' : 'addSession',
+            'click .remove-session' : 'removeSession'
         },
         initialize: function (sesh, added) {
             this.model = sesh;

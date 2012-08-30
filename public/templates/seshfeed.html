@@ -1,25 +1,35 @@
 <div class="sesh">
+	<div>
+		<div class="course-row" > <%= sesh.get('course').dept + " " + sesh.get('course').num + " | " + sesh.get('course').type + " " + sesh.get('course').subnum%>
+		</div>
+	</div>
+	<div class="date-time">
+		<div class="time-row"  ><%= time %></div>
+		<div class="sesh-date">
+			<div class="sesh-day-name"><%= date.getDate() %></div>
+		</div>
+	</div>
 	<h1  class="name-row" >
 		<%= sesh.get("title") %>
 	</h1>
-	<div class="course-row" ><%= sesh.get('course').name%>
+	
+	<div class="description" >Description: <%= sesh.get('description')%>
 	</div>
-	<div class="course-row" >Description: <%= sesh.get('description')%>
+	 <!--not sure if they're should be a + 1 w/ hours -->
+<!-- 	<div class="comment-row"><%= sesh.get('comments').length %> Comments</div>
+ -->	<div class="user-section">
+		<div class="user-row" ><%= sesh.get('users').length %> Users</div>
+		<div class='attend-button'>
+			<% if (added) {%>
+				<a class="remove-session btn btn-small">Leave</a>
+			<% } else { %>
+				<a class="add-session btn btn-primary btn-small" class="add-session">Join</a>
+			<% }; %>
+		</div>
 	</div>
-	<div class="time-row"  ><%= time %></div> <!--not sure if they're should be a + 1 w/ hours -->
-	<div class="user-row" ><%= sesh.get('users').length %> Users</div>
-	<div class="comment-row"><%= sesh.get('comments').length %> Comments</div>
-	<div>
-		<% if (added) {%>
-			<a id="remove-session" class="btn btn-small">Leave</a>
-		<% } else { %>
-			<a class="btn btn-primary btn-small" id="add-session">Join</a>
-		<% }; %>
-	</div>
-	<div class="sesh-date">
-		<div class="sesh-day-name"><%= date.getDay() %></div>
-		<div class="sesh-day-num"><%= date.getDate()%></div>
-	</div>
+	<div class="end-sesh"/>
+	
+
 </div>
 
 

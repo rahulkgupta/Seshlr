@@ -433,7 +433,48 @@ body
 {
 	padding: 15px;
 	width: 200px
+	clear:both;
+	border: 1px solid #CCC;
+}
+
+.course-row
+{
 	float:left;
+}
+
+.name-row
+{
+	clear:both;
+}
+.sesh-date
+{
+	float:left;
+}
+
+
+.comment-row
+{
+	float:left;
+}
+
+.user-section
+{
+	float:right;
+}
+
+.time-row
+{
+	float:left;
+}
+
+.user-row
+{
+	float: left;
+}
+
+.attend-button
+{
+	float: left;
 }
 
 .sesh-date
@@ -441,21 +482,12 @@ body
 	float:left;
 }
 
-#remove-session
+.date-time
 {
 	float:right;
 }
 
-.comment-row
+.end-sesh
 {
-	float:left;
+	clear:both;
 }
-
-
-
-
-
-
-
-
-
