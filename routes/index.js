@@ -1,6 +1,17 @@
 var querystring = require('querystring');
 var mongoose = require('mongoose');
 
+// Generic error handler for now;
+exports.error = function(err, req, res, next) {
+    if (err.message == '404') { // Should really extend Error
+        res.send(404, 'Oops, that link is broken.')
+    }
+    else {
+        console.log(err);
+        res.send(500, 'Uh-oh, server error!')
+    }
+}
+
 exports.index = function(req, res){
     if (req.loggedIn) {
         res.redirect('/home');
@@ -32,12 +43,12 @@ exports.test = function(req,res) {
 exports.signup = function(req, res) {
     if (req.loggedIn) {
         if (!req.user.hasSignedUp) {
-            mongoose.model('Class').distinct('dept', {}, function(err, depts) {
-            typeahead_depts = []
-            depts.forEach(function(dept) {
-                typeahead_depts.push('"' + dept + '"');
-            });
-                res.render('signup', { title: 'Get started with Seshlr', depts: typeahead_depts});
+            Class.distinct('dept', {}, function(err, depts) {
+                typeahead_depts = []
+                depts.forEach(function(dept) {
+                    typeahead_depts.push('"' + dept + '"');
+                });
+                    res.render('signup', { title: 'Get started with Seshlr', depts: typeahead_depts});
             });
         } else {
             res.redirect('/home');

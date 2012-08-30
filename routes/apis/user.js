@@ -1,18 +1,13 @@
 var mongoose = require('mongoose');
 var util = require('../util.js')
 
-exports.fetch = function(req, res) {
-    var userId = req.params.id;
+exports.getUser = function(req, res) {
     var now = new Date()
-    if (!userId) {
-        var userId = req.user.id; // If the route is being called without an ID, use the logged in user own ID.
-    }
-    mongoose.model('User')
-    .findById(userId)
+    User.findById(req.user.id)
     .populate('classes')
     .populate('seshs')
     .exec(function (err, usr) {
-        res.send(usr)
+        res.send(usr);
         for (var i = usr.seshs.length - 1; i >= 0; i--) {
             if (usr.seshs[i].time.getTime() < now.getTime()) {
                 if (usr.seshs.length == 1) {
@@ -26,16 +21,16 @@ exports.fetch = function(req, res) {
     });
 }
 
-exports.save = function(req,res) {
+exports.updateUser = function(req,res) {
+    console.log(req.body)
     var userId = req.user.id;
     var user = req.body;
-    console.log(user)
-    mongoose.model('User').findById(userId, function(err, usr) {
-        util.updateObj(usr, user, ['classes', 'seshs']);
-        usr.save(function(err) {
-            console.log('ERROR: ' + err);
-            console.log(usr);
+    User.findById(userId, function(err, usr) {
+        util.updateObj(usr, user, {
+            'relations': ['classes', 'seshs'],
+            'excludes': ['fbId', 'password'],
         });
+        usr.save()
         res.json({'error': null}, 200);
     });
 }

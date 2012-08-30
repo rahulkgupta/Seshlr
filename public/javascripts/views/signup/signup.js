@@ -56,6 +56,7 @@ function($, _, Backbone, BS, Handlebars,
             self = this;
             console.log(this.user)
             this.user.set({hasSignedUp : true})
+            console.log(this.user)
             this.user.save(null, {
                 success: function(model, response) {
                     var compiledTemplate = Handlebars.compile(BaseTemplate);

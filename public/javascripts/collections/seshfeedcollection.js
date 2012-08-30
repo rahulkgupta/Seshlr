@@ -10,7 +10,7 @@ define([
     
         model: Sesh,
         
-        url: '/apis/seshfeed',
+        url: '/apis/sesh/',
 
         fetchFeed: function (force ) {
             if (this.length == 0) {

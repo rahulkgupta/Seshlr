@@ -12,19 +12,6 @@ var configdata = cfg('config');
 // DB Schema
 
 mongoose.connect(configdata.db);
-var Schema = mongoose.Schema
-
-
-var Class = new Schema ({
-    dept  : String
-  , num   : String
-  , type  : String
-  , subnum: String
-  , name  : String
-  , ccn   : {type: Number, unique: true, index: true}
-});
-
-var sched = mongoose.model('Class',Class); 
 // Start scraping
 
 
@@ -73,7 +60,7 @@ function addClass(agent) {
       // console.log(pieces[2])
       var subnum = pieces[pieces.length-3]
       // console.log(header)
-      var instance = new sched();
+      var instance = new Class();
       instance.dept = dept;
       instance.num = num;
       instance.type = type

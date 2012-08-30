@@ -7,7 +7,7 @@ define([
     
         model: course,
         
-        url: '/apis/courses/',
+        url: '/apis/course/',
 
         /*
         fetchCourses: function (num, dept, options) {

@@ -1,10 +1,10 @@
 var mongoose = require('mongoose');
 var util = require('../util.js')
 
-exports.fetch = function (req, res) {
+exports.getCourses = function (req, res) {
     // FIXME: Not crazy about this but I don't think it makes sense to have a seperate model for Depts only.
     if (req.query.depts_only) {
-        mongoose.model('Class').distinct('dept', {}, function(err, depts) {
+        Class.distinct('dept', {}, function(err, depts) {
             depts_list = [] // This is a lame hack.
             depts.forEach(function(dept) {
                 depts_list.push({'name': dept})
@@ -15,15 +15,13 @@ exports.fetch = function (req, res) {
     else {
         var data = {}
         if (req.query.num) {
-            data['num'] = req.query.num; // Have to use query I guess?
+            data['num'] = req.query.num;
         }
         if (req.query.dept) {
             data['dept'] = req.query.dept;
         }
-        mongoose.model('Class')
-            .find(data)
-            .exec (function (err, courses) {
-                res.send(courses)
-            })
+        Class.find(data, function (err, courses) {
+            res.send(courses)
+        })
     }
 }

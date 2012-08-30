@@ -1,18 +1,21 @@
 var cfg = require('konphyg')(__dirname + '/public/config');
 var configdata = cfg('config');
 var mongoose = require('mongoose');
-mongoose.connect(configdata.db);
-var Schema = mongoose.Schema;
+var db = mongoose.createConnection(configdata.db);
+var ObjectId = mongoose.Schema.Types.ObjectId;
 
-var Class = new Schema ({
-    dept  : String
-  , num   : String
-  , type  : String
-  , subnum : Number
-  , name  : String
-  , ccn   : {type: Number, unique: true, index: true}
-});
-var User = new Schema ({
+// Assigning models to the global namespace for now. This should make DB related stuff convenient.
+// FIXME: Revisit this later - its against node convention and in the future we could split models into several files.
+GLOBAL.Class = db.model('Class', mongoose.Schema ({
+    dept  : String,
+    num   : String,
+    type  : String,
+    subnum : Number,
+    name  : String,
+    ccn   : {type: Number, unique: true, index: true}
+}));
+
+GLOBAL.User = db.model('User', mongoose.Schema ({
     fbId: {type: Number, unique: true, index: true },
     email: String,
     password: String,
@@ -21,59 +24,35 @@ var User = new Schema ({
     link: String,
     picture: String,
     access_token: String,
-    classes: [{ type: Schema.ObjectId, ref: 'Class' }],
+    classes: [{ type: ObjectId, ref: 'Class' }],
     hasSignedUp: { type: Boolean, default: false },
-    seshs : [{type: Schema.ObjectId, ref: 'StudyTime'}]
-});
+    seshs : [{type: ObjectId, ref: 'StudyTime'}]
+}));
 
-var StudyTime = new Schema ({
-        time    : Date
-    ,   loc     : {
-                    x : Number
-                ,   y : Number
-        }
-    , course: { type: Schema.ObjectId, ref: 'Class' }
-    , description : String
-    , title :   String
-    , comments: [SessionComment]
-    , users: [{ type: Schema.ObjectId, ref: 'User' }]
-    , created : Date
-    
-});
+GLOBAL.SessionComment = db.model('SessionComment', mongoose.Schema ({
+    created: Date,
+    author: { type: ObjectId, ref: 'User' },
+    text: String
+}));
 
+GLOBAL.Sesh = db.model('Sesh', mongoose.Schema ({
+    time: Date,
+    loc: {
+        x : Number,
+        y : Number
+    },
+    course: { type: ObjectId, ref: 'Class' },
+    description : String,
+    title :   String,
+    comments: [SessionComment],
+    users: [{ type: ObjectId, ref: 'User' }],
+    created : Date
+}));
 
-
-var FBFriend  = new Schema ({
-        friend_id: Number
-    ,   user_id: Number  
-    , name: String
-});
-
-var SessionComment = new Schema ({
-        created: Date
-    , author: { type: Schema.ObjectId, ref: 'User' }
-    , text: String
-});
-
-var Notification = new Schema ({
-    created: Date
-  , source: { type: Schema.ObjectId, ref: 'User' }
-  , text: String
-  , ref: { type: Schema.ObjectId, ref: 'Session' }
-  , users: [{ type: Number, ref: 'User' }]
-});
-
-
-var user = mongoose.model('User', User);
-var fb_friend = mongoose.model('FBFriend', FBFriend);
-var studyTime = mongoose.model('StudyTime', StudyTime);
-var notification = mongoose.model('Notification', Notification);
-
-
-
-
-
-
-var sched = mongoose.model('Class',Class); 
-var seshcomment = mongoose.model('SessionComment', SessionComment)
-
+GLOBAL.Notification = db.model('Notification', mongoose.Schema ({
+    created: Date,
+    source: { type: ObjectId, ref: 'User' },
+    text: String,
+    ref: { type: ObjectId, ref: 'Session' },
+    users: [{ type: Number, ref: 'User' }]
+}));
