@@ -5,7 +5,8 @@ exports.updateObj = function(old, update, options) {
     refs = options['relations']
     excludes = options['excludes'] // + ['_id']
     for (prop in update) {
-        if (!prop in excludes) {
+        // FIXME: Figure out what the deal is here.
+        // if (!prop in excludes) {
             if (update[prop] instanceof Array) {
                 if (!prop in refs) {
                     for (var i=0; i<=update[prop].length - 1; i++) {
@@ -37,6 +38,6 @@ exports.updateObj = function(old, update, options) {
             else {
                 old[prop] = update[prop];
             }
-        }
+        //  }
     }
 }
