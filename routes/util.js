@@ -3,7 +3,7 @@ exports.updateObj = function(old, update, options) {
     // excludes allows for specific validation within APIs
     // relations converts client embedded object representation into ID refs in the DB.
     refs = options['relations']
-    excludes = options['excludes'] + ['_id']
+    excludes = options['excludes'] // + ['_id']
     for (prop in update) {
         if (!prop in excludes) {
             if (update[prop] instanceof Array) {
