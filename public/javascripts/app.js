@@ -7,7 +7,7 @@ define([
     'views/home/home',
     'views/settings/settings',
     'views/signup/signup',
-    ], function($  , _, Backbone, SidebarView, TopBarView, 
+    ], function($, _, Backbone, SidebarView, TopBarView, 
         HomeView, SettingsView, SignupView) {
     var AppRouter = Backbone.Router.extend({
 

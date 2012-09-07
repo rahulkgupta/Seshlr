@@ -4,10 +4,9 @@ define([
     'backbone',
     'handlebars',
     'views/includes/calendar',
-    'views/home/seshcreationview',
     'views/home/seshcontainerview',
     'text!/templates/home.html'
-],  function($, _, Backbone, Handlebars, CalendarView, SeshCreation, SeshContainer, homeTemplate){
+],  function($, _, Backbone, Handlebars, CalendarView, SeshContainer, homeTemplate){
     var homeView = Backbone.View.extend({
 
      //  events: {
@@ -50,7 +49,6 @@ define([
         // $('li#sessions').addClass('selected');
         // $('#sidenav-notifications').hide();
         $(this.el).html(compiledTemplate) 
-        var seshCreation = new SeshCreation ({el: this.$('#session-creation')})
         var seshContainer = new SeshContainer({el: this.$('.session-container')})
       },
 

@@ -5,20 +5,21 @@ define([
     'models/user',
     'collections/usernotifscollection',
     'collections/usercoursescollection',
-    'collections/userseshscollection',
+    'collections/seshfeedcollection',
     'views/sidebar/sidebarcreateview',
     'views/sidebar/courseview',
     'views/includes/calendar',
     'text!/templates/sidebar/sidebar.html'
 ], function($, _, Backbone, UserModel, 
-    userNotifs, Courses, UserSeshs, 
+    userNotifs, Courses, Seshs, 
     SidebarCreateView, courseView, CalendarView,
     sidebarTemplate){
     var sidebarView = Backbone.View.extend({
 
         events: {
             'click #settings' : 'settings',
-            'click .logo' : 'home'
+            'click .logo' : 'home',
+            'click #user-sesh-button' : 'getUserSeshs'
         },
 
 
@@ -27,12 +28,15 @@ define([
             _.bindAll(this, "render", "renderCourse");
             this.courses = Courses.initialize();
             this.user = UserModel.initialize()
-            this.seshs = UserSeshs.initialize()
+            this.seshs = Seshs.initialize()
             var self = this
             this.user.on("change", function () {
                 self.courses.reset(self.user.get('classes'))
-                self.seshs.reset(self.user.get('seshs'))
                 self.render()
+            })
+            this.courses.on("reset", function () {
+                
+
             })
             this.user.fetchUser()
             this.notifications = [];
@@ -87,6 +91,14 @@ define([
 
         addSesh: function () {
             this.render()
+        },
+
+        getUserSeshs: function () {
+            console.log("fired")
+            console.log(this.courses)
+            this.seshs.fetch({data: {user: this.user.id}})
+            console.log(this.seshs)
+
         }
     });;
     

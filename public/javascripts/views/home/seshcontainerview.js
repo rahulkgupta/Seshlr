@@ -9,12 +9,11 @@ define([
     'views/home/seshfeedcreationview',
     'views/home/seshview',
     'text!/../templates/seshcontainer.html',
-    'text!/../templates/seshfeedcreate.html',
     'text!/../templates/seshfeedfilter.html'
 ], function($, _, Backbone, seshFeedCollection, 
     Courses, User, userSeshCollection, 
     SeshFeedCreation, seshView, containerTemplate, 
-    seshFeedCreateTemplate, feedFilterTemplate){
+    feedFilterTemplate){
   
     var SeshContainerView = Backbone.View.extend({
 
@@ -37,7 +36,6 @@ define([
                 self.courses.reset(self.user.get('classes'))
                 self.userSeshs.reset(self.user.get('seshs'))
             })
-
             this.seshFeed.on('reset', this.render, this)
             this.userSeshs.on('add', function (sesh) {
                 self.seshFeed.fetch()

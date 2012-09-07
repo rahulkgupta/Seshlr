@@ -5,12 +5,32 @@ exports.listSeshs = function (req, res) {
     User.findById(req.user.id)
     .populate('classes')
     .exec(function (err, usr) {
-        Sesh.find({course: {$in : usr.classes}, time: {$gte: new Date()}})
-        .sort('-created')
-        .populate('course')
-        .exec(function (err, studyfeeds) {
-            res.send(studyfeeds);
-        });
+        if (req.query.date) {
+            var date = new Date(req.query.date)
+            console.log(date)
+            Sesh.find({users: req.user.id, time: {$gte: date}})
+            .sort('-created')
+            .populate('course')
+            .exec(function (err, studyfeeds) {
+                res.send(studyfeeds);
+            });
+        }
+        else    if (req.query.user == req.user.id) {
+            Sesh.find({users: req.user.id, time: {$gte: new Date()}})
+            .sort('-created')
+            .populate('course')
+            .exec(function (err, studyfeeds) {
+                res.send(studyfeeds);
+            }); 
+        } else {
+            Sesh.find({course: {$in : usr.classes}, time: {$gte: new Date()}})
+            .sort('-created')
+            .populate('course')
+            .exec(function (err, studyfeeds) {
+                res.send(studyfeeds);
+            }); 
+        }
+        
     });    
 }
 
