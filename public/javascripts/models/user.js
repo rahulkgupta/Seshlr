@@ -32,12 +32,7 @@ define([
         }        
     }
 
-    var test = function () {
-        console.log(user)
-    }
-
     return {
         initialize: initialize,
-        test: test
     }   
 });

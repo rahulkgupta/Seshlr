@@ -42,7 +42,6 @@ define([
     });
 
     var initialize = function(){
-        var store = []
         var app_router = new AppRouter;
         Backbone.history.start({pushState: true});
     };

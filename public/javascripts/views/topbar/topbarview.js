@@ -3,8 +3,9 @@ define([
     'underscore',
     'backbone',
     'models/user',
+    'collections/seshfeedcollection',
     'text!/templates/topbar/topbar.html'
-], function($, _, Backbone, UserModel, 
+], function($, _, Backbone, UserModel, Seshs,
     template){
     var topbarView = Backbone.View.extend({
 
@@ -18,6 +19,7 @@ define([
         initialize: function () {
 
             this.user = UserModel.initialize()
+            this.seshs = Seshs.initialize()
             var self = this
             this.user.on("change", function () {
                 self.render()
@@ -42,11 +44,16 @@ define([
 
         home: function () {
             mixpanel.track("Home")
+            this.seshs.fetch()
+            this.user.clear()
+            this.user.fetch()
             Backbone.history.navigate('home', true)
         },
 
         settings: function () {
             mixpanel.track("Settings")
+            this.user.clear()
+            this.user.fetch()
             Backbone.history.navigate('settings', true)
         }
 
